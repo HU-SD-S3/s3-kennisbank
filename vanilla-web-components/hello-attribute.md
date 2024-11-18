@@ -96,11 +96,91 @@ When you open the page in your web browser and inspect the console you should se
 attribute: show, oldValue=null, newValue=Developer
 ```
 
+This tells us that the `show` attribute we have defined in the `index.html` has changed from `null` to `'Developer'`. Now we can use this information to update the `propertyValue` property of the class.
+
+```javascript
+export class HelloAttribute extends HTMLElement {
+  constructor() {
+    super();
+    this.propertyValue = 'World';
+    this.textContent = `Hello ${this.propertyValue}`;
+  }
+
+  static get observedAttributes() {
+    return [
+      'show'
+    ]
+  }
+
+  attributeChangedCallback(attribute, oldValue, newValue) {
+    if (attribute === 'show') {
+      this.propertyValue = newValue;
+      this.textContent = `Hello ${this.propertyValue}`;
+    }
+  }
+}
+```
+
+> [!NOTE] Note that html attributes are always strings, even if you set them to a number or boolean in the html file. So if you want to use the attribute as a number or boolean you have to convert it in the `attributeChangedCallback` method.
+
+Take for instance the following example:
+
+```html
+...
+  <point-of-interest
+    name="Dom Toren van Utrecht"
+    longitude="52.09078"
+    latitude="5.12117"
+    wheelchair-accessible="false">
+  </point-of-interest>
+...
+```
+
+In this example the `longitude` and `latitude` attributes are set to numbers and the `wheelchair-accessible` attribute is set to a boolean. To use these attributes as numbers and a boolean we have to convert them in the `attributeChangedCallback` method.
+
+```javascript
+export class PointOfInterest extends HTMLElement {
+  constructor() {
+    super();
+    this.name = 'Unknown';
+    this.longitude = 0;
+    this.latitude = 0;
+    this.wheelchairAccessible = false;
+
+    this.textContent = `${this.name} (${this.longitude}, ${this.latitude}) - Wheelchair Accessible: ${this.wheelchairAccessible}`;
+  }
+
+  static get observedAttributes() {
+    return ['name', 'longitude', 'latitude', 'wheelchair-accessible'];
+  }
+
+  attributeChangedCallback(attribute, oldValue, newValue) {
+    if (attribute === 'name') {
+      this.name = newValue;
+      this.textContent = `${this.name} (${this.longitude}, ${this.latitude})`;
+    } else if (attribute === 'longitude') {
+      this.longitude = Number(newValue);
+      this.textContent = `${this.name} (${this.longitude}, ${this.latitude})`;
+    } else if (attribute === 'latitude') {
+      this.latitude = Number(newValue);
+      this.textContent = `${this.name} (${this.longitude}, ${this.latitude})`;
+    } else if (attribute === 'wheelchair-accessible') {
+      this.wheelchairAccessible = newValue === 'true'; // Convert string to boolean
+      this.textContent = `${this.name} (${this.longitude}, ${
+        this.latitude
+      }) - Wheelchair Accessible: ${this.wheelchairAccessible ? 'Yes' : 'No'}`;
+    }
+  }
+}
+
+customElements.define('point-of-interest', PointOfInterest);
+```
 
 ---
 ## Sources:
 
 * MDN - [Template literals (Template strings)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
+* MDN - [Tenary Operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator)
 
 ---
 
