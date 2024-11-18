@@ -1,6 +1,6 @@
-# Vanilla Web Components Project Setup
+# Lit Web Components Project Setup
 
-**Enablerstory**: _As a developer, I want to setup a new project for learning about Vanilla Web Components, so that I can learn about the basics of custom elements, ShadowDOM, and lifecycle callbacks._
+**Enablerstory**: _As a developer, I want to setup a new project for learning about Lit Web Components, so that I can learn about the basics of custom LitElements._
 
 ## Vite setup
 
@@ -8,11 +8,11 @@ Start with creating a vite project.
   
   ```bash
   npm init vite@latest
-  ``` 
+  ```
 
 Choose the following options:
-Project name: vanilla-web-components
-Framework: vanilla
+Project name: lit-web-components
+Framework: lit
 Select a variant: JavaScript
 
 Open the new project in your code editor (in Visual Studio Code, select open Folder and open the newly created vanilla-web-components folder), in order to always have your terminal open in the project folder and not in the parent folder.
@@ -53,7 +53,7 @@ And change the content of index.html to:
 
     <link rel="icon" type="image/svg+xml" href="/javascript.svg" />
     
-    <title>Vanilla Web Components</title>
+    <title>Lit Web Components</title>
   </head>
   <body>
   </body>
@@ -93,7 +93,7 @@ We therefore need to import this script in the `index.html` file.
 
     <script type="module" src="./src/view/pages/home-page.js"></script>
     
-    <title>Vanilla Web Components</title>
+    <title>Lit Web Components</title>
   </head>
   <body>
   </body>
@@ -200,6 +200,7 @@ Here are some extensions that we recommend for the vanilla web components learni
 - [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) - This extension will format your code according to the Prettier rules. Once installed, you can format your code by right-clicking in the editor and selecting "Format Document" or by using the shortcut `Shift`+`Alt`+`F`. You might get a popup asking you which formatter to use. Choose Prettier.
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) - Once installed, you can see the errors and warnings in your IDE. But be aware that after te installation you might need to reload the window or restart VSC to see the errors and warnings.
 - [vscode-icons](https://marketplace.visualstudio.com/items?itemName=vscode-icons-team.vscode-icons) - This extension will show icons for different file types in the file explorer. This can help you to quickly see what type of file you are looking at.
+- [lit-plugin](https://marketplace.visualstudio.com/items?itemName=runem.lit-plugin) - This extension provides intellisense for Lit. It will help you with autocompletion, show you errors in your Lit code, and will also format and highlight your Lit code, making html and css code within lit more readable.
 
 ---
 ## Sources:
