@@ -2,6 +2,11 @@
 
 **Learning Story**: _As a developer, I want to create a simple custom element that displays "Hello World", so that I can understand the basics of custom elements._
 
+## Introduction
+
+What are Vanilla Web Components? Vanilla Web Components are a set of web platform APIs that allow you to create custom, reusable HTML elements, like `<hello-world>`, that can be used in your web applications. These elements can be used in your web applications just like built-in HTML elements (e.g. `<div>`, `<p>`, `<span>`, etc.).
+In this learning story, we will create a simple custom element that displays "Hello World".
+
 ## HelloWorld component
 
 Create a new file `hello-world.js` in the `src/view/components` folder.
