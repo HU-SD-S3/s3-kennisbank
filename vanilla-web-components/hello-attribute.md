@@ -2,6 +2,10 @@
 
 **Learning Story**: _As a developer, I want to create a simple custom element that displays a message that contains the value of an attribute, so that I can understand how to pass attributes to custom elements._
 
+## Introduction
+
+In this learning story, we will create a simple custom element that displays a message that contains the value of an attribute (`<hello-attribute show="Developer"></hello-attribute>`). This will help us understand how to pass attributes to custom elements.
+
 ## HelloAttribute component
 
 Start by creating a new file `hello-attribute.js` in the `src/view/components` folder.
