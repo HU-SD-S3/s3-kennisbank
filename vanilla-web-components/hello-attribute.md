@@ -188,4 +188,4 @@ customElements.define('point-of-interest', PointOfInterest);
 
 ---
 
-:house: [Home](../README.md) | :arrow_backward: [Hello World](./hello-world.md) | :arrow_up: [Learning Stories](./README.md) | [](./) :arrow_forward:
+:house: [Home](../README.md) | :arrow_backward: [Hello World](./hello-world.md) | :arrow_up: [Learning Stories](./README.md) | [Hello ShadowDOM](./hello-shadowdom.md) :arrow_forward:
