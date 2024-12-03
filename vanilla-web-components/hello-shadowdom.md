@@ -4,6 +4,8 @@
 
 ## Introduction
 
+In this learning story, we will create a simple custom element that displays a message that contains the value of an attribute (`<hello-shadowdom></hello-shadowdom>`). This will help us understand how to use the Shadow DOM to encapsulate the styles of a custom element.
+
 ## HelloShadowDOM component
 
 To demonstrate the use of the Shadow DOM, our component needs to contain at least one html elements that we can style.
@@ -225,4 +227,4 @@ When you now open the page in your web browser, you should see the text `Hello S
 
 ---
 
-:house: [Home](../README.md) | :arrow_backward: [Hello Attribute](./hello-attribute.md) | :arrow_up: [Learning Stories](./README.md) | [](./) :arrow_forward:
+:house: [Home](../README.md) | :arrow_backward: [Hello Attribute](./hello-attribute.md) | :arrow_up: [Learning Stories](./README.md) | [Lifecycle callbacks](./lifecycle-callbacks.md) :arrow_forward:

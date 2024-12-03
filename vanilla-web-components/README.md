@@ -13,4 +13,4 @@ Setup a new project for these learning stories. See the [project setup page](pro
 
 ### Lifecycle
 
-- Lifecycle Callbacks
+- _As a developer, I want to understand the lifecycle callbacks of a custom element, so that I can perform actions at different stages of the element's lifecycle._ [[Lifecycle Callbacks](./lifecycle-callbacks.md)]
