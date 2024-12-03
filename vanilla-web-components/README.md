@@ -2,9 +2,15 @@
 
 Setup a new project for these learning stories. See the [project setup page](project-setup.md) for more information.
 
+The overall learning story for this path is:
+
+_As a developer, I want to understand how to create custom elements using vanilla JavaScript, so that I can create reusable components that are not dependent on any framework._
+
+To achive this, we will cover the following topics:
+
 ### Custom Elements
 
-- _As a developer, I want to create a simple custom element that displays a message that contains the value of an attribute, so that I can understand how to pass attributes to custom elements._ [[Hello World](./hello-world.md)]
+- _As a developer, I want to create a simple custom element that displays "Hello World", so that I can understand the basics of custom elements._ [[Hello World](./hello-world.md)]
 - _As a developer, I want to create a simple custom element that displays a message that contains the value of an attribute, so that I can understand how to pass attributes to custom elements._ [[Hello Attribute](./hello-attribute.md)]
 
 ### ShadowDOM
