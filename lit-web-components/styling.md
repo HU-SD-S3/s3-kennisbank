@@ -1,6 +1,6 @@
 # Lit Web Components - Styling
 
-**Learning Story**: _As a developer, I want _
+**Learning Story**: _As a developer, I want to style a Lit component using CSS, so that I can learn how to style components and use global styles._
 
 ## Introduction
 
