@@ -11,7 +11,7 @@ To achive this, we will cover the following topics:
 ### Lit Basics
 
 - [Hello Lit](./hello-lit.md)
-- Styling
+- [Styling](./styling.md)
 - Hello Attribute (incl ?attribute)
 - Reactive Properties
 - CustomEvents
