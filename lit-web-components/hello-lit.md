@@ -1,6 +1,6 @@
 # Lit Web Components - Hello Lit
 
-**Learning Story**: 
+**Learning Story**: _As a developer, I want to create a simple web component using Lit, so that I can learn the basics of Lit and how to create custom elements._
 
 ## Introduction
 
@@ -64,4 +64,4 @@ If you inspect the element in the browser's developer tools, you should see the 
 
 ---
 
-:house: [Home](../README.md) | :arrow_backward: []() | :arrow_up: [Learning Stories](./README.md) | [Hello ShadowDOM](./hello-shadowdom.md) :arrow_forward:
+:house: [Home](../README.md) | :arrow_backward: []() | :arrow_up: [Learning Stories](./README.md) | []() :arrow_forward:
