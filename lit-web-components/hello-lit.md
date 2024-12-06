@@ -64,4 +64,4 @@ If you inspect the element in the browser's developer tools, you should see the 
 
 ---
 
-:house: [Home](../README.md) | :arrow_backward: []() | :arrow_up: [Learning Stories](./README.md) | []() :arrow_forward:
+:house: [Home](../README.md) | :arrow_backward: [Project Setup](./project-setup.md) | :arrow_up: [Learning Stories](./README.md) | [Styling](./styling.md) :arrow_forward:

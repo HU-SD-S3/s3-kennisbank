@@ -49,7 +49,7 @@ Change the content of index.html to:
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
     
     <title>Lit Web Components</title>
   </head>
@@ -88,11 +88,11 @@ We therefore need to import this script in the `index.html` file.
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
     
     <title>Lit Web Components</title>
 
-    <script type="module" src="/src/view/pages/home-page.js"></script>
+    <script type="module" src="./src/view/pages/home-page.js"></script>
   </head>
   <body>
   </body>
