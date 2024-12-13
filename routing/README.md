@@ -39,4 +39,3 @@
 > SEO aspecten
 > User experience aspecten
 > PWA aspecten
-

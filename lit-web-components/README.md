@@ -1,4 +1,4 @@
-## Lit Web Components
+# Lit Web Components
 
 Setup a new project for these learning stories. See the [project setup page](project-setup.md) for more information.
 
@@ -8,41 +8,41 @@ _As a developer, _
 
 To achive this, we will cover the following topics:
 
-### Lit Basics
+## Lit Basics
 
 - [Hello Lit](./hello-lit.md)
 - [Styling](./styling.md)
-- Lit Attributes/Properties
+- Lit Attributes/Properties: Focus op alleen attribuut gedeelte van de tag, dus nog niet op het reactive gedrag ervan.
+  Hierbij meenemen dat er een automatische type conversie plaatsvindt van string naar het type van de property.
+  Boolean attributen (zoals disabled) worden automatisch geconverteerd naar true/false.
 
 > reactive properties (property options: type, reflect, attribute, hasChanged)  
 > Hoe om te gaan met boolean attributes `?attribute`  
 > (... zie https://lit.dev/docs/templates/expressions/)
 
-- CustomEvents
+## Events
 
-> Waarom CustomEvents gebruiken? => Voorbeeld webcomponent met twee buttons erin, wie heeft het event gedispatched? Hoe weet de parent component dat er op een button geklikt werd, en welke button is geklikt?  
-> werken met namen van events in lit (@click, @submit, ...)  
-> Herhaling algemeen structuur CustomEvent en dispatchen van een event, data via detail meegeven  
-> Bron van het event (welk DOM element dispatcht het event :host of toch een element binnen de shadow DOM?)  
-> namen van customevents (@custom-event-name) en reden voor het opvangen van standaard events en vertalen naar eigen event namen (is dit een pattern? Zo ja, Heeft die een naam?)  
-> Event bubbling  
-> Composed events  
-> opruimen van event listeners in de disconnectedCallback  
+> Werken met standard events (click, submit, ...) in lit (=> @click, @submit, ...).
+Simple voorbeeld van een button met een click event, een voorbeeld van een input veld met een change event en een form met een submit event. Events triggeren alleen een eventHandler, maar laten alleen op de console iets zien.
 
-- Rendering
+## Inputs
 
-> Hoe werkt het renderen van een lit component?  
-> Wat triggerd een re-render?  
-> Initialiseren van properties in de constructor en/of in de connectedCallback (Promises)  
-> Werken met SLOTs  
-
-- Inputs
-
+Simple formulier veld (text, radiobutton, ...) met een change event handler. Laten zien hoe je de waarde uit kunt lezen. Uitgelezen data wordt op de console getoond, nog niet op de pagina.
+Uitlezen van een enkel veld, als ook werken met forms en het uitlezen van alle velden in een form.
 > Hoe werken inputs in Lit?  
 > Hoe kun je een input uitlezen?  
-> Hoe kun je een eigen input component maken? (Advanced stuff)  
+> Hoe kun je een eigen input component maken? (Advanced stuff)
 
-- Lifecycle Callbacks
+## Rendering
+
+Voorbeeld van een simpel form waarvan de inhoud eronder wordt weergegeven.
+> Hoe werkt het renderen van een lit component?
+> Wat triggerd een re-render?  
+> verschil tussen attributes, properties en reactive properties.
+> Initialiseren van properties in de constructor en/of in de connectedCallback (Promises).
+> Werken met SLOTs  
+
+## Lifecycle Callbacks
 
 > connectedCallback, disconnectedCallback, attributeChangedCallback, adoptedCallback  
 > voorkomen van requestUpdate!!!
