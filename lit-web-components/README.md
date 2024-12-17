@@ -16,9 +16,7 @@ To achive this, we will cover the following topics:
   Hierbij meenemen dat er een automatische type conversie plaatsvindt van string naar het type van de property.
   Boolean attributen (zoals disabled) worden automatisch geconverteerd naar true/false.
 
-> reactive properties (property options: type, reflect, attribute, hasChanged)  
-> Hoe om te gaan met boolean attributes `?attribute`  
-> (... zie https://lit.dev/docs/templates/expressions/)
+
 
 ## Events
 
@@ -38,7 +36,9 @@ Uitlezen van een enkel veld, als ook werken met forms en het uitlezen van alle v
 Voorbeeld van een simpel form waarvan de inhoud eronder wordt weergegeven.
 > Hoe werkt het renderen van een lit component?
 > Wat triggerd een re-render?  
-> verschil tussen attributes, properties en reactive properties.
+> verschil tussen attributes, properties en reactive properties (property options: reflect, attribute, hasChanged).
+> Hoe om te gaan met boolean attributes `?attribute`  
+> (... zie https://lit.dev/docs/templates/expressions/)
 > Initialiseren van properties in de constructor en/of in de connectedCallback (Promises).
 > Werken met SLOTs  
 
@@ -46,3 +46,5 @@ Voorbeeld van een simpel form waarvan de inhoud eronder wordt weergegeven.
 
 > connectedCallback, disconnectedCallback, attributeChangedCallback, adoptedCallback  
 > voorkomen van requestUpdate!!!
+
+:house: [Home](../README.md) | :arrow_up: [](../README.md) | [Project Setup](./project-setup.md) :arrow_forward:

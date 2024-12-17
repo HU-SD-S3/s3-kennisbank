@@ -26,3 +26,5 @@ De view is de enige die de state van een object mag tonen. De view doet dit door
 Zijn er tools die ons helpen met statemanagement?
 
 Ja, er zijn verschillende tools die ons helpen met statemanagement. De meest bekende zijn Redux en MobX. Deze tools helpen ons met het bepalen van de state van een object, en het tonen van de state van een object. Redux en MobX zijn echter niet de enige tools die ons helpen met statemanagement. Er zijn ook andere tools die ons helpen met statemanagement, zoals Vuex en NgRx.
+
+:house: [Home](../README.md) | :arrow_up: [](../README.md) | [Project Setup](./project-setup.md) :arrow_forward:

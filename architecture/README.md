@@ -37,3 +37,5 @@ The JavaScript files within `service` and `controller` folders should not call a
 The JavaScript files in the `service` and `view` folders should do any calculations or transformations of data.
 
 Given our front-end architecture we can conclude that we use the MVVM pattern. The `view` folder is responsible for displaying the data, the `controller` folder is responsible for handling user input, and the `service` folder is responsible for managing the data.
+
+:house: [Home](../README.md) | :arrow_up: [](../README.md) | [Project Setup](./project-setup.md) :arrow_forward:

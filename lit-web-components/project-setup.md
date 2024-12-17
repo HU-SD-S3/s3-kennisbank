@@ -224,4 +224,4 @@ Here are some extensions that we recommend for the vanilla web components learni
 
 ---
 
-:house: [Home](../README.md) | :arrow_up: [Learning Stories](./README.md) | [Hello World](./hello-world.md) :arrow_forward:
+:house: [Home](../README.md) | :arrow_up: [Learning Stories](./README.md) | [Hello Lit](./hello-lit.md) :arrow_forward:

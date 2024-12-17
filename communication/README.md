@@ -47,3 +47,5 @@
 - Gebruik van Observable in RxJS => voorbeeld van een observable die een waarde doorgeeft aan een subscription. De subscription logt de waarde op de console. Probleem als er meer dan een subscription is. Kunnen we oplossen door zelf een lijst van subscriptions bij te houden en de waarde naar alle subscriptions te sturen. Maar dat is niet performant.
 - Gebruik van Subject. Een subject kan meerdere subscriptions hebben en stuurt de waarde naar alle subscriptions. Dit is een betere oplossing dan zelf een lijst van subscriptions bijhouden.
 - Gebruik van BehaviorSubject. Een BehaviorSubject heeft een default waarde. Als je een subscription neemt op een BehaviorSubject, krijg je altijd de laatste waarde die de BehaviorSubject heeft. Dit is handig als je wilt dat een component altijd de laatste waarde heeft, ook als deze pas later geabonneerd wordt.
+
+:house: [Home](../README.md) | :arrow_up: [](../README.md) | [Project Setup](./project-setup.md) :arrow_forward:

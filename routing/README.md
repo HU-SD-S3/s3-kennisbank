@@ -39,3 +39,5 @@
 > SEO aspecten
 > User experience aspecten
 > PWA aspecten
+
+:house: [Home](../README.md) | :arrow_up: [](../README.md) | [Project Setup](./project-setup.md) :arrow_forward:

@@ -20,3 +20,5 @@ To achive this, we will cover the following topics:
 ### Lifecycle
 
 - _As a developer, I want to understand the lifecycle callbacks of a custom element, so that I can perform actions at different stages of the element's lifecycle._ [[Lifecycle Callbacks](./lifecycle-callbacks.md)]
+
+:house: [Home](../README.md) | :arrow_up: [](../README.md) | [Project Setup](./project-setup.md) :arrow_forward:
