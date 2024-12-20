@@ -12,13 +12,11 @@ To achive this, we will cover the following topics:
 
 - [Hello Lit](./hello-lit.md)
 - [Styling](./styling.md)
-- Lit Attributes/Properties: Focus op alleen attribuut gedeelte van de tag, dus nog niet op het reactive gedrag ervan.
-  Hierbij meenemen dat er een automatische type conversie plaatsvindt van string naar het type van de property.
-  Boolean attributen (zoals disabled) worden automatisch geconverteerd naar true/false.
-
-
+- [Lit Attributes/Properties](./lit-attributes.md)
 
 ## Events
+
+- [Working with Standard Events](./standard-events.md)
 
 > Werken met standard events (click, submit, ...) in lit (=> @click, @submit, ...).
 Simple voorbeeld van een button met een click event, een voorbeeld van een input veld met een change event en een form met een submit event. Events triggeren alleen een eventHandler, maar laten alleen op de console iets zien.
