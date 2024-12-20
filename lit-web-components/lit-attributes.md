@@ -210,6 +210,9 @@ When we now take a look at the page in the browser, we will see that the dateOfB
 ...
 ```
 
+> [!NOTE]
+> Note that the [TC39](https://tc39.es/) is working on [Temporal](https://tc39.es/proposal-temporal/docs/index.html), a new Date/Time API for JavaScript. This new API will make working with dates and times in JavaScript much easier.
+
 ## Boolean attributes
 
 Boolean attributes are normally not passed with a value. If the attribute is present, the value is `true`, otherwise the value is `false`.
