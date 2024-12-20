@@ -90,7 +90,7 @@ customElements.define('hello-styles', HelloStyles);
 The `:host` selector is a pseudo-class that matches the element itself. This allows us to style the component itself. The styles are scoped to the component, so they won't affect the parent document.
 Within the browser, the component will now have a border, padding, margin, a light gray background, and a black box shadow.
 
-## Styling the html
+## How NOT to apply globally styling
 
 Let's add a css file `global-styles.css` in the root folder of our project with the following content.
 
@@ -163,7 +163,11 @@ export class HelloStyles extends LitElement {
 customElements.define('hello-styles', HelloStyles);
 ```
 
-But this will not work. The `@import` rule is not supported in the `styles` property of a Lit component, as you can see in the browser console (`@import rules are not allowed here.`).
+But this will not work. 
+
+> [!CAUTION]
+> The `@import` rule is not supported in the `styles` property of a Lit component, as you can see in the browser console (`@import rules are not allowed here.`).
+
 Another way to trick the system is by using the `<link>` tag in the `render` method of the component.
 
 ```javascript
@@ -199,9 +203,12 @@ export class HelloStyles extends LitElement {
 customElements.define('hello-styles', HelloStyles);
 ```
 
-This works in the browser, but it is not the best way to import global styles. The `<link>` tag is not a Lit element, so it is not reactive. This means that if the global styles change, the component will not be updated. Also, the global styles are not scoped to the component, so they will affect the parent document.
+This works in the browser, but it is not the best way to import global styles.
 
-## Using variables
+> [!WARNING]
+> The `<link>` tag is not a Lit element, so it is not reactive. This means that if the global styles change, the component will not be updated. Also, the global styles are not scoped to the component, so they will affect the parent document.
+
+## Using variables for global styling
 
 A nicer way to pass some global styles to a component is by using CSS variables. Let for instance the css in our component use a variable for the background color of the h1 tag (in the example below we choose the variable `--h1-background-color`).
 
