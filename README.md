@@ -8,3 +8,4 @@ Why use/write Web Components?
 * [Architecture](./architecture/README.md)
 * [Routing](./routing/README.md)
 * [State Management](./state-management/README.md)
+* [E2E Testing](./e2e-testing/README.md)
