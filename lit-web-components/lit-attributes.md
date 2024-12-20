@@ -2,6 +2,9 @@
 
 ## Introduction
 
+In this article we will take a look at how to work with attributes in Lit. We will create a new custom element that will display a list of attributes that were passed to the custom element. We will take a look at how to define properties for the custom element and how to map attributes to properties. We will also take a look at how to convert attributes to the correct type.
+Those properties are reactive, but what that means will be covered in another article.
+
 ## LitAttributes component
 
 Create a new file `lit-attributes.js` in the `src/view/components` folder.
