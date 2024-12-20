@@ -14,7 +14,7 @@
 
 ## Sources
 
-*
+* [MDN - Element Events](https://developer.mozilla.org/en-US/docs/Web/API/Element#events)
 
 ---
 
