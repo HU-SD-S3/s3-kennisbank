@@ -124,12 +124,10 @@ npm install --save-dev prettier
 To configure prettier create a `prettier.config.js` file in the root of your project with the following content:
 
 ```javascript
-module.exports = {
-  semi: false,
-  singleQuote: true,
-  trailingComma: 'all',
-  arrowParens: 'always',
-};
+export const semi = false;
+export const singleQuote = true;
+export const trailingComma = 'all';
+export const arrowParens = 'always';
 ```
 
 ### ESLint
