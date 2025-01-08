@@ -280,4 +280,4 @@ When you refresh the page in your web browser, you will see that for the tag whe
 
 ---
 
-:house: [Home](../README.md) | :arrow_backward: [Styling](./styling.md) | :arrow_up: [Learning Stories](./README.md) | [Working with Standard Events](./standard-events.md) :arrow_forward:
+:house: [Home](../README.md) | :arrow_backward: [Styling](./styling.md) | :arrow_up: [Learning Stories](./README.md) | [Inputs and Events](./inputs-and-events.md) :arrow_forward:
