@@ -14,9 +14,9 @@ To achive this, we will cover the following topics:
 - [Styling](./styling.md)
 - [Lit Attributes/Properties](./lit-attributes.md)
 
-## Events
+## Inputs and Events
 
-- [Working with Standard Events](./standard-events.md)
+- [Inputs and Events](./input-and-events.md)
 
 > Werken met standard events (click, submit, ...) in lit (=> @click, @submit, ...).
 Simple voorbeeld van een button met een click event, een voorbeeld van een input veld met een change event en een form met een submit event. Events triggeren alleen een eventHandler, maar laten alleen op de console iets zien.

@@ -1,6 +1,8 @@
-# Working with Standard Events
+# Inputs and Events
 
 ## Introduction
+
+To have some kind of interaction with a site via different types of inputs and events is a common thing in web development. In this article we will show you how to work with standard inputs and extract their values as well as how to work with standard events in Lit.
 
 ## StandardEvents component
 
