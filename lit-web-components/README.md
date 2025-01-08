@@ -16,17 +16,14 @@ To achive this, we will cover the following topics:
 
 ## Inputs and Events
 
-- [Inputs and Events](./input-and-events.md)
+- [Inputs and Events](./inputs-and-events.md)
 
 > Werken met standard events (click, submit, ...) in lit (=> @click, @submit, ...).
 Simple voorbeeld van een button met een click event, een voorbeeld van een input veld met een change event en een form met een submit event. Events triggeren alleen een eventHandler, maar laten alleen op de console iets zien.
 
 ## Inputs
 
-Simple formulier veld (text, radiobutton, ...) met een change event handler. Laten zien hoe je de waarde uit kunt lezen. Uitgelezen data wordt op de console getoond, nog niet op de pagina.
-Uitlezen van een enkel veld, als ook werken met forms en het uitlezen van alle velden in een form.
-> Hoe werken inputs in Lit?  
-> Hoe kun je een input uitlezen?  
+- [Input Components](./input-components.md) 
 > Hoe kun je een eigen input component maken? (Advanced stuff)
 
 ## Rendering
