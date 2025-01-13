@@ -273,11 +273,6 @@ Let's create a new file `number-range-input.js` in the `src/view/components` fol
 import { LitElement, html, css } from "lit";
 
 export class NumberRangeInput extends LitElement {
-  constructor() {
-    super();
-    this.value = 0;
-  }
-
   static styles = css`
     :host {
       display: grid;
@@ -298,7 +293,7 @@ export class NumberRangeInput extends LitElement {
     }
 
     input[type="number"] {
-      width: 2rem;
+      width: 3rem;
       font-size: 1.5rem;
     }
 
@@ -320,23 +315,54 @@ export class NumberRangeInput extends LitElement {
     min: { type: Number },
     max: { type: Number },
     required: { type: Boolean },
-    value: { type: Number },
+    value: { type: Number, reflect: true },
   };
+
+  constructor() {
+    super();
+    this.required = false;
+    this.min = 0;
+    this.max = 10;
+  }
+
+  firstUpdated() {
+    this.value = this.min;
+    this.shadowRoot.querySelector("#number-input").value = this.value;
+    this.shadowRoot.querySelector("#range-input").value = this.value;
+  }
+
+  numberInputHandler(event) {
+    this.value = event.target.value;
+    this.shadowRoot.querySelector("#range-input").value = this.value;
+  }
+
+  rangeInputHandler(event) {
+    this.value = event.target.value;
+    this.shadowRoot.querySelector("#number-input").value = this.value;
+  }
 
   render() {
     return html`
-      <label for="">${this.label}:</label>
-      <input type="number" id="" name="" min="${this.min}" max="{this.max}" />
+      <label for="number-input">${this.label}:</label>
+      <input
+        type="number"
+        id="number-input"
+        name="number-input"
+        min="${this.min}"
+        max="{this.max}"
+        @input=${this.numberInputHandler}
+      />
       <div>
         <input
           type="range"
-          id=""
-          name=""
+          id="range-input"
+          name="range-input"
           list="values"
-          aria-label=""
+          aria-label="${this.label}"
           min="${this.min}"
           max="${this.max}"
-          required
+          ?required="${this.required}"
+          @input=${this.rangeInputHandler}
         />
         <datalist id="values">
           <option value="0" label="0"></option>
@@ -359,6 +385,10 @@ export class NumberRangeInput extends LitElement {
 customElements.define("number-range-input", NumberRangeInput);
 ```
 
+TODO: `reflect` property uitleggen.
+TODO: rendering van `required` property uitleggen.
+TODO: `firstUpdated` method en Handlers uitleggen.
+TODO: Issues: negative values worden geaccepteerd, text input maakt dat er geen value is, required werkt niet.
 
 ---
 
