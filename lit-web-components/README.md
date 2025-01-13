@@ -39,7 +39,7 @@ Voorbeeld van een simpel form waarvan de inhoud eronder wordt weergegeven.
 
 ## Lifecycle Callbacks
 
-> connectedCallback, disconnectedCallback, attributeChangedCallback, adoptedCallback  
+> connectedCallback, firstUpdated, disconnectedCallback, attributeChangedCallback, adoptedCallback  
 > voorkomen van requestUpdate!!!
 
 :house: [Home](../README.md) | :arrow_up: [](../README.md) | [Project Setup](./project-setup.md) :arrow_forward:
