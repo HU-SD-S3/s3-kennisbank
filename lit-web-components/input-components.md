@@ -251,11 +251,113 @@ If you run the application you should get a form that asks for some information 
 But for now, we see that the topics are rated using either a number input or a range input. The range input is a bit more user-friendly, but the number input is more precise. But the inputs are not related yet, meaning we can rate the HTML topic with a 4 using the number input and a 7 using the range input. This is not what we want. We want the inputs to be related, so if we change the number input, the range input should change accordingly and vice versa.
 
 Another issue we face is that HTML code for those inputs is basically the same for each topic and takes up a lot of space, causing ESLint to complain about the number of lines in our method.
-By creating a component for the topic, we can solve both issues.
+
+![number-range-input](./assets/number-range-input.png)
+
+By creating a component that combines the number and range input, we can solve both issues.
 
 ## The Number-Range-Input Component
 
+From the `render` method of the `EvaluationForm` component, we can derive that our new component should have the following attributes:
 
+- `label`: The label for the input.
+- `name`: The name of the input.
+- `min`: The minimum value of the input.
+- `max`: The maximum value of the input.
+- `required`: Whether the input is required or not.
+- `value`: The value of the input.
+
+Let's create a new file `number-range-input.js` in the `src/view/components` folder and add the following code:
+
+```javascript
+import { LitElement, html, css } from "lit";
+
+export class NumberRangeInput extends LitElement {
+  constructor() {
+    super();
+    this.value = 0;
+  }
+
+  static styles = css`
+    :host {
+      display: grid;
+      grid-template-columns: auto auto 1fr;
+      align-items: center;
+      width: 100%;
+    }
+
+    label {
+      display: block;
+      margin: 0.5rem;
+      padding: 0.5rem;
+    }
+
+    input {
+      margin: 0.5rem;
+      padding: 0.5rem;
+    }
+
+    input[type="number"] {
+      width: 2rem;
+      font-size: 1.5rem;
+    }
+
+    input[type="range"] {
+      width: 50%;
+    }
+
+    datalist {
+      display: flex;
+      margin: 0 0.5rem;
+      padding: 0 0.5rem;
+      justify-content: space-between;
+      width: 50%;
+    }
+  `;
+
+  static properties = {
+    label: { type: String },
+    min: { type: Number },
+    max: { type: Number },
+    required: { type: Boolean },
+    value: { type: Number },
+  };
+
+  render() {
+    return html`
+      <label for="">${this.label}:</label>
+      <input type="number" id="" name="" min="${this.min}" max="{this.max}" />
+      <div>
+        <input
+          type="range"
+          id=""
+          name=""
+          list="values"
+          aria-label=""
+          min="${this.min}"
+          max="${this.max}"
+          required
+        />
+        <datalist id="values">
+          <option value="0" label="0"></option>
+          <option value="1" label="1"></option>
+          <option value="2" label="2"></option>
+          <option value="3" label="3"></option>
+          <option value="4" label="4"></option>
+          <option value="5" label="5"></option>
+          <option value="6" label="6"></option>
+          <option value="7" label="7"></option>
+          <option value="8" label="8"></option>
+          <option value="9" label="9"></option>
+          <option value="10" label="10"></option>
+        </datalist>
+      </div>
+    `;
+  }
+}
+
+customElements.define("number-range-input", NumberRangeInput);
+```
 
 
 ---
