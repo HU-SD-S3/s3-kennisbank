@@ -32,6 +32,8 @@ Voorbeeld van een simpel form waarvan de inhoud eronder wordt weergegeven.
 > Initialiseren van properties in de constructor en/of in de connectedCallback (Promises).
 > Werken met SLOTs  
 
+## CustomEvents
+
 ## Custom Inputs
 
 - [Input Components](./input-components.md) 
