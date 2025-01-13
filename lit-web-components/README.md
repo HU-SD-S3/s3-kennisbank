@@ -21,11 +21,6 @@ To achive this, we will cover the following topics:
 > Werken met standard events (click, submit, ...) in lit (=> @click, @submit, ...).
 Simple voorbeeld van een button met een click event, een voorbeeld van een input veld met een change event en een form met een submit event. Events triggeren alleen een eventHandler, maar laten alleen op de console iets zien.
 
-## Inputs
-
-- [Input Components](./input-components.md) 
-> Hoe kun je een eigen input component maken? (Advanced stuff)
-
 ## Rendering
 
 Voorbeeld van een simpel form waarvan de inhoud eronder wordt weergegeven.
@@ -36,6 +31,11 @@ Voorbeeld van een simpel form waarvan de inhoud eronder wordt weergegeven.
 > (... zie https://lit.dev/docs/templates/expressions/)
 > Initialiseren van properties in de constructor en/of in de connectedCallback (Promises).
 > Werken met SLOTs  
+
+## Custom Inputs
+
+- [Input Components](./input-components.md) 
+> Hoe kun je een eigen input component maken? (Advanced stuff)
 
 ## Lifecycle Callbacks
 
