@@ -276,7 +276,7 @@ export class NumberRangeInput extends LitElement {
   static styles = css`
     :host {
       display: grid;
-      grid-template-columns: auto auto 1fr;
+      grid-template-columns: 1.5fr auto 10fr;
       align-items: center;
       width: 100%;
     }
@@ -385,10 +385,78 @@ export class NumberRangeInput extends LitElement {
 customElements.define("number-range-input", NumberRangeInput);
 ```
 
-TODO: `reflect` property uitleggen.
-TODO: rendering van `required` property uitleggen.
-TODO: `firstUpdated` method en Handlers uitleggen.
-TODO: Issues: negative values worden geaccepteerd, text input maakt dat er geen value is, required werkt niet.
+Also let's make some small changes to the `EvaluationForm` component, to use the new `number-range-input` component.
+
+```javascript
+import { LitElement, html, css } from "lit";
+import './number-range-input';
+
+export class EvaluationForm extends LitElement {
+
+  ...
+
+  static styles = css`
+  
+  ...
+
+    /* .evaluation-topics {
+      grid-template-columns: auto auto 1fr;
+      align-items: center;
+    } */
+
+  ...
+  `;
+
+  ...
+
+  render() {
+    return html`
+      <h1>Evaluation Form</h1>
+      <form @submit=${this.submitHandler}>
+        <fieldset class="cursist-info">
+          <legend>Cursist Information</legend>
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required />
+
+          <label for="address">Address:</label>
+          <input type="text" id="address" name="address" required />
+
+          <label for="phone">Phone:</label>
+          <input type="tel" id="phone" name="phone" required />
+
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required />
+        </fieldset>
+
+        <fieldset class="evaluation-topics">
+          <legend>Topics</legend>
+          <number-range-input label="HTML" min="0" max="10" required></number-range-input>
+          <number-range-input label="CSS" min="0" max="10" required></number-range-input>
+          <number-range-input label="JavaScript" min="0" max="10" required></number-range-input>
+        </fieldset>
+
+        <button type="submit">Save</button>
+      </form>
+    `;
+  }
+}
+
+customElements.define("evaluation-form", EvaluationForm);
+```
+
+As you can now experience, the form is much more compact and the number and range input are related to each other. If you change the number input, the range input changes accordingly and vice versa. This is because we have added event handlers to the number and range input that update the value of the other input as well as the reactive property `value` causing a rerender of the component.
+
+The initialization of the values of the two input components within our `number-input-range` component is done in the `firstUpdated` method. You might expect that this should be done in the `connectedCallback` method, but this is not the case. The `connectedCallback` method is called when the element is added to the DOM, but the shadow DOM is not yet created at that time. So we cannot access the elements of the shadow DOM yet.
+The `firstUpdated` method is called after the first update of the element, which is after the shadow DOM is created. This is the moment we can access the shadow DOM and initialize the values of the inputs.
+
+But there are also some new issues we have to deal with:
+
+- The `required` attribute of the input elements is not working. If you submit the form without filling in the required fields, the form is still submitted.
+- The `min` and `max` attributes of the input elements are not working. You can enter any value in the input fields, even negative values.
+- The `value` attribute of the `number-range-input` component is reflected to the attribute of the element, but when we submit the form, the value of the input fields is not included in the form data.
+
+
+
 
 ---
 
