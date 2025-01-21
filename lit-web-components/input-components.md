@@ -540,6 +540,20 @@ However, the `required` attribute of the input elements is still not working, an
 
 ## Setting the constraints
 
+The range slider and the number up/down buttons on the input elements are working as aspected and prevent us from entering values that are not within the range of the `min` and `max` attributes.
+But we can still enter values in the input field that are not within the range of the `min` and `max` attributes, 
+which will be included in the form data when the form is submitted, without any validation check.
+
+TODO: uitwerken van onderstaande items
+
+So let's start by checking if the values of the input field are valid.
+
+Next we will report to the user that a value is not valid.
+
+This validation and rapportation however doesn't prevent the form from being submitted.
+
+We can prevent this by setting the validity of the input element (this method requires three attributes, the first is the flags object specifying the error if any and the second is the error message, and the third is an anchor element to focus on in case of an error))
+
 
 ---
 
