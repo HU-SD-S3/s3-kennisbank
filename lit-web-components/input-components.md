@@ -350,7 +350,7 @@ export class NumberRangeInput extends LitElement {
         id="number-input"
         name="number-input"
         min="${this.min}"
-        max="{this.max}"
+        max="${this.max}"
         @input=${this.numberInputHandler}
       />
       <div>
