@@ -541,12 +541,44 @@ However, the `required` attribute of the input elements is still not working, an
 ## Setting the constraints
 
 The range slider and the number up/down buttons on the input elements are working as aspected and prevent us from entering values that are not within the range of the `min` and `max` attributes.
-But we can still enter values in the input field that are not within the range of the `min` and `max` attributes, 
+But we can still enter values in the input field that are not within the range of the `min` and `max` attributes,
 which will be included in the form data when the form is submitted, without any validation check.
+This is why we will focus on the validation of the number input field.
+
+Let's start by checking if the value we enter in the input field is valid, by using the validity check method provided by the DOM API.
+
+```javascript
+  numberInputHandler(event) {
+    const isValid = event.target.checkValidity();
+    console.log(isValid);
+
+    this.setValue(event.target.value);
+    this.shadowRoot.querySelector("#range-input").value = this.value;
+  }
+```
+
+If we enter a value that is not within the range of the `min` and `max` attributes, the `checkValidity` method will return `false`.
+
+We can use this boolean value to use the DOM API again to rapport to the user that the value is not valid, using a standaard message of the browser.
+
+```javascript
+  numberInputHandler(event) {
+    const isValid = event.target.checkValidity();
+    if (!isValid) {
+      event.target.reportValidity();
+    }
+
+    this.setValue(event.target.value);
+    this.shadowRoot.querySelector("#range-input").value = this.value;
+  }
+```
+
+If we now enter a value that is not within the range of the `min` and `max` attributes, the browser will show a message that the value is not valid.
+We will however set the value to keep the number input and the range slider in sync (even if the value is not valid and the range slider cannot show the value).
+
 
 TODO: uitwerken van onderstaande items
 
-So let's start by checking if the values of the input field are valid.
 
 Next we will report to the user that a value is not valid.
 
