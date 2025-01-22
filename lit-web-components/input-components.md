@@ -324,6 +324,7 @@ export class NumberRangeInput extends LitElement {
     this.required = false;
     this.min = 0;
     this.max = 10;
+    this.step = 1;
   }
 
   firstUpdated() {
@@ -366,7 +367,7 @@ export class NumberRangeInput extends LitElement {
           @input=${this.rangeInputHandler}
         />
         <datalist id="values">
-          ${Array.from({ length: this.max + 1 }).map((_, index) => html`
+          ${Array.from({ length: this.max + this.step }).map((_, index) => html`
             <option value="${index}" label="${index}"></option>
           `)}
         </datalist>
