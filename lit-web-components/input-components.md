@@ -567,7 +567,33 @@ We can use this boolean value to use the DOM API again to rapport to the user th
 ```
 
 If we now enter a value that is not within the range of the `min` and `max` attributes, the browser will show a message that the value is not valid.
-We will however set the value to keep the number input and the range slider in sync (even if the value is not valid and the range slider cannot show the value).
+After rapporting that the value is not valid, we had a choice to make.
+We could have call the `return` statement after the `reportValidity` method to prevent the value from being set in the input field.
+But if we do that, the value of our component will not be updated and will still hold the last set valid value.
+Which value that is, is not clear to the user, because the input field will hold the invalid value.
+That is why we still will set the incorrect value of the input field as the value of our component by not calling the `return` statement after the `reportValidity` method.
+
+But now we have to make sure that the incorrect value of the component is not accepted when the form is submitted.
+To prevent this, we have to set the validity of our component, which we can also do within the `setValue` method.
+
+```javascript
+  setValue(value) {
+    this.value = value;
+    this.#internals.setFormValue(this.value);
+    const numberInput = this.shadowRoot.querySelector("#number-input");
+    const validity = numberInput.checkValidity()
+      ? {}
+      : {
+          rangeUnderflow: this.value < this.min,
+          rangeOverflow: this.value > this.max,
+        };
+    this.#internals.setValidity(validity, numberInput.validationMessage, numberInput);
+  }
+```
+
+We do this by first determine if our number input field is valid by calling the `checkValidity` method.
+If the input field is valid, we set the validity of the input field to an empty object, which means that the input field is valid.
+If the input field is not valid, we set the validity of the input field to an object with two properties, `rangeUnderflow` and `rangeOverflow`, which are both booleans.
 
 
 TODO: uitwerken van onderstaande items
