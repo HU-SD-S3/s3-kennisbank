@@ -2,7 +2,7 @@
 
 ## Introduction
 
-## The Problem
+## The Single Value Custom Component Problem
 
 Let's first build a simple component that gives us an Evaluation form to demonstrate the problem.
 Create a new file `evaluation-form.js` in the `src/view/components` folder and add the following code:
@@ -245,7 +245,8 @@ And adapt the `index.html` file to use the `evaluation-form` component.
 ...
 ```
 
-If you run the application you should get a form that asks for some information of the cursist (to keep the evaluation private :wink") and some topics to evaluate. That the form is not working correctly is something we will fix later.
+If you run the application you should get a form that asks for some information of the cursist (to keep the evaluation private :wink:) and some topics to evaluate. That the form is not working correctly is something we will fix later.
+
 But for now, we see that the topics are rated using either a number input or a range input. The range input is a bit more user-friendly, but the number input is more precise. But the inputs are not related yet, meaning we can rate the HTML topic with a 4 using the number input and a 7 using the range input. This is not what we want. We want the inputs to be related, so if we change the number input, the range input should change accordingly and vice versa.
 
 Another issue we face is that HTML code for those inputs is basically the same for each topic and takes up a lot of space, causing ESLint to complain about the number of lines in our method.
@@ -254,7 +255,7 @@ Another issue we face is that HTML code for those inputs is basically the same f
 
 By creating a component that combines the number and range input, we can solve both issues.
 
-## The Number-Range-Input Component
+### The Number-Range-Input Component
 
 From the `render` method of the `EvaluationForm` component, we can derive that our new component should have the following attributes:
 
@@ -352,6 +353,7 @@ export class NumberRangeInput extends LitElement {
         name="number-input"
         min="${this.min}"
         max="${this.max}"
+        ?required="${this.required}"
         @input=${this.numberInputHandler}
       />
       <div>
@@ -453,7 +455,7 @@ The reason for these issues is that the [ElementInternals](https://developer.moz
 The `ElementInternals` is a new API that is part of the [Forms module](https://html.spec.whatwg.org/multipage/custom-elements.html#elementinternals) of the HTML specification.
 It provides a way to access the form-associated custom elements of a custom element.
 
-## Setting the value
+### Setting the value
 
 The first issue we will address is that the `value` attribute of the `number-range-input` component is not included in the form data when the form is submitted.
 The first thing we do to set up the `ElementInternals` in our component is to add a private property 'internals' to our component.
@@ -531,7 +533,7 @@ export class NumberRangeInput extends LitElement {
 If you now run the application, fill the form and submit it, you will notice that the data of our `number-range-input` components is included in the form data.
 However, the `required` attribute of the input elements is still not working, and the `min` and `max` attributes of the input elements are not working either.
 
-## Setting the constraints
+### Setting the constraints
 
 The range slider and the number up/down buttons on the input elements are working as aspected and prevent us from entering values that are not within the range of the `min` and `max` attributes.
 But we can still enter values in the input field that are not within the range of the `min` and `max` attributes,
@@ -593,22 +595,19 @@ To prevent this, we have to set the validity of our component, which we can also
 
 We do this by first determine if our number input field is valid by calling the `checkValidity` method.
 If the input field is valid, we set the validity of the input field to an empty object, which means that the input field is valid.
-If the input field is not valid, we set the validity of the input field to an object with two properties, `rangeUnderflow` and `rangeOverflow`, which are both booleans.
+If the input field is not valid, we set the validity of the input field to an object filled with a [flags](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/setValidity#flags) that provides some information about the validity.
+In this case we provide two properties, `rangeUnderflow` and `rangeOverflow`, which are both booleans of which one must be `true` to indicate that the value of the input field is not within the range of the `min` and `max` attributes.
+The second argument of the `setValidity` method is the error message that will be shown to the user when the value is not valid. In this case we don't provide a custom message, so the browser will show a standard message, based on the validity flags we provided.
+The third argument of the `setValidity` method is an anchor element to focus on in case of an error. In this case we provide the input field itself, since that is the only element that can hold the invalid value.
 
-
-TODO: uitwerken van onderstaande items
-
-
-Next we will report to the user that a value is not valid.
-
-This validation and rapportation however doesn't prevent the form from being submitted.
-
-We can prevent this by setting the validity of the input element (this method requires three attributes, the first is the flags object specifying the error if any and the second is the error message, and the third is an anchor element to focus on in case of an error))
-
+When we now enter a value that is not within the range of the `min` and `max` attributes and submit the form, the form is not submitted and the input field is marked as invalid.
+Even if we remove the value of the input field, the input field is marked as invalid, since the input field is required, and the form is not submitted.
 
 ---
 
 ## Sources
+
+- MDN - [ElementInternals](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals)
 
 ---
 
