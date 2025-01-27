@@ -603,6 +603,12 @@ The third argument of the `setValidity` method is an anchor element to focus on 
 When we now enter a value that is not within the range of the `min` and `max` attributes and submit the form, the form is not submitted and the input field is marked as invalid.
 Even if we remove the value of the input field, the input field is marked as invalid, since the input field is required, and the form is not submitted.
 
+## The Multiple Value Custom Component Problem
+
+The `number-range-input` component is a good example of a single value custom component, but what if we want to create a custom component that holds multiple values? To illustrate this issue we will group the fieldsets of the `EvaluationForm` into custom components.
+
+
+
 ---
 
 ## Sources
