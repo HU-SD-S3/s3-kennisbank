@@ -267,7 +267,7 @@ From the `render` method of the `EvaluationForm` component, we can derive that o
 - `value`: The value of the input.
 
 Note that the `name` attribute is required for the form data to extract the value of the input, but does not have any meaning within the component itself.
-We will therefore not add this attribute in our component, but remember that if you don't add the `name` attribute to the input element, 
+We will therefore not add this attribute in our component, but remember that if you don't add the `name` attribute to the input element,
 the value of the input will not be included in the form data when the form is submitted.
 Let's create a new file `number-range-input.js` in the `src/view/components` folder and add the following code:
 
@@ -326,10 +326,10 @@ export class NumberRangeInput extends LitElement {
     this.min = 0;
     this.max = 10;
     this.step = 1;
+    this.value = this.min;
   }
 
   firstUpdated() {
-    this.value = this.min;
     this.shadowRoot.querySelector('#number-input').value = this.value;
     this.shadowRoot.querySelector('#range-input').value = this.value;
   }
@@ -369,9 +369,11 @@ export class NumberRangeInput extends LitElement {
           @input=${this.rangeInputHandler}
         />
         <datalist id="values">
-          ${Array.from({ length: this.max + this.step }).map((_, index) => html`
-            <option value="${index}" label="${index}"></option>
-          `)}
+          ${Array.from({ length: this.max + this.step }).map(
+            (_, index) => html`
+              <option value="${index}" label="${index}"></option>
+            `
+          )}
         </datalist>
       </div>
     `;
@@ -479,10 +481,12 @@ This method returns an `ElementInternals` object that we can use to set up the f
   constructor() {
     super();
     this.#internals = this.attachInternals();
-    
+
     this.required = false;
     this.min = 0;
     this.max = 10;
+    this.step = 1;
+    this.value = this.min;
   }
 ...
 ```
@@ -497,13 +501,13 @@ Let's add a method `setValue` to our component that sets the value of the compon
   }
 ```
 
-Next we have to replace all the statements that sets the value of the component with a call to the `setValue` method.
+Next we have to add the `setValue` method to all methods that are setting the value of an input field, so that the value of the component is always in sync with the value of the input fields.
 
 ```javascript
   firstUpdated() {
-    this.setValue(this.min);
     this.shadowRoot.querySelector('#number-input').value = this.value;
     this.shadowRoot.querySelector('#range-input').value = this.value;
+    this.setValue(this.value);
   }
 
   numberInputHandler(event) {
@@ -586,8 +590,8 @@ To prevent this, we have to set the validity of our component, which we can also
     const validity = numberInput.checkValidity()
       ? {}
       : {
-          rangeUnderflow: this.value < this.min,
-          rangeOverflow: this.value > this.max,
+          rangeUnderflow: this.value <= this.min,
+          rangeOverflow: this.value >= this.max,
         };
     this.#internals.setValidity(validity, numberInput.validationMessage, numberInput);
   }
@@ -606,8 +610,6 @@ Even if we remove the value of the input field, the input field is marked as inv
 ## The Multiple Value Custom Component Problem
 
 The `number-range-input` component is a good example of a single value custom component, but what if we want to create a custom component that holds multiple values? To illustrate this issue we will group the fieldsets of the `EvaluationForm` into custom components.
-
-
 
 ---
 
