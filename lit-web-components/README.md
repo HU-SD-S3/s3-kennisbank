@@ -23,23 +23,18 @@ Simple voorbeeld van een button met een click event, een voorbeeld van een input
 
 ## Rendering
 
-Voorbeeld van een simpel form waarvan de inhoud eronder wordt weergegeven.
-> Hoe werkt het renderen van een lit component?
-> Wat triggerd een re-render?  
-> verschil tussen attributes, properties en reactive properties (property options: reflect, attribute, hasChanged).
-> Hoe om te gaan met boolean attributes `?attribute`  
-> (... zie https://lit.dev/docs/templates/expressions/)
-> Initialiseren van properties in de constructor en/of in de connectedCallback (Promises).
-> Werken met SLOTs  
+- [Rendering](./rendering.md)
+
+## Lifecycle Callbacks
+
+> connectedCallback, firstUpdated, disconnectedCallback, attributeChangedCallback, adoptedCallback  
+> voorkomen van requestUpdate!!!
 
 ## Custom Inputs
 
 - [Input Components](./input-components.md) 
 > Hoe kun je een eigen input component maken? (Advanced stuff)
 
-## Lifecycle Callbacks
-
-> connectedCallback, firstUpdated, disconnectedCallback, attributeChangedCallback, adoptedCallback  
-> voorkomen van requestUpdate!!!
+---
 
 :house: [Home](../README.md) | :arrow_up: [](../README.md) | [Project Setup](./project-setup.md) :arrow_forward:

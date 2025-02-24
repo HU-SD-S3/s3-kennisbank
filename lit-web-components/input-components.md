@@ -265,4 +265,4 @@ Our goal now is to refactor the form to use custom components for the fieldsets.
 
 ---
 
-:house: [Home](../README.md) | :arrow_backward: [Inputs and Events](./input-and-events.md) | :arrow_up: [Learning Stories](./README.md) | [Single value input components](./input-components-single-value.md) :arrow_forward:
+:house: [Home](../README.md) | :arrow_backward: [Lifecycle](./lifecycle.md) | :arrow_up: [Learning Stories](./README.md) | [Single value input components](./input-components-single-value.md) :arrow_forward:

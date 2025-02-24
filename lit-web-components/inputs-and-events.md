@@ -401,4 +401,4 @@ For a complete list of standard events see the [MDN - Element Events](https://de
 
 ---
 
-:house: [Home](../README.md) | :arrow_backward: [Lit Attributes](./lit-attributes.md) | :arrow_up: [Learning Stories](./README.md) | [Input Components](./input-components.md) :arrow_forward:
+:house: [Home](../README.md) | :arrow_backward: [Lit Attributes](./lit-attributes.md) | :arrow_up: [Learning Stories](./README.md) | [Rendering](./rendering.md) :arrow_forward:
