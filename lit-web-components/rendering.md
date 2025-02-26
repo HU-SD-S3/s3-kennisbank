@@ -9,6 +9,7 @@ The `render` method is part of the lifecycle hook methods of a lit component and
 >
 > * Never call the render method directly!
 > * The `render` method should be the only method within the component that manipulates the DOM!
+> * The only task of the `render` method is to render the content of the component to the DOM!
 
 Not to call the `render` method directly and not to manipulate the DOM part of a component elsewhere in the code, makes that it is important to understand how the `render` method is triggered and how it works.
 
@@ -35,6 +36,15 @@ export class LitRender extends LitElement {
       padding: 1rem;
       display: grid;
       align-items: center;
+    }
+
+    input[required] {
+      border: 2px solid orange;
+    }
+
+    .required {
+      font-weight: bold;
+      color: orangered;
     }
 
     legend {
@@ -268,45 +278,276 @@ But notice also that the page is not reloaded and we didn't call the `requestUpd
 
 ## Rendering Reactive Properties
 
-TODO: Add reflect to the property options, to show that the attribute is updated when the property is updated.
+Not every property of a web component that gets rendered will be based on an attribute value. Other properties you want to render might for instance be based on values retrieved by the component itself, reveived from the controller or included within an event (we will give examples of the last two situations in other articles).
+We also want those properties to be reactive properties, so that the component reacts to changes of the property value and triggers a re-render of the component.
+
+To define a reactive propery in Lit is easy, just add the property to the `properties` object of the component and provide its type.
+
+```javascript
+...
+
+  static properties = {
+    tagAttribute: { type: String, attribute: "tag-attribute", reflect: true },
+    reactiveProperty: { type: String },
+  };
+
+  constructor() {
+    super();
+    this.#privateProperty = "initial value";
+    this.tagAttribute = "initial value";
+    this.reactiveProperty = "initial value";
+  }
+
+...
+```
+
+We further add a fieldset to the form of the `render` method, that gives us an input text field and an output field to display the value of the reactive property.
+
+```javascript
+...
+        <fieldset>
+          <legend>Reactive Property</legend>
+
+          <fieldset class="input">
+            <legend>Input</legend>
+            <input
+              type="text"
+              aria-label="Add Item"
+              @input=${this.updateReactiveProperty}
+            />
+          </fieldset>
+          <fieldset class="output">
+            <legend>Output</legend>
+            <p>${this.reactiveProperty}</p>
+          </fieldset>
+        </fieldset>
+...
+```
+
+And we add an event handler to the input field to update the value of the reactive property.
+
+```javascript
+  updateReactiveProperty(event) {
+    this.reactiveProperty = event.target.value;
+    console.log(this.reactiveProperty);
+  }
+```
+
+When you run the application now and type in the input field, you will see that the value of the reactive property is updated in the output field.
+But notice that that the value of the reactive property is not passed as an attribute to the `lit-render` component, but is a property of the component itself.
+However what happens if you add an attribute to the `lit-render` component in the `index.html` file, that has the same name as the reactive property of the component?
+
+```html
+  <body>
+    <main>
+      <lit-render reactiveProperty="Some Value">
+        <input type="text" placeholder="Enter text" id="attrInput" />
+        <button id="attrBtn" type="button">Set Attribute value</button>
+      </lit-render>
+    </main>
+  </body>
+```
+
+When you run the application now, you will see in the browser that in the output of the reactive property that the initial value of the reactive property is no longer the value that is set in the constructor, but the value that is passed as an attribute to the `lit-render` component in the `index.html` file. So our reactive property is also a reactive attribute. Notice also that if you change the value of the reactive property in the input field, the value of the reactive property in the output field is updated, but the value of the reactive attribute is not updated (you have to use the dev tools of your browser to see this).
+
+To make the reactive property also a reactive attribute, we have to add the `reflect` property option to the `properties` object of the component.
+
+```javascript
+  static properties = {
+    tagAttribute: { type: String, attribute: "tag-attribute", reflect: true },
+    reactiveProperty: { type: String, reflect: true },
+  };
+```
+
+But this is not what we wanted. We didn't want that our reactive property also is a reactive attribute. To archive our goal we have to remove the `reflect` property option from the `properties` object of the component and add the `attribute` property option to the reactive property which we set to false.
+
+```javascript
+  static properties = {
+    tagAttribute: { type: String, attribute: "tag-attribute", reflect: true },
+    reactiveProperty: { type: String, attribute: false },
+  };
+```
+
+When you now run the application you will see that the attribute value passed to the `lit-render` component in the `index.html` file is no longer reflected in the output of the reactive property, as are the changes of the value of the reactive property in the input field.
 
 ## Passing Boolean Attributes within a render
 
+Passing a boolean attribute in HTML is different than passing other attributes. This is because you don't pass the value of the attribute, but the attribute itself. If the attribute is present, its value is considered to be true, if it is not present, its value is considered to be false.
+To demonstrate this with an reactive property, we add a boolean reactive property to the component and initialize it in the constructor.
+
+```javascript
+  static properties = {
+    tagAttribute: { type: String, attribute: "tag-attribute", reflect: true },
+    reactiveProperty: { type: String, attribute: false },
+    requiredInput: { type: Boolean, attribute: false },
+  };
+
+  constructor() {
+    super();
+    this.#privateProperty = "initial value";
+    this.tagAttribute = "initial value";
+    this.reactiveProperty = "initial value";
+    this.requiredInput = false;
+  }
+```
+
+Next we define a method that updates the value of the boolean reactive property.
+
+```javascript
+  updatedRequired(event) {
+    this.requiredInput = event.target.id === "fields_required";
+    console.log(this.requiredInput);
+  }
+```
+
+And finally we add a fieldset to the form of the `render` method, that gives us an input text field and an output field to display the value of the boolean reactive property.
+
+```javascript
+...
+        <fieldset>
+          <legend>Boolean attribute passing</legend>
+          <fieldset class="input">
+            <legend class="${this.requiredInput ? 'required' : ''}">
+              Some text input
+            </legend>
+            <input
+              type="text"
+              id="text_input"
+              name="text_input"
+              ?required=${this.requiredInput}
+            />
+            ${this.requiredInput
+              ? html`<output>Required</output>`
+              : html`<output>Optional</output>`}
+          </fieldset>
+
+          <fieldset class="input">
+            <legend>Toggle Required</legend>
+            <input
+              type="radio"
+              id="fields_required"
+              name="text_input_required"
+              @input=${this.updatedRequired}
+            />
+            <label for="fields_required">Required</label>
+            <input
+              type="radio"
+              id="fields_optional"
+              name="text_input_required"
+              @input=${this.updatedRequired}
+            />
+            <label for="fields_optional">Optional</label>
+          </fieldset>
+        </fieldset>
+...
+```
+
+Note that in the input with the id 'text_input' we used `?` prefix to pass the `required` boolean parameter to the input. This is a special syntax in Lit to pass boolean attributes (see [Lit Expressions](https://lit.dev/docs/templates/expressions/)). If the value of the boolean property is true, the attribute is added to the element, if the value is false, the attribute is removed from the element.
+
+> [!TIP]
+> The code provided is just one way to solve our problem. Lit also offers a lot of other Built-in directives like `ifDefined`, `when`, `choose` etc. that might be useful in some situations to conditionally render content. See the [Lit documentation](https://lit.dev/docs/templates/directives/) for more information.
+
+Note further that we used the `requiredInput` reactive property also to set the class of the legend of the input field, as well as to set the text behind the input field. We used the [ternary operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator) to do this. This is a common way to [conditionally render](https://lit.dev/docs/templates/conditionals/) content in a lit component.
+
+When you run the application now and click the radio buttons, you will see that the input field is set to required or optional and the text behind the input field is set to Required or Optional. And that in case you set it to required, leaf the input field empty and try to submit the form, you will see that the browser gives you a message that the input field is required.
+
 ## Rendering Reactive Array Properties
 
----
+In this final part of this article we want to discuss complex properties, like arrays, since they require a slightly different approach to make them reactive (but the same is true for objects).
 
-De taak en verantwoordelijkheid van de render functie in een Lit component is het om de inhoud van het component te renderen, dus de DOM te manipuleren.
-Het is niet de bedoeling dat dit elders in de code gebeurt, maar altijd in de render functie.
+To demonstrate this we add a reactive property `arrayList` and initialize it in the constructor.
 
-Het is niet de bedoeling dat deze functie direct door eigen code wordt aangeroepen, maar altijd via de lifecycle methoden. De render methode zelf maakt zelf ook deel uit van de lifecycle van een component. 
+```javascript
+  static properties = {
+    tagAttribute: { type: String, attribute: "tag-attribute", reflect: true },
+    reactiveProperty: { type: String, attribute: false },
+    requiredInput: { type: Boolean, attribute: false },
+    arrayList: { type: Array, attribute: false },
+  };
 
-Voorbeeld van een simpel formulier met input en output gedeelte per item.
+  constructor() {
+    super();
+    this.#privateProperty = "initial value";
+    this.tagAttribute = "initial value";
+    this.reactiveProperty = "initial value";
+    this.requiredInput = false;
+    this.arrayList = [];
+  }
+```
 
-- Item 1: Prive Property van een klasse, deze wijzigingen van de input worden wel op de console getoond, maar niet in gerenderd. Pas met een request Update wordt de render opnieuw uitgevoerd.
-- Item 2: Tag Attribute, wijzigingen van deze property worden wel direct gerenderd, dit soort properties worden ook wel reactive properties genoemd.
-- Item 3: Reactive Property die niet als attribute is gedeclareerd. Ook deze is reactive en wordt direct gerenderd, maar de nieuwe inhoud ervan wordt niet in de tag weergeven.
-- Item 4: Boolean reactive property die we gebruiken om een input veld wel/niet verplicht te maken. Als ook dat we de tekst op de site aanpassen ('Required' / 'Optional').
-- Item 5: Een lijst van items (Array) die als reactive property wordt weergegeven. De inhoud van de array wordt in een lijst weergegeven, deze wordt echter pas opnieuw gerenderd als het array object zelf veranderd, niet de inhoud van de array.
+Next we add a fieldset to the form of the `render` method, that gives us an input text field and a button to add the value of the input field to the array list and an output field to display the array list.
 
-In lifecycle gaan we verder in op connectedCallback, firstUpdated, disconnectedCallback, attributeChangedCallback, adoptedCallback en hoe we requestUpdate kunnen voorkomen.
+```javascript
+...
+        <fieldset>
+          <legend>Array List</legend>
 
+          <fieldset class="input">
+            <legend>Input</legend>
+            <input type="text" id="arrayItem" />
+            <button type="button" @click=${this.updateArrayList}>
+              Add to Array
+            </button>
+          </fieldset>
+          <fieldset class="output">
+            <legend>Output</legend>
+            <ul>
+              ${this.arrayList.map((item) => html`<li>${item}</li>`)}
+            </ul>
+          </fieldset>
+        </fieldset>
+...
+```
 
-Voorbeeld van een simpel form waarvan de inhoud eronder wordt weergegeven.
-> Hoe werkt het renderen van een lit component?
-> Wat triggerd een re-render?  
-> verschil tussen attributes, properties en reactive properties (property options: reflect, attribute, hasChanged).
-> Hoe om te gaan met boolean attributes `?attribute`  
-> (... zie https://lit.dev/docs/templates/expressions/)
-> Initialiseren van properties in de constructor en/of in de connectedCallback (Promises). => life cycle => voorkomen van Request Update
-> Werken met SLOTs  
+Finally we add a method that updates the value of the array list when the button is clicked, by reading the value of the input field and adding it to the array list.
+After the value is added to the array list, we clear the input field by setting its value to an empty string. To check the content of the array list we also log it to the console.
+
+```javascript
+  updateArrayList() {
+    const arrayItem = this.shadowRoot.querySelector("#arrayItem");
+    this.arrayList.push(arrayItem.value);
+    arrayItem.value = "";
+    console.log(this.arrayList);
+  }
+```
+
+When you run the application now and type in the input field and click the button, you will see that the value of the input field is added to the array list as we can see in the console, but the output field is not updated.
+The reason for this is that an array is a reference type property and not a value type property. This means that when you change the content of the array, the reference to the array does not change. Therefore the component does not see that the array has changed and does not trigger a re-render of the component.
+To trigger a re-render of the component we have to create a new array with the new content and assign this new array to the array list. Using the [spread operator (...)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) is a common way to do this.
+
+```javascript
+  updateArrayList() {
+    const arrayItem = this.shadowRoot.querySelector("#arrayItem");
+    this.arrayList = [...this.arrayList, arrayItem.value];
+    arrayItem.value = "";
+    console.log(this.arrayList);
+  }
+```
+
+When you run the application now and type in the input field and click the button, you will see that the value of the input field is added to the array list and the output field is updated.
+
+```javascript
+  updateArrayList() {
+    const arrayItem = this.shadowRoot.querySelector("#arrayItem");
+    this.arrayList = [...this.arrayList, arrayItem.value];
+    arrayItem.value = "";
+    console.log(this.arrayList);
+  }
+```
+
+When you run the application now and type in the input field and click the button, you will see that the value of the input field is added to the array list and the output field is updated.
 
 ---
 
 ## Sources
 
-- [MDN - Using Templates and Slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
-- [LIT - Reactive properties](https://lit.dev/docs/components/properties/)
+* [MDN - Using Templates and Slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
+* [MDN - Conditional (ternary) operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator)
+* [MDN - Spread syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
+* [LIT - Reactive properties](https://lit.dev/docs/components/properties/)
+* [LIT - Expressions](https://lit.dev/docs/templates/expressions/)
+* [LIT - Conditionals](https://lit.dev/docs/templates/conditionals/)
+* [LIT - Build-in directives](https://lit.dev/docs/templates/directives/)
 
 ---
 
