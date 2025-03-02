@@ -1,5 +1,13 @@
 # Communication
 
+In this chapter we will discuss the different ways of data communication, when using web components.
+The first article will discuss the communication with a back-end and the setup of our reference architecture for the front-end.
+The other article will discuss the communication between different components in the front-end.
+
+## [Backend Communication](./backend-communication.md)
+
+
+
 - Algemene kennis
 > Wat is het probleemgebied dat we met communicatie willen oplossen?
   Communicatie tussen componenten
