@@ -197,12 +197,14 @@ To run eslint on your project **add** the line `"eslint": "eslint ./src/**/*.js"
 
 ```json
 ...
+
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "eslint": "eslint ./src/**/*.js"
   },
+  
 ...
 ```
 
