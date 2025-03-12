@@ -190,8 +190,8 @@ export class HelloShadowDOM extends HTMLElement {
 
 This should again show the text `Hello Shadow DOM` displayed on the page with a blue background and white text color.
 
-An alternative- and nicer way to influence the style the shadow root from the parent document can be achieved by
-using CSS variables.
+An alternative- and nicer way to influence the style the shadow root from the parent document can be achieved by using
+CSS variables.
 
 When we change the `styles.css` file to
 
