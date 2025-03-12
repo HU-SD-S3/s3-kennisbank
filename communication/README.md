@@ -6,8 +6,6 @@ The other article will discuss the communication between different components in
 
 ## [Backend Communication](./backend-communication.md)
 
-
-
 - Algemene kennis
 > Wat is het probleemgebied dat we met communicatie willen oplossen?
   Communicatie tussen componenten
