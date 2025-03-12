@@ -340,4 +340,4 @@ difficult, because the event listeners and timers are still running even though 
 ---
 
 :house: [Home](../README.md) | :arrow_backward: [Hello ShadowDOM](./hello-shadowdom.md) | :arrow_up:
-[Vanilla Web Components](./README.md) | [](./) :arrow_forward:
+[Vanilla Web Components](./README.md) | [Challenges](./challenges.md) :arrow_forward:
