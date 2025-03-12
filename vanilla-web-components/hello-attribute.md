@@ -1,6 +1,6 @@
 # Vanilla Web Components - Hello Attribute
 
-**Learning Story**: _As a developer, I want to create a simple custom element that displays a message that contains the value of an attribute, so that I can understand how to pass attributes to custom elements._
+In this article we will create a simple custom element that displays a message that contains the value of an attribute. This article assumes that you have set up a boilerplate project. If you haven't, please follow the instructions in the [Project Setup](./project-setup.md) article.
 
 ## Introduction
 
@@ -125,7 +125,8 @@ export class HelloAttribute extends HTMLElement {
 }
 ```
 
-> [!NOTE] Note that html attributes are always strings, even if you set them to a number or boolean in the html file. So if you want to use the attribute as a number or boolean you have to convert it in the `attributeChangedCallback` method.
+> [!NOTE]
+> Note that html attributes are always strings, even if you set them to a number or boolean in the html file. So if you want to use the attribute as a number or boolean you have to convert it in the `attributeChangedCallback` method.
 
 Take for instance the following example:
 
@@ -180,12 +181,15 @@ export class PointOfInterest extends HTMLElement {
 customElements.define('point-of-interest', PointOfInterest);
 ```
 
+Congratulations! You have created a custom element that displays a message that contains the value of an attribute.
+
 ---
-## Sources:
+
+## Sources
 
 * MDN - [Template literals (Template strings)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
 * MDN - [Tenary Operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator)
 
 ---
 
-:house: [Home](../README.md) | :arrow_backward: [Hello World](./hello-world.md) | :arrow_up: [Learning Stories](./README.md) | [Hello ShadowDOM](./hello-shadowdom.md) :arrow_forward:
+:house: [Home](../README.md) | :arrow_backward: [Hello World](./hello-world.md) | :arrow_up: [Vanilla Web Components](./README.md) | [Hello ShadowDOM](./hello-shadowdom.md) :arrow_forward:

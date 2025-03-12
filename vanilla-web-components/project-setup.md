@@ -1,6 +1,6 @@
 # Vanilla Web Components Project Setup
 
-**Enablerstory**: _As a developer, I want to setup a new project for learning about Vanilla Web Components, so that I can learn about the basics of custom elements, ShadowDOM, and lifecycle callbacks._
+In this article we will setup a new project that you can use as a boilerplate for the articles about vanilla web components.
 
 ## Vite setup
 
@@ -8,12 +8,12 @@ Start with creating a vite project.
   
   ```bash
   npm init vite@latest
-  ``` 
+  ```
 
-Choose the following options:
-Project name: vanilla-web-components
-Framework: vanilla
-Select a variant: JavaScript
+Choose the following options:  
+Project name: **vanilla-web-components**  
+Framework: **vanilla**  
+Select a variant: **JavaScript**  
 
 Open the new project in your code editor (in Visual Studio Code, select open Folder and open the newly created vanilla-web-components folder), in order to always have your terminal open in the project folder and not in the parent folder.
 
@@ -36,6 +36,7 @@ Open the link the dev server gives you in your web browser and you should see a 
 The Vite project comes with a counter example that we don't need, so let's clean it up.
 
 Remove files we don't need:
+
 - styles.css
 - main.js
 - counter.js
@@ -111,7 +112,7 @@ Once this works, you can remove the `console.log` statement, to keep the console
 
 ## Addons
 
-Your project setup is now complete and you can start with the learning stories. But before you do that, I recommend you install some addons that can help you with your project.
+Your project setup is now complete and you can start with the learning stories. But before you do that, we recommend you to install some optional addons that can help you with your project.
 
 ### Prettier
 
@@ -143,10 +144,24 @@ You can setup a configuration file for ESLint at the root of your project by run
 npm init @eslint/config@latest
 ```
 
-You will than be asked some questions to setup the configuration file. On the question "How would you like to use ESLint?" choose "To check syntax and find problems". When asked "What type of modules does your project use?" choose "JavaScript modules (import/export)". And on the question "Where does your code run?" choose "Browser". And on the question "Which framework does your project use?" choose "None of these". On the question "Does your project use TypeScript?" choose "No". And on the question "Where does your code run?" choose "Browser".
-You will then be informed that this configuration requires dependencies to be installed. On the question "Would you like to install them now?" choose "Yes". And select 'npm' as the package manager.
+You will than be asked some questions to setup the configuration file.  
+On the question "How would you like to use ESLint?" choose "**To check syntax and find problems**".  
+When asked "What type of modules does your project use?" choose "**JavaScript modules (import/export)**".  
+And on the question "Where does your code run?" choose "**Browser**".  
+And on the question "Which framework does your project use?" choose "**None of these**".  
+On the question "Does your project use TypeScript?" choose "**No**".  
+And on the question "Where does your code run?" choose "**Browser**".  
+You will then be informed that this configuration requires dependencies to be installed.  
+On the question "Would you like to install them now?" choose "**Yes**".  
+And select '**npm**' as the package manager.
 
 This will install the necessary dependencies and create a `eslint.config.js` file in the root of your project. You can modify this file to fit your needs, for instance to remove rules or to change the severity of rules.
+
+To prevent conflicts between ESLint and Prettier, install the `eslint-config-prettier` package:
+
+```bash
+npm install --save-dev eslint-config-prettier
+```
 
 Your eslint.config.js file could than look something like this:
 
@@ -178,10 +193,17 @@ export default [
 ];
 ```
 
-To run eslint on your project **add** the following script to your `package.json` file `scripts` section:
+To run eslint on your project **add** the line `"eslint": "eslint ./src/**/*.js"` to the `scripts` section of your `package.json` file:
 
 ```json
-  "eslint": "eslint src/**/*.js",
+...
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "eslint": "eslint ./src/**/*.js"
+  },
+...
 ```
 
 Running this script with:
@@ -202,7 +224,8 @@ Here are some extensions that we recommend for the vanilla web components learni
 - [vscode-icons](https://marketplace.visualstudio.com/items?itemName=vscode-icons-team.vscode-icons) - This extension will show icons for different file types in the file explorer. This can help you to quickly see what type of file you are looking at.
 
 ---
-## Sources:
+
+## Sources
 
 - Vite - [Getting Started guide](https://vite.dev/guide/)
 - ESLint - [Getting Started guide](https://eslint.org/docs/user-guide/getting-started)
@@ -211,4 +234,4 @@ Here are some extensions that we recommend for the vanilla web components learni
 
 ---
 
-:house: [Home](../README.md) | :arrow_up: [Learning Stories](./README.md) | [Hello World](./hello-world.md) :arrow_forward:
+:house: [Home](../README.md) | :arrow_up: [Vanilla Web Components](./README.md) | [Hello World](./hello-world.md) :arrow_forward:
