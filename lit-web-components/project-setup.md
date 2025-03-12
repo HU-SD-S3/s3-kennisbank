@@ -80,8 +80,8 @@ Now let's create some folders to keep our project organized.
 
 ## Main Script
 
-Create a file `home-page.js` inside the `/src/view/pages` folder. This will be the main script that will be loaded when the
-page is opened. We therefore need to import this script in the `index.html` file.
+Create a file `home-page.js` inside the `/src/view/pages` folder. This will be the main script that will be loaded when
+the page is opened. We therefore need to import this script in the `index.html` file.
 
 ```html
 <!DOCTYPE html>
@@ -239,4 +239,5 @@ web components learning stories:
 
 ---
 
-:house: [Home](../README.md) | :arrow_up: [Lit Web Components](./README.md) | [Hello Lit](./hello-lit.md) :arrow_forward:
+:house: [Home](../README.md) | :arrow_up: [Lit Web Components](./README.md) | [Hello Lit](./hello-lit.md)
+:arrow_forward:

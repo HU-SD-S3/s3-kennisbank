@@ -1,12 +1,16 @@
 # Input Components
 
-Creating a web component that is meant to be used within a form is a good way to keep the logic of each User Story separated from each other, and to keep the render method of the component that holds the form fields clean and structured. But defining such web components is not as straightforward as it might seem.
+Creating a web component that is meant to be used within a form is a good way to keep the logic of each User Story
+separated from each other, and to keep the render method of the component that holds the form fields clean and
+structured. But defining such web components is not as straightforward as it might seem.
 
-In this article we will cover the problems we face when creating input components that are meant to be used within a form and how to solve them.
+In this article we will cover the problems we face when creating input components that are meant to be used within a
+form and how to solve them.
 
 ## Boilerplate
 
-Let's build a simple component that gives us an Evaluation form. We will use this component as a boilerplate which we will refactor in this article to use custom components within the form.
+Let's build a simple component that gives us an Evaluation form. We will use this component as a boilerplate which we
+will refactor in this article to use custom components within the form.
 
 Start by creating a new file `evaluation-form.js` in the `src/view/components` folder and add the following code:
 
@@ -116,14 +120,7 @@ export class EvaluationForm extends LitElement {
         <fieldset class="evaluation-topics">
           <legend>Topics</legend>
           <label for="html-value">HTML:</label>
-          <input
-            type="number"
-            id="html-value"
-            name="html"
-            min="0"
-            max="10"
-            required
-          />
+          <input type="number" id="html-value" name="html" min="0" max="10" required />
           <div>
             <input
               type="range"
@@ -151,14 +148,7 @@ export class EvaluationForm extends LitElement {
           </div>
 
           <label for="css-value">CSS:</label>
-          <input
-            type="number"
-            id="css-value"
-            name="css"
-            min="0"
-            max="10"
-            required
-          />
+          <input type="number" id="css-value" name="css" min="0" max="10" required />
           <div>
             <input
               type="range"
@@ -186,14 +176,7 @@ export class EvaluationForm extends LitElement {
           </div>
 
           <label for="js-value">JavaScript:</label>
-          <input
-            type="number"
-            id="js-value"
-            name="js"
-            min="0"
-            max="10"
-            required
-          />
+          <input type="number" id="js-value" name="js" min="0" max="10" required />
           <div>
             <input
               type="range"
@@ -250,12 +233,17 @@ And adapt the `index.html` file to use the `evaluation-form` component.
 
 ## Decomposition
 
-If you run the application you should get a form that asks for some information of the cursist (to keep the evaluation private :wink:) and some topics to evaluate.
+If you run the application you should get a form that asks for some information of the cursist (to keep the evaluation
+private :wink:) and some topics to evaluate.
 
 ![evaluation-form](./assets/evaluation-form.png)
 
-That the form is not working correctly is something we will fix later in this article.
-Our goal now is to refactor the form to use custom components for the fieldsets. Each fieldset holds multiple inputs. To understand the problems we will encounter when creating such [components that holds multiple values](./input-components-multiple-values.md), we will first create a [custom component that holds a single value](./input-components-single-value.md). The inputs within the `topics` fieldset are a good example of this. Since each topic has a number input and a range input that should be in sync, representing the same value.
+That the form is not working correctly is something we will fix later in this article. Our goal now is to refactor the
+form to use custom components for the fieldsets. Each fieldset holds multiple inputs. To understand the problems we will
+encounter when creating such [components that holds multiple values](./input-components-multiple-values.md), we will
+first create a [custom component that holds a single value](./input-components-single-value.md). The inputs within the
+`topics` fieldset are a good example of this. Since each topic has a number input and a range input that should be in
+sync, representing the same value.
 
 ---
 
@@ -265,4 +253,5 @@ Our goal now is to refactor the form to use custom components for the fieldsets.
 
 ---
 
-:house: [Home](../README.md) | :arrow_backward: [Lifecycle](./lifecycle.md) | :arrow_up: [Learning Stories](./README.md) | [Single value input components](./input-components-single-value.md) :arrow_forward:
+:house: [Home](../README.md) | :arrow_backward: [Lifecycle](./lifecycle.md) | :arrow_up: [Lit Web Components](./README.md)
+| [Single value input components](./input-components-single-value.md) :arrow_forward:

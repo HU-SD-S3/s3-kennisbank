@@ -13,6 +13,8 @@ small library that is easy to learn and use. It is a great choice for building w
 - [Rendering](./rendering.md) - How to render content in Lit.
 - [Lifecycle Callbacks](./lifecycle-callbacks.md) - How to work with lifecycle callbacks in Lit.
 - [Input Components](./input-components.md) - How to create custom input components in Lit.
+  - [Input Components - Single value attribute](./input-components-single-value.md) - How to create a custom input component with a single value attribute.
+  - [Input Components - Multi value attribute](./input-components-multi-value.md) - How to create a custom input component that wants to return multiple value attributes.
 
 ---
 
