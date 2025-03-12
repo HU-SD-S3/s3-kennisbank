@@ -5,9 +5,9 @@
 To have some kind of interaction with a site via different types of inputs and events is a common thing in web development. In this article we will show you how to work with standard inputs and extract their values as well as how to work in Lit with standard events inside of a web component.
 
 > [!NOTE]
+>
 > 1. Custom events will not be covered in this article. See the [communication between components](./communication-between-components.md) (even if you can also use custom events to communicate within a component) article for more information.
 > 2. Custom input components that you can use within a form will be covered in the [Input Components](./input-components.md) article.
-
 
 ## StandardEvents component
 
