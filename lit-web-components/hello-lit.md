@@ -1,11 +1,14 @@
 # Lit Web Components - Hello Lit
 
-**Learning Story**: _As a developer, I want to create a simple web component using Lit, so that I can learn the basics of Lit and how to create custom elements._
+In this tutorial, we will create a simple "Hello Lit" component using Lit. This will give you a basic understanding of
+how to create and use custom elements with Lit.
 
-## Introduction
-
-What is LIT? Lit is a simple small library (not a framework) for building fast, lightweight web components. It is built on top of the Web Components standard, and can be seen as syntactic sugar for Web Components, which makes it easier to write and maintain custom elements.
-Unlike frameworks like React, Angular or Vue, components built with Lit are just plain JavaScript classes that extend the LitElement base class. This makes it easy to learn and use Lit, as it doesn't require learning a new syntax or API. Unlike components build with frameworks like React, Angluar or Vue, Components built with Lit can be used in any web application, regardless of the framework or library being used.
+But what is LIT? Lit is a simple small library (not a framework) for building fast, lightweight web components. It is
+built on top of the Web Components standard, and can be seen as syntactic sugar for Web Components, which makes it
+easier to write and maintain custom elements. Unlike frameworks like React, Angular or Vue, components built with Lit
+are just plain JavaScript classes that extend the LitElement base class. This makes it easy to learn and use Lit, as it
+doesn't require learning a new syntax or API. Unlike components build with frameworks like React, Angluar or Vue,
+Components built with Lit can be used in any web application, regardless of the framework or library being used.
 
 ## HelloLit component
 
@@ -34,7 +37,9 @@ export class HelloLit extends LitElement {
 customElements.define('hello-lit', HelloLit);
 ```
 
-This file creates a new class `HelloLit` that extends `LitElement`. The `static styles` property defines the styles for the component. The `constructor` method sets the initial value of the `message` property to 'Lit'. The `render` method returns the HTML template for the component, which includes the value of the `message` property.
+This file creates a new class `HelloLit` that extends `LitElement`. The `static styles` property defines the styles for
+the component. The `constructor` method sets the initial value of the `message` property to 'Lit'. The `render` method
+returns the HTML template for the component, which includes the value of the `message` property.
 
 To use this custom element we need to import it in the `home-page.js` file.
 
@@ -45,23 +50,26 @@ import '../components/hello-lit.js';
 This allows us to use the custom element in the `index.html` file.
 
 ```html
-  ...
-  <body>
-    <hello-lit></hello-lit>
-  </body>
-  ...
+...
+<body>
+  <hello-lit></hello-lit>
+</body>
+...
 ```
 
-When you open the page in your web browser, you should see the text "Hello Lit!" displayed in blue. This is because the custom element has been rendered with the message 'Lit' and the styles defined in the `static styles` property.
-If you inspect the element in the browser's developer tools, you should see the `<hello-lit>` element with the rendered content as well as that a [shadow root](../vanilla-web-components/hello-shadowdom.md) has been created for the component, which is 'open' by default. This is because Lit uses Shadow DOM to encapsulate the component's styles and markup.
-
-
-
----
-## Sources:
-
-* Lit - [Components overview](https://lit.dev/docs/components/overview/)
+When you open the page in your web browser, you should see the text "Hello Lit!" displayed in blue. This is because the
+custom element has been rendered with the message 'Lit' and the styles defined in the `static styles` property. If you
+inspect the element in the browser's developer tools, you should see the `<hello-lit>` element with the rendered content
+as well as that a [shadow root](../vanilla-web-components/hello-shadowdom.md) has been created for the component, which
+is 'open' by default. This is because Lit uses Shadow DOM to encapsulate the component's styles and markup.
 
 ---
 
-:house: [Home](../README.md) | :arrow_backward: [Project Setup](./project-setup.md) | :arrow_up: [Learning Stories](./README.md) | [Styling](./styling.md) :arrow_forward:
+## Sources
+
+- Lit - [Components overview](https://lit.dev/docs/components/overview/)
+
+---
+
+:house: [Home](../README.md) | :arrow_backward: [Project Setup](./project-setup.md) | :arrow_up:
+[Lit Web Components](./README.md) | [Styling](./styling.md) :arrow_forward:

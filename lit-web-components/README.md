@@ -1,40 +1,19 @@
 # Lit Web Components
 
-Setup a new project for these learning stories. See the [project setup page](project-setup.md) for more information.
+Lit is a simple library for building fast, lightweight web components. It is designed for speed and efficiency. It is a
+small library that is easy to learn and use. It is a great choice for building web components.
 
-The overall learning story for this path is:
+## Table of contents
 
-_As a developer, _
-
-To achive this, we will cover the following topics:
-
-## Lit Basics
-
-- [Hello Lit](./hello-lit.md)
-- [Styling](./styling.md)
-- [Lit Attributes/Properties](./lit-attributes.md)
-
-## Inputs and Events
-
-- [Inputs and Events](./inputs-and-events.md)
-
-> Werken met standard events (click, submit, ...) in lit (=> @click, @submit, ...).
-Simple voorbeeld van een button met een click event, een voorbeeld van een input veld met een change event en een form met een submit event. Events triggeren alleen een eventHandler, maar laten alleen op de console iets zien.
-
-## Rendering
-
-- [Rendering](./rendering.md)
-
-## Lifecycle Callbacks
-
-> connectedCallback, firstUpdated, disconnectedCallback, attributeChangedCallback, adoptedCallback  
-> voorkomen van requestUpdate!!!
-
-## Custom Inputs
-
-- [Input Components](./input-components.md) 
-> Hoe kun je een eigen input component maken? (Advanced stuff)
+- [Project Setup](./project-setup.md) - How to setup a new lit based boilerplate project for these tutorials.
+- [Hello Lit](./hello-lit.md) - A simple hello world example to get started with Lit.
+- [Styling](./styling.md) - How to style your Lit components.
+- [Lit Attributes/Properties](./lit-attributes.md) - How to work with attributes and properties in Lit.
+- [Inputs and Events](./inputs-and-events.md) - How to work with inputs and events in Lit.
+- [Rendering](./rendering.md) - How to render content in Lit.
+- [Lifecycle Callbacks](./lifecycle-callbacks.md) - How to work with lifecycle callbacks in Lit.
+- [Input Components](./input-components.md) - How to create custom input components in Lit.
 
 ---
 
-:house: [Home](../README.md) | :arrow_up: [](../README.md) | [Project Setup](./project-setup.md) :arrow_forward:
+:house: [Home](../README.md) | :arrow_up: [Lit Web Components](./README.md) | [Project Setup](./project-setup.md) :arrow_forward:
