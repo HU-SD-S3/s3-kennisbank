@@ -196,7 +196,7 @@ export default [
 To run eslint on your project **add** the line `"eslint": "eslint ./src/**/*.js"` to the `scripts` section of your `package.json` file:
 
 ```json
-...
+  ...
 
   "scripts": {
     "dev": "vite",
@@ -204,8 +204,8 @@ To run eslint on your project **add** the line `"eslint": "eslint ./src/**/*.js"
     "preview": "vite preview",
     "eslint": "eslint ./src/**/*.js"
   },
-  
-...
+
+  ...
 ```
 
 Running this script with:
