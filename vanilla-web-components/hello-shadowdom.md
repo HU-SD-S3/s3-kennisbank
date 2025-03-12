@@ -1,10 +1,10 @@
 # Vanilla Web Components - Hello ShadowDOM
 
-**Learning Story**: _As a developer, I want to understand how to use the Shadow DOM to encapsulate the styles of a custom element, so that I can create custom elements that are not affected by the styles of the parent document._
-
-## Introduction
-
-In this learning story, we will create a simple custom element that displays a message that contains the value of an attribute (`<hello-shadowdom></hello-shadowdom>`). This will help us understand how to use the Shadow DOM to encapsulate the styles of a custom element.
+Since web components are ment to be reusable, the styling of a custom element should not be affected by the styles of
+the parent document. This can be achieved by using the Shadow DOM to encapsulate the styles of a custom element. In this
+article, we will create a simple custom element that displays a message that contains the value of an attribute
+(`<hello-shadowdom></hello-shadowdom>`). This will help us understand how to use the Shadow DOM to encapsulate the
+styles of a custom element.
 
 ## HelloShadowDOM component
 
@@ -24,7 +24,10 @@ export class HelloShadowDOM extends HTMLElement {
 customElements.define('hello-shadowdom', HelloShadowDOM);
 ```
 
-Note that this code is similar to the `HelloWorld` example, but instead of setting the `textContent` of the custom element itself, we create a new `h1` element and set its `textContent` to `'Hello Shadow DOM'`. We then append this `h1` element to the custom element. This will allow us to style the `h1` element without affecting the styles of the parent document. This code however does not yet make use of the Shadow DOM.
+Note that this code is similar to the `HelloWorld` example, but instead of setting the `textContent` of the custom
+element itself, we create a new `h1` element and set its `textContent` to `'Hello Shadow DOM'`. We then append this `h1`
+element to the custom element. This will allow us to style the `h1` element without affecting the styles of the parent
+document. This code however does not yet make use of the Shadow DOM.
 
 To use this custom element we need to import it in the `home-page.js` file.
 
@@ -59,8 +62,9 @@ And finally let the `index.html` file import the stylesheet and make use of our 
 ...
 ```
 
-When you open the page in your web browser, you should see the text `Hello Shadow DOM` displayed on the page with a blue background and white text color. This is because the `h1` element is styled by the `styles.css` file.
-Let's also add two console.log statements to the `home-page.js` file to query the custom element and the `h1` element.
+When you open the page in your web browser, you should see the text `Hello Shadow DOM` displayed on the page with a blue
+background and white text color. This is because the `h1` element is styled by the `styles.css` file. Let's also add two
+console.log statements to the `home-page.js` file to query the custom element and the `h1` element.
 
 ```javascript
 import '../components/hello-shadowdom';
@@ -69,11 +73,13 @@ console.log(document.querySelector('hello-shadowdom'));
 console.log(document.querySelector('h1'));
 ```
 
-When you open the page in your web browser and open the developer tools, you should see the `hello-shadowdom` and the `h1` element logged to the console.
+When you open the page in your web browser and open the developer tools, you should see the `hello-shadowdom` and the
+`h1` element logged to the console.
 
 ## Applying the Shadow DOM
 
-To apply the Shadow DOM to our custom element, we need to attach a shadow root to the custom element. We do this by calling the `attachShadow` method in the constructor of the custom element.
+To apply the Shadow DOM to our custom element, we need to attach a shadow root to the custom element. We do this by
+calling the `attachShadow` method in the constructor of the custom element.
 
 ```javascript
 export class HelloShadowDOM extends HTMLElement {
@@ -89,39 +95,50 @@ export class HelloShadowDOM extends HTMLElement {
 customElements.define('hello-shadowdom', HelloShadowDOM);
 ```
 
-But when you now open the page in your web browser, you will see that the text `Hello Shadow DOM` is no longer displayed. This is because the `h1` element and the shadow root are siblings in the DOM tree, and when a custom element has a shadow root, the content of the custom element must be appended to the shadow root instead of the custom element itself.
-To archive this, we modify the code `this.appendChild(h1Element);` to
+But when you now open the page in your web browser, you will see that the text `Hello Shadow DOM` is no longer
+displayed. As can be seen in the developer tools of the browser, the `h1` element and the `#shadow-root` element are
+siblings in the DOM tree. But when a custom element has a shadow root, the content of the custom element must be
+appended to the shadow root instead of the custom element itself. To archive this, we modify the code
+`this.appendChild(h1Element);` to
 
 ```javascript
 this.shadowDOM.appendChild(h1Element);
 ```
 
-Now when you open the page in your web browser, you should see the text `Hello Shadow DOM` displayed on the page, but the blue background and white text color are no longer applied.
-In the console of the browsers developer tools you should see the `hello-shadowdom` element logged, but not the `h1` element. This means that the `h1` element is encapsulated in the shadow root and is not accessible from the parent document.
-This is also the reason why the `h1` is no longer styled by the `styles.css` file.
-Adding the following log statement to the `home-page.js` file will again log the `h1` element to the console.
+Now when you open the page in your web browser, you should see the text `Hello Shadow DOM` displayed on the page, but
+the blue background and white text color are no longer applied. In the console of the browsers developer tools you
+should see the `hello-shadowdom` element logged, but not the `h1` element. This means that the `h1` element is
+encapsulated in the shadow root and is not accessible from the parent document. This is also the reason why the `h1` is
+no longer styled by the `styles.css` file. Adding the following log statement to the `home-page.js` file will again log
+the `h1` element to the console.
 
 ```javascript
-console.log(
-  document.querySelector('hello-shadowdom').shadowRoot.querySelector('h1')
-);
+console.log(document.querySelector('hello-shadowdom').shadowRoot.querySelector('h1'));
 ```
 
-> [!NOTE]: This means that in JavaScript code outside of the custom element, you can still access the shadow root and its content.
+> [!NOTE] This means that in JavaScript code outside of the custom element, you can still access the shadow root and its
+> content.
 
-But when we change the mode of the shadow root to `closed`, the `h1` element will no longer be accessible from the parent document.
+But when we change the mode of the shadow root to `closed`, the `h1` element will no longer be accessible from the
+parent document.
 
 ```javascript
 this.shadowDOM = this.attachShadow({ mode: 'closed' });
 ```
 
-When you now open the page in your web browser and open the developer tools, you should see that the `hello-shadowdom` element is still logged to the console, but the `h1` element is no longer logged to the console and an error message is displayed instead.
+When you now open the page in your web browser and open the developer tools, you should see that the `hello-shadowdom`
+element is still logged to the console, but the `h1` element is no longer logged to the console and an error message is
+displayed instead.
 
-> [!NOTE]: We can conclude that a custom element with a shadow root which has a mode of `closed` is completely encapsulated and its content is not accessible from the parent document. This is useful when you want to create custom elements that are not affected by the styles of the parent document and you want to prevent other scripts from accessing and/or modifying the content of the custom element.
+> [!NOTE] We can conclude that a custom element with a shadow root which has a mode of `closed` is completely
+> encapsulated and its content is not accessible from the parent document. This is useful when you want to create custom
+> elements that are not affected by the styles of the parent document and you want to prevent other scripts from
+> accessing and/or modifying the content of the custom element.
 
 ## Styling the Shadow DOM
 
-If we want to style the `h1` element that is encapsulated in the shadow root, we can do this by adding a `<style>` element to the shadow root.
+If we want to style the `h1` element that is encapsulated in the shadow root, we can do this by adding a `<style>`
+element to the shadow root.
 
 ```javascript
 export class HelloShadowDOM extends HTMLElement {
@@ -146,9 +163,12 @@ export class HelloShadowDOM extends HTMLElement {
 }
 ```
 
-When you now open the page in your web browser, you should see the text `Hello Shadow DOM` displayed on the page with a green background and white text color. This is because the `h1` element is styled by the `<style>` element that is added to the shadow root.
+When you now open the page in your web browser, you should see the text `Hello Shadow DOM` displayed on the page with a
+green background and white text color. This is because the `h1` element is styled by the `<style>` element that is added
+to the shadow root.
 
-To have some influcence on the styles of the shadow root from the parent document, we can add a `<link>` element to the shadow root that links to the `styles.css` file.
+But now the JavaScript code contains a mix of HTML and CSS code. To separate the CSS code from the JavaScript code, we
+could add a `<link>` element to the shadow root that links to a `styles.css` file.
 
 ```javascript
 export class HelloShadowDOM extends HTMLElement {
@@ -170,7 +190,8 @@ export class HelloShadowDOM extends HTMLElement {
 
 This should again show the text `Hello Shadow DOM` displayed on the page with a blue background and white text color.
 
-An alternative way and nicer way to influence the style the shadow root from the parent document can be achieved by using CSS variables.
+An alternative- and nicer way to influence the style the shadow root from the parent document can be achieved by
+using CSS variables.
 
 When we change the `styles.css` file to
 
@@ -186,16 +207,17 @@ h1 {
 }
 ```
 
-We define a CSS variable `--h1-background-color` in the `:root` selector that we can use to set the background color of the `h1` element.
+We define a CSS variable `--h1-background-color` in the `:root` selector that we can use to set the background color of
+the `h1` element.
 
-To use this variable in the shadow root, we can add a `<style>` element to the shadow root that contains the following CSS rules.
+To use this variable in the shadow root, we can add a `<style>` element to the shadow root that contains the following
+CSS rules.
 
 ```javascript
 export class HelloShadowDOM extends HTMLElement {
-
   constructor() {
     super();
-    this.shadowDOM = this.attachShadow({mode: 'closed'});
+    this.shadowDOM = this.attachShadow({ mode: 'closed' });
 
     const styleElement = document.createElement('style');
     styleElement.textContent = `
@@ -208,23 +230,29 @@ export class HelloShadowDOM extends HTMLElement {
     this.shadowDOM.appendChild(styleElement);
 
     const h1Element = document.createElement('h1');
-    h1Element.textContent = 'Hello Shadow DOM';  
+    h1Element.textContent = 'Hello Shadow DOM';
     this.shadowDOM.appendChild(h1Element);
   }
-
 }
 
 customElements.define('hello-shadowdom', HelloShadowDOM);
 ```
 
-When you now open the page in your web browser, you should see the text `Hello Shadow DOM` displayed on the page with a brown background and white text color. This is because the `h1` element is styled by the `<style>` element that is added to the shadow root and the `--h1-background-color` variable is set to `brown` in the `styles.css` file. And in case that the `--h1-background-color` variable is not set, the `h1` element will have a green background color.
-
----
-## Sources:
-
-* MDN - [Template literals (Template strings)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
-* MDN - [Tenary Operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator)
+When you now open the page in your web browser, you should see the text `Hello Shadow DOM` displayed on the page with a
+brown background and white text color. This is because the `h1` element is styled by the `<style>` element that is added
+to the shadow root and the `--h1-background-color` variable is set to `brown` in the `styles.css` file. And in case that
+the `--h1-background-color` variable is not set, the `h1` element will have a green background color.
 
 ---
 
-:house: [Home](../README.md) | :arrow_backward: [Hello Attribute](./hello-attribute.md) | :arrow_up: [Learning Stories](./README.md) | [Lifecycle callbacks](./lifecycle-callbacks.md) :arrow_forward:
+## Sources
+
+- MDN -
+  [Template literals (Template strings)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
+- MDN -
+  [Tenary Operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator)
+
+---
+
+:house: [Home](../README.md) | :arrow_backward: [Hello Attribute](./hello-attribute.md) | :arrow_up:
+[Vanilla Web Components](./README.md) | [Lifecycle callbacks](./lifecycle-callbacks.md) :arrow_forward:
