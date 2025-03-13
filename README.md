@@ -2,4 +2,4 @@
 
 * [Vanilla Web Components](./vanilla-web-components/README.md)
 * [Lit](./lit-web-components/README.md)
-* [Communication](./communication/README.md)
+* [Data exchange](./data-exchange/README.md)
