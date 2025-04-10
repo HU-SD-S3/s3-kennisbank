@@ -1,5 +1,7 @@
 # Backend communication
 
+In this article we will discuss the communication between the front-end and the back-end using a REST API.
+
 ## Boilerplate setup
 
 To demonstrate the communication with a back-end, we will setup a site that shows a list of images. We therefore create
@@ -88,7 +90,7 @@ data, but the `connectedCallback` is. So we will add the fetch call to the `conn
 ```javascript
   connectedCallback() {
     super.connectedCallback();
-    return fetch(`https://picsum.photos/v2/list`)
+    fetch(`https://picsum.photos/v2/list`)
     .then(response => response.json())
     .then(images => {
       this.images = images;
@@ -117,16 +119,23 @@ So let's update the `render` method to show the images.
   }
 ```
 
-We now see the images in our list, but they are way to big. Expect the size of the images, which we could fix with some
-css, there is also something to say about the architecture of our code. Imaging that would use the Picsum API in
-multiple components, we would have to duplicate the fetch call in all these components. Another scenario you can imaging
-is that we would have to pay for the amount of requests we make to the Picsum API. So we would like to cache the images
-we fetch and reuse them in all components that need them. Solving these kind of problems is something we should not do
-in the component itself. The tasks and responsibilities of the component should be limited to the presentation of the
-data. So we should move the fetching of the images to a service that we can use in all components that need the images.
+We now see the images in our list, but they are way to big.  
+Expect for the size of the images, which we could fix with some css, there is also something to say about the
+architecture of our code.  
+Imagen that we would have multiple components that need to fetch the images from the Picsum API. We would have to
+duplicate the fetch call in all these components. Now imagine that we would have to pay for the amount of requests we
+make to the Picsum API. This would mean that our application likely would have to pay multiple times for the same
+images. Costs that we could avoid by caching the images we fetch and reuse the cached images in all components that need
+them. So we need to think about a way to separate the fetching of the images from the component itself. This is a good
+practice in general, because it allows us to reuse the code and makes it easier to test and maintain. It also is a good
+practice to separate the concerns of the components and the data fetching. The component should only be responsible for
+the presentation of the data, not for fetching it. This means that we should move the fetching of the images to a
+service that we can use in all components that need the images.
 
-> [!TIP] Never call the `fetch`- or a storage(`localstorage` / `sessionstorage` etc.) related-statement from within a
-> web component / the view layer.
+> [!TIP]
+>
+> Never call the `fetch`- or a storage (like `localstorage` and/or `sessionstorage` etc.) related statement from within
+> a web component / the view layer.
 
 ## Services
 
@@ -163,14 +172,18 @@ them. But know that even if we would implement a caching mechanism, our web comp
 just call the `getImages` method of the `picsumService` instance and get the images it needs. This means that a method
 in a service class should always return a promise, so that the component can wait for the data to be fetched.
 
-> [!TIP] The service class method should always return a promise, never the data itself.
+> [!TIP]
+>
+> The service class method should always return a promise, never the data itself.
 
 Another aspect of the separation of concern is that a service class should not know about the components that use it.
 This means that the service class should not call a method of a component to update the data, and should also not use
 any DOM related methods. The service class should only know about where the data it fetches is located and how to fetch
 it.
 
-> [!TIP] A service class should never call any DOM related methods.
+> [!TIP]
+>
+> A service class should never call any DOM related methods.
 
 So let's update the `image-list.js` file to use the `picsumService` instance to fetch the images using the service
 class. Which means that we have to import the `picsumService` instance in the `image-list.js` file and have to rewrite
@@ -196,10 +209,13 @@ import { picsumService } from '../../service/picsum-service';
 ```
 
 Running the application now will show the images in the list again, but now the fetching of the images is done by the
-`picsumService` instance and not by the `image-list` component itself. Since we didn't change the css the images are
-still to big. We could fix this by adding some css to the `image-list.js` file, but that would still load the full size
-image, resulting in an unnessasary long loading time and data usage. But there is another way to solve this. If we take
-a look at a single array item in the console, we see something like:
+`picsumService` instance and not by the `image-list` component itself.  
+The problem that remains now is that the images are still to big. We could fix this by adding some css to the
+`image-list.js` file. Setting the image size via CSS however would mean that we still would download the full size image
+and rescale it in the browser. This would result in a long loading time on a slow network and a lot of unnessesary data
+usage.  
+But the picsum API offers us another way to solve this. If we take a look at a single array item in the console, we see
+something like:
 
 ```json
 {
@@ -212,30 +228,22 @@ a look at a single array item in the console, we see something like:
 }
 ```
 
-We can see a width and a height property, and that the download_url property contains those values. And from the API
-documentation we can extract that we can change the size of the image by changing the values in the download_url
+We can see a `width` and a `height` property, and that the `download_url` property contains those values. And from the
+API documentation we can extract that we can change the size of the image by changing the values in the `download_url`
 property.
 
-## Controller
+So to reduce the images download time and size we can change the `download_url` property, for each item in the result of
+the `getImages` method, in order to let the `img-tag` of view component fetch an URL of a smaller sized image.
 
-To reduce the images download time and size we can change the download_url with some string manipulation in our
-`image-list` component itself. But applying these changes to the data is not the responsibility of a web component / the
-view layer. So the view layer should receive the data in a format that is ready to be displayed. This means that the
-data should be transformed before it is passed to the component. So we have to change the data before we pass it to the
-`image-list` component. Changing the data in our service class also is not an apropiate place to do this. This is
-because the responsibility of the service class is to know where the data is stored and how to fetch it, not how to
-transform it. That would require the service class to know about the meaning and structure of the data, which is not its
-responsibility. So we need a new class that is responsible for transforming the data before it is passed to the
-component. This class is called a controller.
-
-> [!TIP] A controller is an intermediate layer between the service layer and the view layer. It knows about the meaning
-> of the data and is responsible for transforming the data before it is passed between the layers.
+This means that the service class should not only be responsible for fetching the data, but also for transforming it.
+If this data transformation is indeed a task of the service or a task we allocate to a different architecture layer, is a
+question we will debate in the architecture section.
 
 ---
 
 ## Sources
 
-- MDN - [ElementInternals](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals)
+- DEV.to - [Separation of concerns](https://dev.to/tamerlan_dev/separation-of-concerns-the-simple-way-4jp2)
 
 ---
 

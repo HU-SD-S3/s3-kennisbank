@@ -7,7 +7,7 @@ All articles are based on a [project setup](../lit-web-components/project-setup.
 
 ## Table of contents
 
-- [Backend Communication](./backend-communication.md) 
+- [Backend Communication](./backend-communication.md)
 - [Attributes based communication](./attributes-based-communication.md)
 - [Events based communication](./events-based-communication.md)
 - [Signals](./signals.md)
