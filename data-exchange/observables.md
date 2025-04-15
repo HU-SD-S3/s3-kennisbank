@@ -1,5 +1,11 @@
-## Observables
+# Observables
 
+In the previous chapters we discussed different ways of exchanging data between web components. What most of them had in common was that the communication was triggered by something the user did. For example clicking a button or changing the value of an input field.
+In case the user action resulted in a change of the data, we had to inform other components about this change. We did so by using some kind of DOM related events (with the exception of the context and signals API's). So it's a view layer bounded solution.
+But that might violate the separation of concerns principle. The view layer should not be responsible for the data layer. The data layer should be responsible for the data and the view layer should be responsible for the view.
+But how can you solve this problem without using the DOM API? This is where observables come in. Observables are a way to decouple the data layer from the view layer. They are a way to create a stream of data that can be observed by other components. This allows you to create a more reactive architecture, where the data layer is responsible for the data and the view layer is responsible for the view.
+
+TODO:
 - Wat is een observable?
 - In principe is de reactive property een voorbeeld van een observable. De property wordt geobserveerd en als deze veranderd triggerd dit een re-render.
 - Wat is het verschil tussen een observable en een event? 

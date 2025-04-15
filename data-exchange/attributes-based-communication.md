@@ -24,7 +24,7 @@ TODO: Implementing the data binding in Lit.
 
 TODO: Common problem of two web components that need to communicate with each other. They are however not in a parent-child relationship, but a sibling relationship who share a common parent. This is a good example of the mediator pattern, in which the parent component acts as a mediator between the two sibling components. The parent component listens to attribute change events from one sibling component and passes the data to the other sibling component.
 
-TODO: If the two components are cousins, then their grandparent would be the common component that could act as a mediator. But then you first have to pass the data up to the parent component and then down to the grandparent before it can be passed up to the other sibling component and then further up to their child component. Thats a lot of overhead and an example of a bad design, because it violates the single responsibility principle. The parent component should not be responsible for passing data between its children.
+TODO: If the two components are cousins, then their grandparent would be the common component that could act as a mediator. But then you first have to pass the data up to the parent component and then down to the grandparent before it can be passed up to the other sibling component and then further up to their child component. This is called `prop drilling` and it's a lot of overhead and an example of a bad design, because it violates the single responsibility principle. The parent component should not be responsible for passing data between its children.
 
 ```mermaid
 block-beta

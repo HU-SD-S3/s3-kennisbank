@@ -1,6 +1,8 @@
 # Event based communication
 
+We already discussed events in the [Lit Web Components](../lit-web-components/lit-web-components.md) chapter, but that were only standard events like click, submit, etc. In this chapter we will discuss custom events and how to use them for communication between web components.
 
+TODO:
 > Waarom CustomEvents gebruiken? => Voorbeeld webcomponent met twee buttons erin, wie heeft het event gedispatched? Hoe
 > weet de parent component dat er op een button geklikt werd, en welke button is geklikt?  
 > werken met namen van events in lit (@click, @submit, ...)  
