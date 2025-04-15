@@ -1,4 +1,5 @@
-## Communicatie via Events
+# Event based communication
+
 
 > Waarom CustomEvents gebruiken? => Voorbeeld webcomponent met twee buttons erin, wie heeft het event gedispatched? Hoe
 > weet de parent component dat er op een button geklikt werd, en welke button is geklikt?  
