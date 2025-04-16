@@ -10,15 +10,129 @@ This is a simple image tag with two attributes. The src and alt attributes. The 
 
 ## One-way vs Two-way data binding
 
-TODO: Example of one-way vs two-way data binding using the input tag.
+To explain data binding and the difference between one-way and two-way data binding, we will use the input tag as an example. The input tag is a common HTML element that is used to get user input. It has a value attribute that is used to specify the initial value of the input tag.
 
-> [!NOTE]
->
-> LIT only supports one-way data binding. That was a design desision made by the LIT team, because of performance reasons.
+```html
+<input type="text" id="name" name="name" value="Wally" />
+```
 
-TODO: Implementing the data binding in Lit.
-- if the LIT component is sending data to it's child component (easy to implement within the render)
-- if the LIT component is receiving data from it's child component (now you need a listener to listen to the attribute change event and then pass the data to the parent component)
+We can use the value attribute to pass data to the input tag. The input tag will see this data as its initial value. If we change the value of the input tag, the content of the value attribute will change as well.
+
+So if we want to use the input tag in the render method of our web compoent, we have to use a property variable to store the value of the input tag. This is called data binding. In LIT our code would than look like this:
+
+```javascript
+import { LitElement, html } from "lit";
+
+export class MyComponent extends LitElement {
+
+  static get properties() {
+    return {
+      value: { type: String },
+    };
+  }
+
+  constructor() {
+    super();
+    this.value = "Suske";
+  }
+
+  render() {
+    return html`
+      <label for="name">Name:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        value="${this.value}"
+      />
+
+      <p>current value: ${this.value}</p>
+    `;
+  }
+}
+
+customElements.define("my-component", MyComponent);
+```
+
+Running this code will show an input tag with the value "Suske" and a paragraph tag with the text "current value: Suske".  
+However if we change the value of the input tag form "Suske" to "Wiske", the paragraph tag will not update. This is called **one-way data binding**. The data flows from the component to the input tag, but not the other way around.
+
+If we want to update the content of the value property variable when the user changes the value of the input tag, we have to add an event listener to the input tag, that listens to changes on the input tag. So our code would then look like this:
+
+```javascript
+import { LitElement, html } from "lit";
+
+export class MyComponent extends LitElement {
+
+  static get properties() {
+    return {
+      value: { type: String },
+    };
+  }
+
+  constructor() {
+    super();
+    this.value = "Suske";
+  }
+
+  _onInput(event) {
+    this.value = event.target.value;
+  }
+
+  render() {
+    return html`
+      <label for="name">Name:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        value="${this.value}"
+        @input="${this._onInput}"
+      />
+
+      <p>current value: ${this.value}</p>
+    `;
+  }
+}
+
+customElements.define("my-component", MyComponent);
+```
+
+If we would have used the `Polymer` library (an anchestor of `Lit` and `LitElement`), we could have used the **two-way data binding** feature of Polymer. This would have allowed us to use the value property variable directly in the input tag, without having to add an event listener to the input tag. The Polymer library would have taken care of the data binding for us.
+
+```javascript
+import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+
+class MyComponent extends PolymerElement {
+  static get properties() {
+    return {
+      value: {
+        type: String,
+        value: 'Suske',
+        notify: true, // Enables two-way data binding
+      },
+    };
+  }
+
+  static get template() {
+    return html`
+      <label for="name">Name:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        value="{{value::input}}" <!-- Two-way binding -->
+      />
+
+      <p>current value: [[value]]</p> <!-- One-way binding for display -->
+    `;
+  }
+}
+
+customElements.define('my-component', MyComponent);
+```
+
+The two-way data binding feature however didn't make it into the `Lit` library, because it was a performance issue. That was a design decision of the `Lit` team. Other front-end frameworks like `Angular` and `Vue` do support two-way data binding, but their web components are not based on the web components standard and are therefor not interoperable with other web components from other libraries and/or frameworks.
 
 ## Mediator pattern
 
