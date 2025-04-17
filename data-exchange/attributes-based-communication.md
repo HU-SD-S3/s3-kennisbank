@@ -198,21 +198,34 @@ from one sibling component and passes the data to the other sibling component.
 
 ## Passing object attribute data with Lit
 
-Attributes of a HTML element are always passed as a string. In [Lit Attributes](../lit-web-components/lit-attributes.md) we discussed how to pass data of different types to a lit component. We discussed that there are standard data types like strings, numbers and booleans, that Lit can typecast automatically. But we also discussed that complex data types like objects and arrays need to be passed as a string. This is done by using the `JSON.stringify()` method to convert the object or array to a string before passing it to the component. The component can then use the `JSON.parse()` method to convert the string back to an object or array.
+Attributes of a HTML element are always passed as a string. In [Lit Attributes](../lit-web-components/lit-attributes.md)
+we discussed how to pass data of different types to a lit component. We discussed that there are standard data types
+like strings, numbers and booleans, that Lit can typecast automatically. But we also discussed that complex data types
+like objects and arrays need to be passed as a string. This is done by using the `JSON.stringify()` method to convert
+the object or array to a string before passing it to the component. The component can then use the `JSON.parse()` method
+to convert the string back to an object or array.
 
-But Lit provides a simpler way to pass complex data types like objects and arrays to a component without having to stringify them first. This is called [**property expressions**](https://lit.dev/docs/templates/expressions/#property-expressions). Property expressions are a more advanced way of passing data to a component, but it is not part of the web components specification. It is a Lit specific feature that allows you to pass complex data types like objects and arrays to a component without having to stringify them first.
+But Lit provides a simpler way to pass complex data types like objects and arrays to a component without having to
+stringify them first. This is called
+[**property expressions**](https://lit.dev/docs/templates/expressions/#property-expressions). Property expressions are a
+more advanced way of passing data to a component, but it is not part of the web components specification. It is a Lit
+specific feature that allows you to pass complex data types like objects and arrays to a component without having to
+stringify them first.
 
-Let's demonstrate this with an example. We will create a simple data producer and consumer component. The data producer component will produce some data object and pass it to the data consumer component. The data consumer component will then display the data.
+Let's demonstrate this with an example. We will create a simple data producer and consumer component. The data producer
+component will produce some data object and pass it to the data consumer component. The data consumer component will
+then display the data.
 
 > [!NOTE]
 >
-> Note the '.' before the data property in the data-consumer component. This is a Lit specific feature that allows you to pass complex data types like objects and arrays to a component without having to stringify them first.
+> Note the '.' before the data property in the data-consumer component. This is a Lit specific feature that allows you
+> to pass complex data types like objects and arrays to a component without having to stringify them first.
 
 Data Producer component:
 
 ```javascript
-import { LitElement, html } from "lit";
-import "./data-consumer";
+import { LitElement, html } from 'lit';
+import './data-consumer';
 
 export class DataProducer extends LitElement {
   static get properties() {
@@ -228,9 +241,9 @@ export class DataProducer extends LitElement {
 
   produceData() {
     this.data = {
-      message: "Hello from Data Producer!",
+      message: 'Hello from Data Producer!',
       timestamp: new Date(),
-      author: "Producer",
+      author: 'Producer',
     };
   }
 
@@ -239,25 +252,20 @@ export class DataProducer extends LitElement {
       <section>
         <h2>Data Producer</h2>
         <button @click="${this.produceData}">Produce Data</button>
-        <p>
-          Current Data:
-          ${JSON.stringify(this.data) === "{}"
-            ? "No data produced yet."
-            : JSON.stringify(this.data)}
-        </p>
+        <p>Current Data: ${JSON.stringify(this.data) === '{}' ? 'No data produced yet.' : JSON.stringify(this.data)}</p>
         <data-consumer .data="${this.data}"></data-consumer>
       </section>
     `;
   }
 }
 
-customElements.define("data-producer", DataProducer);
+customElements.define('data-producer', DataProducer);
 ```
 
 Data Consumer component:
 
 ```javascript
-import { LitElement, html } from "lit";
+import { LitElement, html } from 'lit';
 
 export default class DataConsumer extends LitElement {
   static get properties() {
@@ -273,9 +281,9 @@ export default class DataConsumer extends LitElement {
 
   changeData() {
     this.data = {
-      message: "Data changed from Data Consumer!",
+      message: 'Data changed from Data Consumer!',
       timestamp: new Date(),
-      author: "Consumer",
+      author: 'Consumer',
     };
   }
 
@@ -284,7 +292,7 @@ export default class DataConsumer extends LitElement {
     return html`
       <section>
         <h2>Data Consumer</h2>
-        ${JSON.stringify(this.data) === "{}"
+        ${JSON.stringify(this.data) === '{}'
           ? html`<p>No data received yet.</p>`
           : html`
             <p>Received Data:
@@ -292,7 +300,7 @@ export default class DataConsumer extends LitElement {
               <p>Timestamp (
                 type: ${typeof this.data.timestamp}, 
                 Date Object: ${this.data.timestamp instanceof Date}):
-                ${this.data.timestamp.toLocaleDateString("nl-NL")}
+                ${this.data.timestamp.toLocaleDateString('nl-NL')}
               </p>
               <p>Author: ${this.data.author}</p>
             </p>
@@ -303,15 +311,25 @@ export default class DataConsumer extends LitElement {
   }
 }
 
-customElements.define("data-consumer", DataConsumer);
+customElements.define('data-consumer', DataConsumer);
 ```
 
-As you can see in this example we also passed a date object within the data object and our consumer component was able to see it as a date object without having to convert it back from a string.
-This makes that the property expressions are a powerful feature of Lit.
+What you may have noticed in this example is that the object is not passed as a reference, but as a copy. This means
+that if we change the data in the data consumer component, it will not change the data in the data producer component.
+This is logical, because the data is first transformed to a string and then back to an object.
+
+Another aspect that you can notice from this example is that the data form the producer contains a date object. In the
+[Lit attributes](../lit-web-components/lit-attributes.md) chapter we discussed that the date object is passed as a
+string and that we have to convert it back to a date object in the receiving component. But in this example we can see
+that we don't have a converter function for the data property in the data consumer component. This makes that the
+**property expressions** a powerful feature of Lit.
 
 > [!WARNING]
 >
-> The property expressions are a Lit specific feature and are not part of the web components specification. This means that if you use property expressions in your component, it will not be interoperable with other web components from other libraries and/or frameworks. So be careful when using this feature, because it can lead to compatibility issues in the future.
+> The property expressions are a Lit specific feature and are not part of the web components specification. This means
+> that if you use property expressions in your component, it will not be interoperable with other web components from
+> other libraries and/or frameworks. So be careful when using this feature, because it can lead to compatibility issues
+> in the future.
 
 ---
 
