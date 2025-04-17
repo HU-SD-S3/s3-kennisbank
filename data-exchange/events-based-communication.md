@@ -16,5 +16,12 @@ TODO:
 
 ---
 
+## Sources
+
+- [MDN - CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent)
+- [Lit - Events](https://lit.dev/docs/components/events/)
+
+---
+
 :house: [Home](../README.md) | :arrow_backward: [Attribute based communication](./attributes-based-communication.md) |
 :arrow_up: [Data Exchange](./README.md) | [Context](./context.md) :arrow_forward:
