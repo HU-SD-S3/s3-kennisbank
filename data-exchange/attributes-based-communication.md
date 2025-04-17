@@ -196,16 +196,122 @@ from one sibling component and passes the data to the other sibling component.
 > and it's a lot of overhead and an example of a bad design, because it violates the single responsibility principle.
 > The parent component should not be responsible for passing data between its children.
 
-## Passing attribute data with Lit
+## Passing object attribute data with Lit
 
-TODO: In HTML attributes are always strings. As described in [Lit Attributes](../lit-web-components/lit-attributes.md)
-you can also pass other data types like numbers, booleans and objects. Lit provides a simple way to typecast / convert
-the data to the correct type on the receiving end. In the [Lit Attributes](../lit-web-components/lit-attributes.md)
-section we discussed that passing complex data types like objects we have to stringify the data before passing it to the
-component. Lit however provides a simpler way to pass complex data types like objects, called property expressions. This
-is a more advanced way of passing data to a component, but it is not part of the web components specification. It is a
-Lit specific feature that allows you to pass complex data types like objects and arrays to a component without having to
-stringify them first.
+Attributes of a HTML element are always passed as a string. In [Lit Attributes](../lit-web-components/lit-attributes.md) we discussed how to pass data of different types to a lit component. We discussed that there are standard data types like strings, numbers and booleans, that Lit can typecast automatically. But we also discussed that complex data types like objects and arrays need to be passed as a string. This is done by using the `JSON.stringify()` method to convert the object or array to a string before passing it to the component. The component can then use the `JSON.parse()` method to convert the string back to an object or array.
+
+But Lit provides a simpler way to pass complex data types like objects and arrays to a component without having to stringify them first. This is called [**property expressions**](https://lit.dev/docs/templates/expressions/#property-expressions). Property expressions are a more advanced way of passing data to a component, but it is not part of the web components specification. It is a Lit specific feature that allows you to pass complex data types like objects and arrays to a component without having to stringify them first.
+
+Let's demonstrate this with an example. We will create a simple data producer and consumer component. The data producer component will produce some data object and pass it to the data consumer component. The data consumer component will then display the data.
+
+> [!NOTE]
+>
+> Note the '.' before the data property in the data-consumer component. This is a Lit specific feature that allows you to pass complex data types like objects and arrays to a component without having to stringify them first.
+
+Data Producer component:
+
+```javascript
+import { LitElement, html } from "lit";
+import "./data-consumer";
+
+export class DataProducer extends LitElement {
+  static get properties() {
+    return {
+      data: { type: Object },
+    };
+  }
+
+  constructor() {
+    super();
+    this.data = {};
+  }
+
+  produceData() {
+    this.data = {
+      message: "Hello from Data Producer!",
+      timestamp: new Date(),
+      author: "Producer",
+    };
+  }
+
+  render() {
+    return html`
+      <section>
+        <h2>Data Producer</h2>
+        <button @click="${this.produceData}">Produce Data</button>
+        <p>
+          Current Data:
+          ${JSON.stringify(this.data) === "{}"
+            ? "No data produced yet."
+            : JSON.stringify(this.data)}
+        </p>
+        <data-consumer .data="${this.data}"></data-consumer>
+      </section>
+    `;
+  }
+}
+
+customElements.define("data-producer", DataProducer);
+```
+
+Data Consumer component:
+
+```javascript
+import { LitElement, html } from "lit";
+
+export default class DataConsumer extends LitElement {
+  static get properties() {
+    return {
+      data: { type: Object },
+    };
+  }
+
+  constructor() {
+    super();
+    this.data = {};
+  }
+
+  changeData() {
+    this.data = {
+      message: "Data changed from Data Consumer!",
+      timestamp: new Date(),
+      author: "Consumer",
+    };
+  }
+
+  render() {
+    console.log(JSON.stringify(this.data));
+    return html`
+      <section>
+        <h2>Data Consumer</h2>
+        ${JSON.stringify(this.data) === "{}"
+          ? html`<p>No data received yet.</p>`
+          : html`
+            <p>Received Data:
+              <p>Message: ${this.data.message}</p>
+              <p>Timestamp (
+                type: ${typeof this.data.timestamp}, 
+                Date Object: ${this.data.timestamp instanceof Date}):
+                ${this.data.timestamp.toLocaleDateString("nl-NL")}
+              </p>
+              <p>Author: ${this.data.author}</p>
+            </p>
+            `}
+        <button @click=${this.changeData}>Change Data</button>
+      </section>
+    `;
+  }
+}
+
+customElements.define("data-consumer", DataConsumer);
+```
+
+As you can see in this example we also passed a date object within the data object and our consumer component was able to see it as a date object without having to convert it back from a string.
+This makes that the property expressions are a powerful feature of Lit.
+
+> [!WARNING]
+>
+> The property expressions are a Lit specific feature and are not part of the web components specification. This means that if you use property expressions in your component, it will not be interoperable with other web components from other libraries and/or frameworks. So be careful when using this feature, because it can lead to compatibility issues in the future.
 
 ---
 
