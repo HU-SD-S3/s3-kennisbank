@@ -235,15 +235,39 @@ property.
 So to reduce the images download time and size we can change the `download_url` property, for each item in the result of
 the `getImages` method, in order to let the `img-tag` of view component fetch an URL of a smaller sized image.
 
-This means that the service class should not only be responsible for fetching the data, but also for transforming it.
-If this data transformation is indeed a task of the service or a task we allocate to a different architecture layer, is a
+This means that the service class should not only be responsible for fetching the data, but also for transforming it. If
+this data transformation is indeed a task of the service or a task we allocate to a different architecture layer, is a
 question we will debate in the architecture section.
+
+## Active polling, WebSockets and Server-Sent Events
+
+The last thing we need to discuss is how to keep the data in sync between the front-end and the back-end. This is a
+common problem in the communication between the front-end and the back-end is that the data on the back-end can change
+and the front-end needs to be notified about these changes. There are several ways to solve this problem, but one of the
+most common ways is to use active polling. This means that the front-end will regularly check the back-end for changes.
+This can be done by using the `setInterval` method in JavaScript. This method will call a function at regular intervals.
+But active polling is not the most efficient way to solve this problem, because it will generate a lot of requests to
+the back-end, even if there are no changes. This can lead to a lot of unnecessary data usage and a lot of load on the
+back-end.
+
+**WebSockets** and **Server-Sent Events (SSE)** are two other ways to solve this problem. But they require a different
+setup of the back-end and the front-end, and are beyond the scope of this article. So we will not discuss them in detail
+here.
+
+**WebSockets** are a protocol that allows for full-duplex communication between the front-end and the back-end. This
+means that the front-end can send messages to the back-end and the back-end can send messages to the front-end. This is
+a more efficient way to solve this problem, because it will only generate requests when there are changes. **Server-Sent
+Events (SSE)** are a way to send messages from the back-end to the front-end. This is a one-way communication, which
+means that the front-end can only receive messages from the back-end. This is a good solution for this problem, because
+it will only generate requests when there are changes.
 
 ---
 
 ## Sources
 
-- DEV.to - [Separation of concerns](https://dev.to/tamerlan_dev/separation-of-concerns-the-simple-way-4jp2)
+- [DEV.to - Separation of concerns](https://dev.to/tamerlan_dev/separation-of-concerns-the-simple-way-4jp2)
+- [MDN - Server Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events)
+- [MDN - WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_client_applications)
 
 ---
 
