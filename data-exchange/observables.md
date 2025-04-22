@@ -1,12 +1,19 @@
 # Observables
 
-In the previous chapters we discussed different ways of exchanging data between web components. What most of them had in common was that the communication was triggered by something the user did. For example clicking a button or changing the value of an input field.
-In case the user action resulted in a change of the data, we had to inform other components about this change. We did so by using some kind of DOM related events (with the exception of the context and signals API's). So it's a view layer bounded solution.
-But that might violate the separation of concerns principle. The view layer should not be responsible for the data layer. The data layer should be responsible for the data and the view layer should be responsible for the view.
-But how can you solve this problem without using the DOM API? This is where observables come in. Observables are a way to decouple the data layer from the view layer. They are a way to create a stream of data that can be observed by other components. This allows you to create a more reactive architecture, where the data layer is responsible for the data and the view layer is responsible for the view.
+In the previous chapters we discussed different ways of exchanging data between web components. What most of them had in common was that the communication was triggered by something the user did. For example clicking a button or changing the value of an input field. And for such cases where the data is exclusiefly exchange within the view layer, events are a good solution.
+
+But for the scenario when the data or changes of the data needs to be stored by the service layer and other components are interested in this data, events originated from the view layer are not the best solution. This is because the view layer is not responsible for the data. The view layer is only responsible for the view (separation of concerns principle). The service layer is responsible for the data. So if you want to inform other components about changes in the stored data, you should use a different approach.
+
+Another scenario occurs when the service layer fetches some new data from the server, based on active polling (regularly checking for new data) or a push notification (the server informs the client that there is new data). In this case, the service layer needs to inform the view layer that there is new data.
+
+In both scenarios events originated from the service layer are not the best solution. This is because the service layer should not invoke DOM API calls and therefore could not trigger an event. So we need a different approach. This is where observables come into play. They can be compared to push notifications, which will be send to everyone who is subscribed to specific data. They are based on the observer pattern, which is a design pattern that allows an object (the observable) to notify other objects (the observers) about changes in its state. The observer pattern is a common pattern in programming and is used in many libraries and frameworks, including RxJS.
+
+## Vanilla JS Observable
+
+## RxJS
 
 TODO:
-- Wat is een observable?
+
 - In principe is de reactive property een voorbeeld van een observable. De property wordt geobserveerd en als deze veranderd triggerd dit een re-render.
 - Wat is het verschil tussen een observable en een event? 
     Een event is een momentopname, een observable is een stream van data.
@@ -23,4 +30,4 @@ TODO:
 ---
 
 :house: [Home](../README.md) | :arrow_backward: [Signals](./signals.md) |
-:arrow_up: [Data Exchange](./README.md) | [Challenges](./challenges.md) :arrow_forward:
+:arrow_up: [Data Exchange](./README.md) | [Vanilla JS Observables](./observables-vanilla-js.md) :arrow_forward:
