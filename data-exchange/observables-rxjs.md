@@ -50,6 +50,8 @@ customElements.define('rxjs-data-generator', RxJSDataGenerator);
 Our `RxJSDataService` class uses the `Observable` class from RxJS to create an observable data source. The `addData`
 method adds a new item to the data source and notifies the subscriber about the change. The `endDataStream` method
 completes the observable, which means that no more values will be emitted.
+Our observable of our data will be stored in a public property called `serviceData$`, which is an instance of the
+`Observable` class. The `$` at the end of the property name is a convention to indicate that this property is an observable.
 
 ```javascript
 import { Observable } from 'rxjs';
