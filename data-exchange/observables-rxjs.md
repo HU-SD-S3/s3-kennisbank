@@ -153,12 +153,60 @@ the way RxJS is designed, this is were the `Subject` class of RxJS comes into pl
 
 ## Subject
 
+To change our implementation to use the `Subject` class, we need to change the `RxJSDataService` class to use the
+`Subject` class instead of the `Observable` class.
+The `Subject` class is a special type of observable that allows us to multicast values to multiple observers. This means that we can use it to emit values to multiple subscribers. 
+The `Subject` class is a subclass of the `Observable` class, which means that it inherits all the methods
+and properties of the `Observable` class. The `Subject` class also provides us with a `subscribe` and `unsubscribe` method and it expects an observer as an argument of the `subscribe` methods, that holds an object which implements the `next`, `error`, and `complete` methods.
+
+```javascript
+import { Subject } from 'rxjs';
+
+class RxJSDataService {
+
+  #serviceData = [];
+  serviceData$ = new Subject();
+
+  addData(item) {
+    this.#serviceData = [...this.#serviceData, item];
+    this.serviceData$.next(this.#serviceData);
+  }
+
+  endDataStream() {
+    this.serviceData$.complete();
+  }
+}
+
+const rxJSDataService = new RxJSDataService();
+
+export { rxJSDataService };
+```
+
+If you now run the example again, you will see that all `rxjs-data-observer` components will show the data.
+
+Note that except for the `Subject` class, RxJS also provides a `BehaviorSubject` and a `ReplaySubject` class. The `BehaviorSubject` class is a special type of subject that requires an initial value and emits its current value to new subscribers. The `ReplaySubject` class is a special type of subject that emits a specified number of previous values to new subscribers.
+
+## RxJS Operators
+
+RxJS also provides a lot of operators that can be used to transform, filter, and combine observables. Some of the most
+common operators are:
+
+- `map`: transforms the emitted values of an observable
+- `filter`: filters the emitted values of an observable
+- `merge`: combines multiple observables into one observable
+...
+
+They work in a similar way as the `Array` methods like `map`, `filter`, and `reduce`. The difference is that they work with
+observables instead of arrays. This means that they can be used to transform, filter, and combine values over time.
+
+For more information about RxJS operators, you can check the [RxJS documentation](https://rxjs.dev/guide/operators) and experiment with them at [RxMarbles](https://rxmarbles.com/).
 
 ---
 
 ## Sources
 
 - [RxJS](https://rxjs.dev/)
+- [RxMarbles](https://rxmarbles.com/)
 
 ---
 
