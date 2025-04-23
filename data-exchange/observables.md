@@ -42,7 +42,10 @@ In the next two sub-chapters we will implement the Observer pattern, first we im
 
 ## Sources
 
-[Wikipedia - Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern)
+- [YouTube - The Biggest Misconception of PROMISES vs OBSERVABLES](https://youtu.be/vdsujUhFMLY?si=qv7eMB7qHEMqQQNI)  
+[![YouTube - The Biggest Misconception of PROMISES vs OBSERVABLES](https://i.ytimg.com/an_webp/vdsujUhFMLY/mqdefault_6s.webp?du=3000&sqp=CN7IpMAG&rs=AOn4CLDio2kXaptS_pbYF4FnIubHUySfGw)](https://youtu.be/vdsujUhFMLY?si=qv7eMB7qHEMqQQNI)  
+
+- [Wikipedia - Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern)
 
 ---
 
