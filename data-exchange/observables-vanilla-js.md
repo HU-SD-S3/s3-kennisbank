@@ -211,39 +211,9 @@ And this concludes our own implementation of the observer pattern. However since
 
 ---
 
-```mermaid
-classDiagram
-  
-  class Subject {
-    +observerCollection
-    +subscribe(observer: Observer)
-    +unsubscribe(observer: Observer)
-    +notify()
-  }
-
-  class Observer {
-    <<abstract>>
-    +update(data)
-  }
-
-  Subject o-- Observer
-
-  class ConcreteObserverA
-  class ConcreteObserverB
-
-  Observer <|.. ConcreteObserverA
-  Observer <|.. ConcreteObserverB
-```
-
-The class `Subject` is a class that holds the data we want to observe. This makes that in our architecture the `Subject` is part of the service layer and should be part of the `/src/service` folder. Because we might have different Services we will rename the class to `DataSubjectService`.
-
-```javascript
-
-```
-
----
-
 ## Sources
+
+- [MDN - EventTarget](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget)
 
 ---
 
