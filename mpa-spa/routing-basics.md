@@ -16,7 +16,7 @@ export class IndexPage extends LitElement {
       <nav-bar></nav-bar>
       <main>
         <h1>Home Page</h1>
-        <p>Navigate to the <a href="/about.html">About Page</a></p>
+        <p>Navigate to the <a href="./about.html">About Page</a></p>
       </main>
     `;
   }
@@ -37,7 +37,7 @@ export class AboutPage extends LitElement {
       <nav-bar></nav-bar>
       <main>
         <h1>About Page</h1>
-        <p>Navigate to the <a href="/">Home Page</a></p>
+        <p>Navigate to the <a href="./">Home Page</a></p>
       </main>
     `;
   }
