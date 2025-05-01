@@ -9,7 +9,8 @@ We will then discuss how to setup a MPA and SPA project with Vite. And finally w
 - [Vite project setup basics](./vite-project-setup-basics.md)
 - [MPA project setup](./mpa-project-setup.md)
 - [SPA project setup](./spa-project-setup.md)
-- [Routing](./routing.md)
+  - [Routing basics](./routing-basics.md)
+  - [Vaadin Router](./vaadin-router.md)
 
 ---
 

@@ -1,4 +1,4 @@
-# Routing
+# Vaadin Router
 
 TODO: Explain wat routing is and why it is important in web applications.
 TODO: Explain how to setup routing in your project, using vaadin router.
