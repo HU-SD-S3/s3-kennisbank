@@ -12,6 +12,8 @@ We will then discuss how to setup a MPA and SPA project with Vite. And finally w
   - [Routing basics](./routing-basics.md)
   - [Vaadin Router](./vaadin-router.md)
 
+To exercise the knowledge you gained from this chapter, you can try some [challenges](./challenges.md).
+
 ---
 
 :house: [Home](../README.md) | :arrow_up: [Multiple- and Single-page applications](./README.md) |
