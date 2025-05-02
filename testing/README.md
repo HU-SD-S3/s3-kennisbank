@@ -1,6 +1,7 @@
 # Testing
 
-TODO: Intro text
+Testing of frontend applications is an important part of the development process. It helps ensure that the application works as expected, is accessible to all users, and meets coding standards. However there are many different types of tests that can be performed and there is not one to rule them all.
+In this chapter we will cover an introduction to the most common types of tests that can be performed on frontend applications. We will also cover the tools that can be used to perform these tests. The most common types of tests are:
 
 ## Table of contents
 
