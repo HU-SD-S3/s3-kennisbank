@@ -75,7 +75,7 @@ This approach can lead to a lot of bugs, since you are not testing your code as 
 written tests, since you are not thinking about the expected behavior of your code before you implement it. We assume
 that this is the common approach you are used to.
 
-So let's start with a simple example to get started into unit testing with Vitest. Let's say we have a file `app.js`
+So let's start with a simple example to get started into unit testing with Vitest. Let's say we have a file `utils.js`
 which holds a simple function to calculate the area of a rectangle, which was written by someone else of our team. The
 function looks like this:
 
@@ -89,8 +89,8 @@ function area(heightInCm, widthInCm) {
 }
 ```
 
-To write a test for this function, we need to create a new file called `app.test.js`, which we do in the same directory
-as `app.js`. To use Vitest, we need to import `test` and `expect` from the Vitest library. The `test` function is used
+To write a test for this function, we need to create a new file called `utils.test.js`, which we do in the same directory
+as `utils.js`. To use Vitest, we need to import `test` and `expect` from the Vitest library. The `test` function is used
 to define a test case, and the `expect` function is used to make assertions about the output of the code under test.
 
 ```javascript
@@ -104,12 +104,12 @@ test('area calculation', () => {
 ```
 
 But if we run the test now, we will get an reference error at the expect line, stating that `area` is not defined. This
-is because we need to import the `area` function from the `app.js` file. So we add an import statement at the top of the
+is because we need to import the `area` function from the `utils.js` file. So we add an import statement at the top of the
 file to import the `area` function:
 
 ```javascript
 import { test, expect } from 'vitest';
-import { area } from '../src/app.js';
+import { area } from '../src/utils.js';
 
 test('area calculation', () => {
   const height = 7; // height
@@ -121,7 +121,7 @@ test('area calculation', () => {
 ```
 
 But now we get a TypeError stating that `area` is not a function. This is because we need to export the `area` function
-from the `app.js` file. So we add an export statement to the `app.js` file to export the `area` function:
+from the `utils.js` file. So we add an export statement to the `utils.js` file to export the `area` function:
 
 ```javascript
 // eslint-disable-next-line func-style
@@ -168,12 +168,12 @@ export { area };
 
 If we now run the test again, we our test will pass. So are we done? Not really. What we tested was the happy path,
 which is the most common case. But we also need to test the edge cases, which are the less common cases, and the error
-cases, which are the cases where the code should throw an error. So let's assume that the `app.js` might get extended in
+cases, which are the cases where the code should throw an error. So let's assume that the `utils.js` might get extended in
 the future and might hold more than one function we want to test. That's why we wrap our test in a `describe` block,
 which allows us to group our tests together. The updated test file looks like this:
 
 ```javascript
-import { area } from '../src/app.js';
+import { area } from '../src/utils.js';
 import { test, describe, expect } from 'vitest';
 
 describe('area calculation', () => {

@@ -94,7 +94,7 @@ npm run eslint
 
 ## Configuration
 
-Let's add a JavaScript file to our project to get started with the ESLint configuration. Create a file called `app.js`
+Let's add a JavaScript file to our project to get started with the ESLint configuration. Create a file called `utils.js`
 in the `src` folder of you project and add the following code:
 
 ```javascript
@@ -116,7 +116,7 @@ C:\kennisbank-testing\eslint.config.js
    3:1  error  Imports should be sorted alphabetically                                                  sort-imports
   10:7  error  Expected object keys to be in ascending order. 'ecmaVersion' should be before 'globals'  sort-keys
 
-C:\kennisbank-testing\src\app.js
+C:\kennisbank-testing\src\utils.js
   1:1   error  Unexpected var, use let or const instead                       no-var
   1:5   error  Identifier name 'h' is too short (< 2)                         id-length
   1:12  error  Comments should not begin with a lowercase character           capitalized-comments
@@ -140,7 +140,7 @@ C:\kennisbank-testing\src\app.js
   6 errors and 0 warnings potentially fixable with the `--fix` option.
 ```
 
-As you can see, ESLint has found a lot of errors. Not only has found it found errors in our `app.js` file, but also in
+As you can see, ESLint has found a lot of errors. Not only has found it found errors in our `utils.js` file, but also in
 our `eslint.config.js` file. If we look at the errors it had found in the `eslint.config.js` file, we can see that those
 errors are about the alphabetical order of the imports and the order of the keys in the object.  
 For our course we can state that we don't care about the order of the imports and the order of the keys in the object.
@@ -173,7 +173,7 @@ export default defineConfig([
 ]);
 ```
 
-We now can take a look at the remaining 18 errors about our 8 lines long `app.js` file.
+We now can take a look at the remaining 18 errors about our 8 lines long `utils.js` file.
 
 The first type of error (`no-var`) is about the use of `var` instead of `let` or `const`. This is a good rule to follow,
 so we keep it. Changing our two `var` statements to `let` statements will fix this error, but if we run eslint again we
@@ -224,7 +224,7 @@ expression. We can again look up the documentation for this rule and see what th
 functions. They would indead result in a better readability of the code. But since we might not familiar with the arrow
 function syntax, we can leave this rule as is for now in our `eslint.config.js`file. But that would leave us with an
 error in our code. So instead of changing the `eslint.config.js` file, we can also disable the rule for just this
-function in our`app.js` file using an ESLint directive comment. We also added a `TODO:` comment to this code, to remind
+function in our`utils.js` file using an ESLint directive comment. We also added a `TODO:` comment to this code, to remind
 us to change this function to use the arrow notion. `TODO:` and `FIXME:` comments are not part of the ESLint rules, but
 are a convention that is used in many projects. You can use them to mark code that needs to be changed or fixed in the
 future. The resulting code will look like this:
