@@ -215,11 +215,11 @@ function.
 
 ## JSDoc
 
-One way to document your code is to use JSDoc, which is a markup language used to annotate JavaScript code. JSDoc allows
-you to add comments to your code that describe the purpose of the code, the parameters, and the return value. This can
-help you to clarify the specification of your code and make it easier to understand for other developers. You can add
-JSDoc comments to your code by using the `/** ... */` syntax. For example, you can add a JSDoc comment to the `area`
-function like this:
+One way to document your code is to use [JSDoc](https://jsdoc.app/), which is a markup language used to annotate
+JavaScript code. JSDoc allows you to add comments to your code that describe the purpose of the code, the parameters,
+and the return value. This can help you to clarify the specification of your code and make it easier to understand for
+other developers. You can add JSDoc comments to your code by using the `/** ... */` syntax. For example, you can add a
+JSDoc comment to the `area` function like this:
 
 ```javascript
 /**
@@ -238,6 +238,9 @@ our test to expect the function to throw an error when the height or width is ne
 like this:
 
 ```javascript
+/* eslint-disable func-style */
+/* eslint-disable capitalized-comments */
+
 /**
  * Calculates the area of a rectangle.
  * @param {number} heightInMm - The height of the rectangle in mm.
@@ -245,7 +248,6 @@ like this:
  * @returns {number} The area of the rectangle in mm^2.
  * @throws {Error} If the height or width is negative.
  */
-// eslint-disable-next-line func-style
 function area(heightInMm, widthInMm) {
   // TODO: Have to change the function to use arrow function syntax,
   //  so that we can remove the eslint-disable-next-line
@@ -258,6 +260,14 @@ function area(heightInMm, widthInMm) {
 
 export { area };
 ```
+
+> [!NOTE]
+>
+> JSDoc is a powerful tool to document your code and clarify the specification of your code. It can also be used to
+> generate documentation for your code. You can use tools like the [JSDoc App](https://github.com/jsdoc/jsdoc) to
+> generate HTML documentation from your JSDoc comments. This can help you to create a clear and concise documentation
+> for your code and make it easier to understand for other developers. You can also use JSDoc to generate documentation
+> in other formats, such as Markdown or PDF.
 
 If we now run the test again, we will see that all tests pass.
 
@@ -295,6 +305,8 @@ Which will open a new tab in your browser with the Vitest UI. The UI allows you 
 
 - [Vitest](https://vitest.dev/)
 - [Vitest - expect API documentation](https://vitest.dev/api/expect.html)
+- [JSDoc documentation](https://jsdoc.app/)
+- [JSDoc App](https://github.com/jsdoc/jsdoc)
 
 ---
 
