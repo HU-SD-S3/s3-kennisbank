@@ -89,9 +89,10 @@ function area(heightInCm, widthInCm) {
 }
 ```
 
-To write a test for this function, we need to create a new file called `utils.test.js`, which we do in the same directory
-as `utils.js`. To use Vitest, we need to import `test` and `expect` from the Vitest library. The `test` function is used
-to define a test case, and the `expect` function is used to make assertions about the output of the code under test.
+To write a test for this function, we need to create a new file called `utils.test.js`, which we do in the same
+directory as `utils.js`. To use Vitest, we need to import `test` and `expect` from the Vitest library. The `test`
+function is used to define a test case, and the `expect` function is used to make assertions about the output of the
+code under test.
 
 ```javascript
 test('area calculation', () => {
@@ -104,8 +105,8 @@ test('area calculation', () => {
 ```
 
 But if we run the test now, we will get an reference error at the expect line, stating that `area` is not defined. This
-is because we need to import the `area` function from the `utils.js` file. So we add an import statement at the top of the
-file to import the `area` function:
+is because we need to import the `area` function from the `utils.js` file. So we add an import statement at the top of
+the file to import the `area` function:
 
 ```javascript
 import { test, expect } from 'vitest';
@@ -168,8 +169,8 @@ export { area };
 
 If we now run the test again, we our test will pass. So are we done? Not really. What we tested was the happy path,
 which is the most common case. But we also need to test the edge cases, which are the less common cases, and the error
-cases, which are the cases where the code should throw an error. So let's assume that the `utils.js` might get extended in
-the future and might hold more than one function we want to test. That's why we wrap our test in a `describe` block,
+cases, which are the cases where the code should throw an error. So let's assume that the `utils.js` might get extended
+in the future and might hold more than one function we want to test. That's why we wrap our test in a `describe` block,
 which allows us to group our tests together. The updated test file looks like this:
 
 ```javascript
@@ -271,6 +272,48 @@ export { area };
 
 If we now run the test again, we will see that all tests pass.
 
+## Coverage
+
+By also installing the `coverage-v8` package, we can also generate a coverage report for our tests. This will show us
+which lines of code are covered by our tests and which lines are not. This can help us to identify areas of our code
+that are not covered by tests and need more testing.
+
+To install the `coverage-v8` package, run the following command:
+
+```bash
+npm install -save-dev @vitest/coverage-v8
+```
+
+Add a script to your `package.json` file to run the coverage report:
+
+```json
+{
+  "scripts": {
+    "vitest": "vitest",
+    "vitest:coverage": "vitest --coverage"
+  }
+}
+```
+
+Next we need to add a configuration file for Vitest to enable the coverage report and to exclude the test files from the
+coverage report. Create a file called `vitest.config.js` in the root of your project and add the following code:
+
+```javascript
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+  test: {
+    coverage: {
+      enabled: true, // Enable coverage reporting
+      include: ['src/**/*.js'], // Include all source files in the coverage report
+      exclude: ['src/**/*.test.js'], // Exclude test files from the coverage report
+    },
+  },
+});
+```
+
+This will enable coverage reporting with the command `npm run vitest:coverage`.
+
 ## ViTest UI
 
 Until now we have been running our tests in the terminal, but Vitest also provides a UI to run your tests in the
@@ -278,7 +321,7 @@ browser. To use the UI, you need to install the `@vitest/ui` package. You can do
 
 ```bash
 npm install -save-dev @vitest/ui
-```
+````
 
 Then add the following script to your `package.json` file:
 
@@ -297,7 +340,8 @@ This will allow you to run the UI by executing the following command in your ter
 npm run vitest:ui
 ```
 
-Which will open a new tab in your browser with the Vitest UI. The UI allows you to run your tests, see the results.
+Which will open a new tab in your browser with the Vitest UI. The UI allows you to run your tests, check the coverage
+report, and see the results of your tests in a more user-friendly way.
 
 ---
 
