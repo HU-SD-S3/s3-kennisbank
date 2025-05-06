@@ -4,6 +4,7 @@
 * [Lit](./lit-web-components/README.md)
 * [Data exchange](./data-exchange/README.md)
 * [Multiple- and Single-page applications](./mpa-spa/README.md)
+* [Testing](./testing/README.md)
 
 ---
 
