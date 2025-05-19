@@ -1,4 +1,4 @@
-# Opdracht 2: Domeinmodel implementeren
+# Opdracht 3: Domeinmodel implementeren
 
 ## Stap 3: Realiseer eerste domeinconcepten
 

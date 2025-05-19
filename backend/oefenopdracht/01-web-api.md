@@ -1,4 +1,4 @@
-# Opdracht 4: Web API
+# Opdracht 1: Web API
 
 Onze applicatie presenteert zichzelf naar buiten toe via het web: we
 reageren op HTTP requests en geven HTTP responses terug.

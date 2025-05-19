@@ -1,4 +1,4 @@
-# Opdracht 5: Persistentie
+# Opdracht 2: Persistentie
 
 Het Engelse *to persist* betekent *volharden* en dat is precies wat
 persistentie inhoudt: de opslag overleeft het afsluiten van de

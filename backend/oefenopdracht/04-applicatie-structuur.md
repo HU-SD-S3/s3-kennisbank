@@ -1,4 +1,4 @@
-# Opdracht 3: Application service
+# Opdracht 4: Application Structure
 
 We hebben het project aan de praat, de eisen geanalyseerd, de use cases
 gemodelleerd en de eerste domeinconcepten gerealiseerd. Het doet

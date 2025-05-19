@@ -4,10 +4,6 @@ Een terugkerend thema tot nu toe is dat we onze code flexibel willen
 houden. In Java kennen we het verschil tussen een Interface (wat kan een
 object allemaal doen), en de Implementatie daarvan (hoe dan?!).
 
-In het hoofdstuk Software Architectuur hebben we lagen en componenten
-besproken, maar dat hoofdstuk is voor dit vak optioneel, dus we zullen
-hier een aantal punten herhalen.
-
 ## Services in Software Architectuur
 
 We hebben onze Software al sinds het begin van de opleiding in lagen
