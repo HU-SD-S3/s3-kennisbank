@@ -18,17 +18,17 @@ met andere applicaties die hier, direct of indirect, van afhankelijk zijn (of na
 Laten we eerst naar de definitie van een proces kijken. Een proces is een verzameling activiteiten die in samenhang 
 plaatsvinden, gericht op een resultaat en tot op zekere hoogte herhaalbaar.
 
-Een bedrijfsproces is een keten van activiteiten of handelingen die vaak herhaald worden binnen een bedrijf. Deze keten 
-van activiteiten zijn gekoppeld en gestuurd door beslissingen. Uit deze keten komt een eindresultaat, namelijk een 
-product of dienst van het bedrijf.
+Een bedrijfsproces is een keten van activiteiten of handelingen die vaak herhaald worden binnen een bedrijf. Hier kan 
+aan applicatiescherm een onderdeel van zijn, maar dat hoeft niet zo te zijn. Deze keten van activiteiten zijn gekoppeld 
+en gestuurd door beslissingen. Uit deze keten komt een eindresultaat, namelijk een product of dienst van het bedrijf.
 Een aantal voorbeelden van een bedrijfsproces zijn bijvoorbeeld:
 - Een klantorder verwerken
 - Verlof aanvragen en toekennen
-- Voorraad bijwerken en inkopen
-- Declaraties indienen en goedkeuren
+- Het meten van de bandenspanning van een auto
+- Het vullen van de vakken in de supermarkt
 - Het aannemen van een nieuwe medewerker in een bedrijf
 
-Als we even verder inzoomen in het laatste bedrijfsproces kunnen wij bijvoorbeeld deze opdelen in een aantal stappen:
+Als we even verder inzoomen in het laatste bedrijfsproces, kunnen wij bijvoorbeeld deze opdelen in een aantal stappen:
 1. De vacature wordt uitgezet
 2. Je krijgt een sollicitatie binnen, via de mail, de website of portaal
 3. Je maakt een afspraak voor het sollicitatiegesprek
