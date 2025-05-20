@@ -41,6 +41,8 @@ Wat staat er in een Visie/Scope beschrijving?
 - Knelpunten/kansen
   - Een knelpunt is dat deel in het proces waar iets mis loopt of suboptimaal geregeld is.
   - Een kans is een mogelijkheid tot verbetering of uitbreiding van het proces die (nog) niet herkent wordt of niet tot de mogelijkheden (lijkt) te behoren.
+- Aanpak
+  - In de aanpak vertaal je de knelpunten en kansen naar een EPIC story. Dit is een grote user story die je later verder kan uitsplitsen naar kleinere user stories. Bij deze story geeef je ook een visie (vaak in de vorm van een wireframe) hoe je denkt dat het probleem opgelost kan worden. Dit doe je niet voor alle knelpunten en kansen, maar alleen voor de eerstvolgende knelpunt of kans waar je in de sprint aan gaat werken. Let er dus op dat de EPIC die je gaat uitwerken geen (open) afhankelijkheden meer heeft.
 
 In dit semester gaan we dieper duiken in de volgende onderdelen:
 - Bedrijfsprocessen weergeven
