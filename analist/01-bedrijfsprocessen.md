@@ -9,7 +9,7 @@ de slag kan met het maken van de applicatie zal er eerst geanalyseerd moeten wor
 
 De eerste stap die meestal genomen wordt bij een analyse is het vormgeven van de bedrijfsprocessen die te maken hebben 
 met de vraag of het probleem dat is gegeven. De grote valkuil hierin dat er alleen wordt gekeken naar het bedrijfsproces 
-dat direct te maken heeft met de applicatie die gemaakt moet worden. Uiteindelijk merk je dar tijdens de ontwikkeling 
+dat direct te maken heeft met de applicatie die gemaakt moet worden. Uiteindelijk merk je dat tijdens de ontwikkeling 
 dat er last-minute veel aanpassingen gemaakt moeten worden omdat er geen rekening wordt gehouden met bepaalde actoren of 
 met andere applicaties die hier, direct of indirect, van afhankelijk zijn (of natuurlijk andersom). 
 **Wees je dus heel bewust welke processen de applicatie beinvloeden of welke processen beinvloed worden door de applicatie!**
@@ -43,6 +43,6 @@ Binnen de processen zijn er 3 soorten te onderscheiden:
 - Primaire processen:
   - Het resultaat van deze processen dragen direct bij aan het resultaat voor de klant. Deze processen zijn in principe het bestaansrecht van de organisatie.
 - Sturende processen:
-  - Dit zijn activiteiten die nodig zijn om de organisatie en processen te besturen.
+  - Dit zijn activiteiten die nodig zijn om de organisatie en processen te besturen. Denk hier bijvoorbeeld aan het maken van planningen, performance reviews of het ontwikkelen van nieuwe producten.
 - Ondersteunende processen:
-  - Dit zijn activiteiten die nodig zijn om de primaire of sturende processen mogelijk te maken.
+  - Dit zijn activiteiten die nodig zijn om de primaire of sturende processen mogelijk te maken. Hier kan je onder andere denken aan het trainen van medewerkers, het onderhouden van de IT-infrastructuur of het geven van juridisch advies.
