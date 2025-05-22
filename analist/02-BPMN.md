@@ -66,7 +66,7 @@ De drie meest voorkomende gateways die je vaak tegenkomt zijn:
   <img src="inclusive_gateway.png" alt="drawing" width="300"/>
   - Bij deze gateway kunnen er 1 of meerdere paden bewandeld worden aan de hand van een conditie. Dit wijkt dus iets af van de exclusive gateway, waar maar 1 pad wordt bewandeld.
 
-## Samenwerking (collaboration)
+## Message flows
 
 Bij het vormgeven van een bedrijfsproces kan het natuurlijk voorkomen dat er wordt samengewerkt met een ander (extern) 
 persoon of ander bedrijf. Dit modelleren we met verschillende pools. De interactie tussen de verschillende pools worden 
