@@ -7,10 +7,11 @@ aan: analisten, ontwikkelaars maar ook mensen uit de business)
 ## BPMN onderdelen
 
 Op hoog niveau heeft het BPMN model de volgende onderdelen:
+
 - Start- en eindevents
   - Dit spreekt relatief voor zichtzelf. Het toont aan waar een event start of eindigt
 - Swimlane
-    - In BPMN is het gebruikelijk om de actor die de activiteit uitvoert op te nemen in het diagram. Dit gebeurt door middel van een swimlane. Iedere actor of participant krijgt dan een eigen swimlane.
+  - In BPMN is het gebruikelijk om de actor die de activiteit uitvoert op te nemen in het diagram. Dit gebeurt door middel van een swimlane. Iedere actor of participant krijgt dan een eigen swimlane.
 - Pool
   - De swimlanes samen vormen een zogenaamde pool. Het is gebruikelijk om elke organisatie, die een rol speelt, een eigen pool te geven.
 - Sequence flow
@@ -20,8 +21,9 @@ Op hoog niveau heeft het BPMN model de volgende onderdelen:
 
 ## Events
 
-Een event in het BPMN model staat voor een gebeurtenis die optreed gedurende het verloop van een proces. Dit event kan 
+Een event in het BPMN model staat voor een gebeurtenis die optreed gedurende het verloop van een proces. Dit event kan
 een proces starten, vertragen, onderbreken of beëindigen. Er zijn verschillende soorten events:
+
 - Start event: Dit duid de start van een proces. Een start event is altijd een cirkel met een dunne rand. Dit kan op verschillende manieren getriggerd worden: \
 <img src="start_event_triggers.png" alt="drawing" width="750"/>
   - Geen trigger (none): meestal wordt het proces dan handmatig gestart.
@@ -40,8 +42,9 @@ een proces starten, vertragen, onderbreken of beëindigen. Er zijn verschillende
 
 ## Activiteiten
 
-De activiteiten in het bedrijfsproces wordt vormgegeven door middel van taken. Dit kunnen we opdelen in 3 verschillende 
+De activiteiten in het bedrijfsproces wordt vormgegeven door middel van taken. Dit kunnen we opdelen in 3 verschillende
 soorten:
+
 - Task \
 <img src="task.png" alt="drawing" width="300"/>
   - Dit is een omschrijving in de gebiedende wijs. Deze taak wordt niet verder opgedeeld. Denk bijvoorbeeld aan: "schrijf artikel" of "verzend goederen".
@@ -54,8 +57,9 @@ soorten:
 
 ## Gateways
 
-Als onderdeel van de flow kan je gebruik maken van een aantal gateways. Deze gateways zie je tussen de activiteiten staan. 
+Als onderdeel van de flow kan je gebruik maken van een aantal gateways. Deze gateways zie je tussen de activiteiten staan.
 De drie meest voorkomende gateways die je vaak tegenkomt zijn:
+
 - Exclusive gateways \
 <img src="exclusive_gateway.png" alt="drawing" width="300"/>
   - Een exclusive gateway sluit de alternatieven uit aan de hand van een conditie. Denk dus bijvoorbeeld aan een beslissing die gemaakt worden waar een ja of nee uit kan komen, maar nooit beide.
@@ -68,29 +72,30 @@ De drie meest voorkomende gateways die je vaak tegenkomt zijn:
 
 ## Message flows
 
-Bij het vormgeven van een bedrijfsproces kan het natuurlijk voorkomen dat er wordt samengewerkt met een ander (extern) 
-persoon of ander bedrijf. Dit modelleren we met verschillende pools. De interactie tussen de verschillende pools worden 
-weergegeven door middel van message flows. Let er wel op dat andere pools kunnen worden gezien als een black box: we hebben 
-zelf geen inzicht wat er precies gebeurt. We weten alleen wat we er naartoe sturen en wat we terug krijgen. Het proces 
+Bij het vormgeven van een bedrijfsproces kan het natuurlijk voorkomen dat er wordt samengewerkt met een ander (extern)
+persoon of ander bedrijf. Dit modelleren we met verschillende pools. De interactie tussen de verschillende pools worden
+weergegeven door middel van message flows. Let er wel op dat andere pools kunnen worden gezien als een black box: we hebben
+zelf geen inzicht wat er precies gebeurt. We weten alleen wat we er naartoe sturen en wat we terug krijgen. Het proces
 daartussen is dus onbekend. \
 <img src="message flow.png" alt="drawing"/>
 
 ## Hoe bepaal je welke/hoeveel taken je modelleert?
 
-Bij het bepalen van de hoeveelheid taken maak je gebruik van de granulariteit. In de ICT zien we dit als de mate waarin 
-details aanwezig zijn in de modellen. In de BPMN zien we dit als het uitsplitsen van elke processtap naar de kleinst 
-mogelijke handeling die door een actor kan worden uitgevoerd. Dit is toch vaak een enorme punt van discussie, want 
-verschillende mensen kunnen op andere manieren kijken naar de verschillende handelingen. Kijk als voorbeeld naar het 
+Bij het bepalen van de hoeveelheid taken maak je gebruik van de granulariteit. In de ICT zien we dit als de mate waarin
+details aanwezig zijn in de modellen. In de BPMN zien we dit als het uitsplitsen van elke processtap naar de kleinst
+mogelijke handeling die door een actor kan worden uitgevoerd. Dit is toch vaak een enorme punt van discussie, want
+verschillende mensen kunnen op andere manieren kijken naar de verschillende handelingen. Kijk als voorbeeld naar het
 volgende model: \
 <img src="assembleer_stoel.png" alt="drawing" width="750"/> \
-Je kan een discussie voeren of de assembleer stoelen activiteit de kleinste handeling is. Waarom niet bijvoorbeeld: 
-schroef bouten vast? Of zet stoelen op lopende band? De discussie die je dan moet voeren is of deze handeling echt een 
+Je kan een discussie voeren of de assembleer stoelen activiteit de kleinste handeling is. Waarom niet bijvoorbeeld:
+schroef bouten vast? Of zet stoelen op lopende band? De discussie die je dan moet voeren is of deze handeling echt een
 impact hebben op het proces die je probeert vorm te geven.
 
 ## Voorbeeld van een BPMN model
 
-Hieronder vind je een uitgewerkt voorbeeld van een BPMN model. Bekijk deze eens en probeer aan de hand van de informatie 
+Hieronder vind je een uitgewerkt voorbeeld van een BPMN model. Bekijk deze eens en probeer aan de hand van de informatie
 op deze pagina eens de volgende vragen te beantwoorden:
+
 - Wat gebeurt er in dit proces?
 - Welke typen message events vind je terug?
 - Waarom is het message event linksboven een start event?
@@ -99,6 +104,5 @@ op deze pagina eens de volgende vragen te beantwoorden:
 - Waarom wordt tussen Rekening verzenden en Rekening ontvangen een message flow gebruikt? \
   <img src="voorbeeld_events.png" alt="drawing" width="750"/>
 
-
-Naast wat er hier is behandeld zijn er nog veel meer activiteiten, events en gateways beschikbaar. Deze kan je altijd 
-terugvinden op http://bpmb.de/poster
+Naast wat er hier is behandeld zijn er nog veel meer activiteiten, events en gateways beschikbaar. Deze kan je altijd
+terugvinden op <http://bpmb.de/poster>
