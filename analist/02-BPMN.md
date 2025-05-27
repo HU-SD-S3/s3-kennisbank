@@ -104,7 +104,7 @@ op deze pagina eens de volgende vragen te beantwoorden:
 - Wat gebeurt er in dit proces?
 - Welke typen message events vind je terug?
 - Waarom is het message event linksboven een start event?
-- Waarom wordt voor Ontvang producten en Rekening ontvngen een parallel gateway gebruikt?
+- Waarom wordt voor Ontvang producten en Rekening ontvangen een parallel gateway gebruikt?
 - Wat gebeurt er als de order niet wordt geaccepteerd?
 - Waarom wordt tussen Rekening verzenden en Rekening ontvangen een message flow gebruikt? \
   <img src="voorbeeld_events.png" alt="drawing" width="750"/>
