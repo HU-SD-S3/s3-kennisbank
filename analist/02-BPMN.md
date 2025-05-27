@@ -4,6 +4,13 @@ De meest gebruikt methode voor het vormgeven van de bedrijfsprocessen is BPMN. B
 and Notation. Het primaire doel van een BPMN is het het creëren van begrijpelijkheid voor alle belanghebbenden (denk
 aan: analisten, ontwikkelaars maar ook mensen uit de business)
 
+## Black box vs. white box
+In BPMN wordt er onderscheid gemaakt tussen een black box en white box. Een black box is een proces waar we geen inzicht 
+hebben in wat er precies gebeurt. Het proces is dus onbekend. Als we denken in processen is er bijvoorbeeld een externe 
+klant of leverancier waarbij je de interne processen niet kent, maar alleen wat je ernaar stuurt en wat je terug krijgt. 
+Een white box is een proces waar we wel inzicht hebben in wat er gebeurt. We weten dus welke activiteiten er plaatsvinden 
+in het gehele proces. 
+
 ## BPMN onderdelen
 
 Op hoog niveau heeft het BPMN model de volgende onderdelen:
@@ -74,9 +81,7 @@ De drie meest voorkomende gateways die je vaak tegenkomt zijn:
 
 Bij het vormgeven van een bedrijfsproces kan het natuurlijk voorkomen dat er wordt samengewerkt met een ander (extern)
 persoon of ander bedrijf. Dit modelleren we met verschillende pools. De interactie tussen de verschillende pools worden
-weergegeven door middel van message flows. Let er wel op dat andere pools kunnen worden gezien als een black box: we hebben
-zelf geen inzicht wat er precies gebeurt. We weten alleen wat we er naartoe sturen en wat we terug krijgen. Het proces
-daartussen is dus onbekend. \
+weergegeven door middel van message flows. Let er wel op dat andere pools kunnen worden gezien als een black box. \
 <img src="message flow.png" alt="drawing"/>
 
 ## Hoe bepaal je welke/hoeveel taken je modelleert?
