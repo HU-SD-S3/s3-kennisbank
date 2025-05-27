@@ -36,7 +36,7 @@ een proces starten, vertragen, onderbreken of beëindigen. Er zijn verschillende
   - Geen trigger (none): meestal wordt het proces dan handmatig gestart.
   - Timer: Dit kan een eenmalige timmer zijn of terugkerend.
   - Message: Een bericht dat uit een andere pool komt.
-- End event: Dit duid het eind van een pad of proces. Een end event is altijd een cirkel met een dikke ran. Ok hier zijn er weer verschillende typen: \
+- End event: Dit duid het eind van een pad of proces. Een end event is altijd een cirkel met een dikke rand. Ok hier zijn er weer verschillende typen: \
 <img src="end_event_typen.png" alt="drawing" width="750"/>
   - None: er is een resultaat gedefineerd wat het proces stopt. Na de laatste activiteit is het proces klaar.
   - Message: Er is een bericht gestuurd naar een andere pool waardoor het proces klaar is.
