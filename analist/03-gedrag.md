@@ -93,3 +93,143 @@ bestelling is afgeleverd.
 State diagrams zijn nuttig voor het begrijpen van de dynamiek van een proces en kunnen helpen bij het identificeren 
 van mogelijke problemen of verbeteringen in het proces. Ze kunnen ook worden gebruikt om de implementatie van het proces 
 te begeleiden door de verschillende toestanden en overgangen te definiëren die in de code moeten worden geïmplementeerd.
+
+## Cucumber Framework
+Zoals eerder uitgelegd, wordt Gherkin gebruikt om het gewenste gedrag van software in begrijpelijke scenario's te 
+beschrijven. Maar om deze scenario's daadwerkelijk te kunnen testen en automatiseren, heb je een tool nodig die deze 
+Gherkin-bestanden kan uitvoeren. Hier komt het Cucumber framework in beeld.
+
+Cucumber is een testautomatiseringsframework dat direct werkt met Gherkin-scenario's. Het framework leest de scenario's 
+uit de feature-bestanden en koppelt deze aan zogenaamde step definitions: code die de beschreven stappen uitvoert. 
+Hierdoor kun je de in Gherkin beschreven requirements direct valideren met geautomatiseerde tests. Dit zorgt voor een 
+naadloze verbinding tussen specificatie (Gherkin) en uitvoering (Cucumber).
+
+### Hoe werkt Cucumber?
+1. **Feature-bestanden**: Je schrijft scenario's in Gherkin in `.feature`-bestanden.
+2. **Step Definitions**: Je koppelt de Gherkin-stappen aan code (meestal in Java, JavaScript, Ruby, etc.) die de stappen uitvoert.
+3. **Testuitvoering**: Cucumber leest de feature-bestanden, zoekt de bijbehorende step definitions en voert de tests uit.
+
+### Voorbeeldimplementatie (Java)
+Stel je hebt het volgende Gherkin-scenario in `bestelling.feature`:
+
+```gherkin
+Feature: Bestelling verwerken
+  Scenario: Klant plaatst een bestelling
+    Given de klant is ingelogd
+    When de klant een product toevoegt aan het winkelwagentje
+    And de klant gaat naar de checkout pagina
+    Then de klant ziet een overzicht van de bestelling
+    And de klant kan de bestelling bevestigen
+```
+
+De bijbehorende step definitions in Java kunnen er zo uitzien:
+
+```java
+package nl.jouwproject.stappen;
+
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
+import io.cucumber.java.en.Then;
+
+public class BestellingSteps {
+    @Given("de klant is ingelogd")
+    public void klantIsIngelogd() {
+        // Code om in te loggen
+    }
+
+    @When("de klant een product toevoegt aan het winkelwagentje")
+    public void productToevoegenAanWinkelwagentje() {
+        // Code om product toe te voegen
+    }
+
+    @When("de klant gaat naar de checkout pagina")
+    public void klantGaatNaarCheckoutPagina() {
+        // Code om naar de checkout pagina te gaan
+    }
+
+    @Then("de klant ziet een overzicht van de bestelling")
+    public void overzichtBestellingZien() {
+        // Code om overzicht te tonen
+    }
+
+    @Then("de klant kan de bestelling bevestigen")
+    public void klantKanBestellingBevestigen() {
+        // Code om bestelling te bevestigen
+    }
+}
+```
+
+### Voorbeeld folderstructuur en Cucumber-runner in Java
+Om Cucumber correct te laten werken, is het belangrijk dat je projectstructuur overeenkomt met de package-instellingen 
+in je Cucumber-runner en step definitions. Hieronder een voorbeeld van een mogelijke folderstructuur, inclusief de 
+locatie van de Cucumber-runner:
+
+```
+project-root/
+└── src/
+    └── test/
+        ├── java/
+        │   └── nl/
+        │       └── jouwproject/
+        │           └── stappen/
+        │               ├── BestellingSteps.java
+        │               └── RunCucumberTest.java
+        └── resources/
+            └── features/
+                └── bestelling.feature
+```
+
+- **BestellingSteps.java**: bevat de step definitions, in de package `nl.jouwproject.stappen`.
+- **RunCucumberTest.java**: de Cucumber-runner, in dezelfde package.
+- **bestelling.feature**: het feature-bestand, in de map `features` onder `resources`.
+
+Hieronder zie je hoe de Cucumber-runner eruitziet, passend bij deze structuur:
+
+```java
+package nl.jouwproject.stappen;
+
+import org.junit.platform.suite.api.ConfigurationParameter;
+import org.junit.platform.suite.api.IncludeEngines;
+import org.junit.platform.suite.api.SelectClasspathResource;
+import org.junit.platform.suite.api.Suite;
+
+import static io.cucumber.junit.platform.engine.Constants.GLUE_PROPERTY_NAME;
+
+@Suite
+@IncludeEngines("cucumber")
+@SelectClasspathResource("features") // map met feature-bestanden
+@ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "nl.jouwproject.stappen") // package met step definitions
+public class RunCucumberTest {
+}
+```
+
+Zorg ervoor dat de package-namen in je Java-bestanden overeenkomen met de mappenstructuur. Zo kan Cucumber de juiste 
+bestanden vinden tijdens het uitvoeren van de tests.
+
+### Cucumber gebruiken
+1. Voeg Cucumber toe aan je project (bijvoorbeeld via Maven of npm).
+
+Voor Maven voeg je de volgende dependency toe aan je `pom.xml` (versie juni 2025):
+
+```xml
+<dependency>
+  <groupId>io.cucumber</groupId>
+  <artifactId>cucumber-java</artifactId>
+  <version>7.15.0</version>
+  <scope>test</scope>
+</dependency>
+<dependency>
+  <groupId>io.cucumber</groupId>
+  <artifactId>cucumber-junit-platform-engine</artifactId>
+  <version>7.15.0</version>
+  <scope>test</scope>
+</dependency>
+```
+
+2. Maak een `features`-map met je `.feature`-bestanden.
+3. Implementeer de step definitions in de gewenste programmeertaal.
+4. Voer de tests uit met de Cucumber-runner.
+
+Cucumber maakt het mogelijk om specificaties en tests te combineren, waardoor je requirements direct kunt valideren met 
+geautomatiseerde tests.
+
