@@ -11,92 +11,92 @@ Er zijn veel manieren om het gedrag van processen te beschrijven. Wij gaan hier 
 - De beschrijving van het gedrag in tekstuele vorm door middel van Gherkin.
 
 ## State Diagram
-Een state diagram is een visuele representatie van de verschillende toestanden waarin een proces zich kan bevinden en 
-de overgangen tussen deze toestanden. Het helpt om het gedrag van een proces te begrijpen door de verschillende 
-toestanden en de gebeurtenissen die leiden tot overgangen tussen deze toestanden te beschrijven. Een state diagram 
-bestaat uit toestanden, overgangen en gebeurtenissen:
-- **Toestand**: Een toestand is een specifieke situatie waarin het proces zich bevindt. Het kan worden weergegeven 
-  als een rechthoek met de naam van de toestand erin.
-- **Overgang**: Een overgang is een verandering van de ene toestand naar de andere. Het wordt weergegeven als een 
-  pijl tussen twee toestanden, met de gebeurtenis die de overgang veroorzaakt.
-- **Gebeurtenis**: Een gebeurtenis is een actie of gebeurtenis die de overgang tussen toestanden veroorzaakt. 
-  Het wordt weergegeven als een label op de overgangspijl.
+Een state diagram (toestandsdiagram) is een visueel hulpmiddel dat laat zien in welke verschillende toestanden (states) 
+een systeem of onderdeel van een systeem zich kan bevinden, en hoe het systeem van de ene naar de andere toestand 
+overgaat. Dit type diagram wordt veel gebruikt in softwareontwikkeling om het gedrag van bijvoorbeeld een object, 
+proces of applicatie te modelleren.
 
-Hier is een voorbeeld van een state diagram voor het proces van het verwerken van een bestelling:
+### Waarom een state diagram?
+State diagrams helpen je om:
+- Het gedrag van een systeem overzichtelijk te maken.
+- Te begrijpen hoe een systeem reageert op verschillende gebeurtenissen.
+- Randgevallen en uitzonderingen te ontdekken.
+- De implementatie van klassen of processen te structureren.
+
+### Onderdelen van een state diagram
+- **Toestand (State):** Een situatie waarin een systeem zich kan bevinden. Bijvoorbeeld: 'Inactief', 'Actief', 'Verzonden'.
+- **Overgang (Transition):** De pijl tussen twee toestanden, die aangeeft hoe en wanneer het systeem van de ene naar de andere toestand gaat. Een overgang wordt meestal getriggerd door een gebeurtenis (event).
+- **Gebeurtenis (Event):** De actie of gebeurtenis die een overgang veroorzaakt, bijvoorbeeld: 'Bestelling plaatsen', 'Annuleren', 'Verzenden'.
+
+### Voorbeeld: Gebruikersregistratie
+Hieronder zie je een voorbeeld van een state diagram. Het proces beschrijft de registratie van een nieuwe gebruiker.
+
+#### State diagram voor gebruikersregistratie
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Inactief
-    Inactief --> BestellingPlaatsen : Klant plaatst bestelling
-    BestellingPlaatsen --> Bevestigen : Bevestig bestelling
-    Bevestigen --> Actief : Bestelling bevestigd
-    Actief --> Annuleren : Klant annuleert bestelling
-    Annuleren --> Inactief : Bestelling geannuleerd
-    Actief --> Verzenden : Bestelling verzenden
-    Verzenden --> Afgeleverd : Bestelling afgeleverd
+    [*] --> NietGeregistreerd
+    NietGeregistreerd --> FormulierIngevuld : Gebruiker vult registratieformulier in
+    FormulierIngevuld --> Geregistreerd : Gegevens zijn geldig
+    FormulierIngevuld --> NietGeregistreerd : Gegevens ongeldig
+    Geregistreerd --> EmailBevestigd : Gebruiker bevestigt e-mail
+    Geregistreerd --> NietGeregistreerd : Gebruiker annuleert registratie
+    EmailBevestigd --> [*]
 ```
-In dit voorbeeld begint het proces in de toestand "Inactief". Wanneer de klant een bestelling plaatst, gaat het proces 
-naar de toestand "BestellingPlaatsen". Na bevestiging van de bestelling gaat het proces naar de toestand "Actief". 
-Als de klant de bestelling annuleert, gaat het proces terug naar de toestand "Inactief". Als de bestelling wordt 
-verzonden, gaat het proces naar de toestand "Verzenden" en uiteindelijk naar de toestand "Afgeleverd" wanneer de 
-bestelling is afgeleverd. 
-State diagrams zijn nuttig voor het begrijpen van de dynamiek van een proces en kunnen helpen bij het identificeren 
-van mogelijke problemen of verbeteringen in het proces. Ze kunnen ook worden gebruikt om de implementatie van het proces 
-te begeleiden door de verschillende toestanden en overgangen te definiëren die in de code moeten worden geïmplementeerd.
+
+- Het proces start bij 'NietGeregistreerd'.
+- De gebruiker vult het registratieformulier in. Bij geldige gegevens wordt de gebruiker 'Geregistreerd', anders blijft deze 'NietGeregistreerd'.
+- Na registratie kan de gebruiker de e-mail bevestigen of de registratie annuleren.
+- Als de e-mail is bevestigd, gaat het proces naar 'EmailBevestigd', anders blijft de gebruiker 'Geregistreerd'.
+- Het proces eindigt bij 'EmailBevestigd' of keert terug naar 'NietGeregistreerd' als de registratie wordt geannuleerd.
 
 ## Gherkin
-Gherkin is een taal die gebruikt wordt om het gedrag van software te beschrijven in een begrijpelijke en gestructureerde 
-manier. Het is een onderdeel van het Behavior Driven Development (BDD) proces en helpt teams om de vereisten van de 
-software te begrijpen en te communiceren. Gherkin gebruikt een eenvoudige syntaxis die gemakkelijk te lezen en te 
-schrijven is, waardoor het toegankelijk is voor zowel technische als niet-technische teamleden. 
+Gherkin is een taal die gebruikt wordt om het gedrag van software te beschrijven in een begrijpelijke en gestructureerde manier. Het is een onderdeel van het Behavior Driven Development (BDD) proces en helpt teams om de vereisten van de software te begrijpen en te communiceren. Gherkin gebruikt een eenvoudige syntaxis die gemakkelijk te lezen en te schrijven is, waardoor het toegankelijk is voor zowel technische als niet-technische teamleden.
 
 Gherkin beschrijft het gedrag van software in termen van "features", "scenarios" en "steps":
-- **Feature**: Een feature is een functionaliteit of eigenschap van de software die waarde toevoegt voor de gebruiker. 
-  Het beschrijft wat de software moet doen.
-- **Scenario**: Een scenario is een specifieke situatie of voorbeeld van het gebruik van de feature. Het beschrijft 
-  hoe de feature in de praktijk wordt gebruikt.
-- **Step**: Een step is een individuele actie of gebeurtenis die plaatsvindt binnen een scenario. Het beschrijft 
-  de specifieke stappen die moeten worden uitgevoerd om het scenario te voltooien.
+- **Feature**: Een feature is een functionaliteit of eigenschap van de software die waarde toevoegt voor de gebruiker. Het beschrijft wat de software moet doen.
+- **Scenario**: Een scenario is een specifieke situatie of voorbeeld van het gebruik van de feature. Het beschrijft hoe de feature in de praktijk wordt gebruikt.
+- **Step**: Een step is een individuele actie of gebeurtenis die plaatsvindt binnen een scenario. Het beschrijft de specifieke stappen die moeten worden uitgevoerd om het scenario te voltooien.
 
 In Gherkin worden de stappen beschreven in de vorm van "Given", "When" en "Then":
-- **Given**: Dit beschrijft de initiële toestand of context waarin het scenario zich bevindt. Het stelt de 
-  voorwaarden vast voor het scenario.
-- **When**: Dit beschrijft de actie of gebeurtenis die plaatsvindt binnen het scenario. Het is de trigger die 
-  het scenario in gang zet.
-- **Then**: Dit beschrijft het verwachte resultaat of de uitkomst van de actie die in het scenario is uitgevoerd. 
-  Het definieert wat er moet gebeuren als het scenario correct is uitgevoerd.
-- **And**: Dit wordt gebruikt om extra stappen toe te voegen aan een scenario, die niet noodzakelijkerwijs 
-  een nieuwe actie of gebeurtenis beschrijven, maar wel relevant zijn voor het scenario.
-- **But**: Dit wordt gebruikt om uitzonderingen of alternatieve scenario's te beschrijven die kunnen optreden 
-  tijdens het uitvoeren van het scenario.
+- **Given**: Dit beschrijft de initiële toestand of context waarin het scenario zich bevindt. Het stelt de voorwaarden vast voor het scenario.
+- **When**: Dit beschrijft de actie of gebeurtenis die plaatsvindt binnen het scenario. Het is de trigger die het scenario in gang zet.
+- **Then**: Dit beschrijft het verwachte resultaat of de uitkomst van de actie die in het scenario is uitgevoerd. Het definieert wat er moet gebeuren als het scenario correct is uitgevoerd.
+- **And**: Dit wordt gebruikt om extra stappen toe te voegen aan een scenario, die niet noodzakelijkerwijs een nieuwe actie of gebeurtenis beschrijven, maar wel relevant zijn voor het scenario.
+- **But**: Dit wordt gebruikt om uitzonderingen of alternatieve scenario's te beschrijven die kunnen optreden tijdens het uitvoeren van het scenario.
 
-Hier is een voorbeeld van hoe Gherkin gebruikt kan worden om het gedrag van een proces te beschrijven:
+Hier is een voorbeeld van hoe Gherkin gebruikt kan worden om het gedrag van het gebruikersregistratieproces te beschrijven:
 
 ```gherkin
-Feature: Verwerken van een bestelling
+Feature: Gebruikersregistratie
 
-  Scenario: Klant plaatst een bestelling
-    Given de klant is ingelogd
-    When de klant een product toevoegt aan het winkelwagentje
-    And de klant gaat naar de checkout pagina
-    Then de klant ziet een overzicht van de bestelling
-    And de klant kan de bestelling bevestigen
+  Scenario: Succesvolle registratie
+    Given de gebruiker is niet geregistreerd
+    When de gebruiker vult het registratieformulier correct in
+    And de gebruiker bevestigt de registratie via e-mail
+    Then is de gebruiker geregistreerd en bevestigd
 
-  Scenario: Klant annuleert een bestelling
-    Given de klant heeft een bestelling geplaatst
-    When de klant gaat naar de bestelgeschiedenis
-    And de klant annuleert de bestelling
-    Then de bestelling is geannuleerd
+  Scenario: Registratie met ongeldige gegevens
+    Given de gebruiker is niet geregistreerd
+    When de gebruiker vult het registratieformulier onjuist in
+    Then blijft de gebruiker niet geregistreerd
+
+  Scenario: Gebruiker annuleert registratie
+    Given de gebruiker is niet geregistreerd
+    When de gebruiker vult het registratieformulier correct in
+    And de gebruiker annuleert de registratie
+    Then blijft de gebruiker niet geregistreerd
 ```
-In dit voorbeeld beschrijft de feature "Verwerken van een bestelling" twee scenario's: het plaatsen van een bestelling 
-en het annuleren van een bestelling. De stappen in elk scenario beschrijven de acties die de klant uitvoert en de 
-verwachte resultaten. Gherkin maakt het mogelijk om het gedrag van software op een gestructureerde en begrijpelijke 
-manier te beschrijven, waardoor het gemakkelijker wordt om de vereisten te begrijpen en te communiceren binnen het team.
 
 ### Cucumber Framework
-Zoals eerder uitgelegd, wordt Gherkin gebruikt om het gewenste gedrag van software in begrijpelijke scenario's te beschrijven. Maar om deze scenario's daadwerkelijk te kunnen testen en automatiseren, heb je een tool nodig die deze Gherkin-bestanden kan uitvoeren. Hier komt het Cucumber framework in beeld.
+Zoals eerder uitgelegd, wordt Gherkin gebruikt om het gewenste gedrag van software in begrijpelijke scenario's te 
+beschrijven. Maar om deze scenario's daadwerkelijk te kunnen testen en automatiseren, heb je een tool nodig die deze 
+Gherkin-bestanden kan uitvoeren. Hier komt het Cucumber framework in beeld.
 
-Cucumber is een testautomatiseringsframework dat direct werkt met Gherkin-scenario's. Het framework leest de scenario's uit de feature-bestanden en koppelt deze aan zogenaamde step definitions: code die de beschreven stappen uitvoert. Hierdoor kun je de in Gherkin beschreven requirements direct valideren met geautomatiseerde tests. Dit zorgt voor een naadloze verbinding tussen specificatie (Gherkin) en uitvoering (Cucumber).
+Cucumber is een testautomatiseringsframework dat direct werkt met Gherkin-scenario's. Het framework leest de 
+scenario's uit de feature-bestanden en koppelt deze aan zogenaamde step definitions: code die de beschreven stappen 
+uitvoert. Hierdoor kun je de in Gherkin beschreven requirements direct valideren met geautomatiseerde tests. Dit zorgt 
+voor een naadloze verbinding tussen specificatie (Gherkin) en uitvoering (Cucumber).
 
 #### Hoe werkt Cucumber?
 1. **Feature-bestanden**: Je schrijft scenario's in Gherkin in `.feature`-bestanden.
@@ -104,16 +104,15 @@ Cucumber is een testautomatiseringsframework dat direct werkt met Gherkin-scenar
 3. **Testuitvoering**: Cucumber leest de feature-bestanden, zoekt de bijbehorende step definitions en voert de tests uit.
 
 #### Voorbeeldimplementatie (Java)
-Stel je hebt het volgende Gherkin-scenario in `bestelling.feature`:
+Stel je hebt het volgende Gherkin-scenario in `registratie.feature`:
 
 ```gherkin
-Feature: Bestelling verwerken
-  Scenario: Klant plaatst een bestelling
-    Given de klant is ingelogd
-    When de klant een product toevoegt aan het winkelwagentje
-    And de klant gaat naar de checkout pagina
-    Then de klant ziet een overzicht van de bestelling
-    And de klant kan de bestelling bevestigen
+Feature: Gebruikersregistratie
+  Scenario: Succesvolle registratie
+    Given de gebruiker is niet geregistreerd
+    When de gebruiker vult het registratieformulier correct in
+    And de gebruiker bevestigt de registratie via e-mail
+    Then is de gebruiker geregistreerd en bevestigd
 ```
 
 De bijbehorende step definitions in Java kunnen er zo uitzien:
@@ -121,34 +120,29 @@ De bijbehorende step definitions in Java kunnen er zo uitzien:
 ```java
 package nl.jouwproject.stappen;
 
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.When;
-import io.cucumber.java.en.Then;
+import io.cucumber.java.nl.Gegeven;
+import io.cucumber.java.nl.Als;
+import io.cucumber.java.nl.Dan;
 
-public class BestellingSteps {
-    @Given("de klant is ingelogd")
-    public void klantIsIngelogd() {
-        // Code om in te loggen
+public class RegistratieSteps {
+    @Gegeven("de gebruiker is niet geregistreerd")
+    public void gebruikerNietGeregistreerd() {
+        // Setup voor niet-geregistreerde gebruiker
     }
 
-    @When("de klant een product toevoegt aan het winkelwagentje")
-    public void productToevoegenAanWinkelwagentje() {
-        // Code om product toe te voegen
+    @Als("de gebruiker vult het registratieformulier correct in")
+    public void registratieformulierCorrectIngevuld() {
+        // Formulier correct invullen
     }
 
-    @When("de klant gaat naar de checkout pagina")
-    public void klantGaatNaarCheckoutPagina() {
-        // Code om naar de checkout pagina te gaan
+    @Als("de gebruiker bevestigt de registratie via e-mail")
+    public void registratieBevestigenViaEmail() {
+        // E-mail bevestigen
     }
 
-    @Then("de klant ziet een overzicht van de bestelling")
-    public void overzichtBestellingZien() {
-        // Code om overzicht te tonen
-    }
-
-    @Then("de klant kan de bestelling bevestigen")
-    public void klantKanBestellingBevestigen() {
-        // Code om bestelling te bevestigen
+    @Dan("is de gebruiker geregistreerd en bevestigd")
+    public void gebruikerGeregistreerdEnBevestigd() {
+        // Controleer registratie en bevestiging
     }
 }
 ```
@@ -164,16 +158,16 @@ project-root/
         │   └── nl/
         │       └── jouwproject/
         │           └── stappen/
-        │               ├── BestellingSteps.java
+        │               ├── RegistratieSteps.java
         │               └── RunCucumberTest.java
         └── resources/
             └── features/
-                └── bestelling.feature
+                └── registratie.feature
 ```
 
-- **BestellingSteps.java**: bevat de step definitions, in de package `nl.jouwproject.stappen`.
+- **RegistratieSteps.java**: bevat de step definitions, in de package `nl.jouwproject.stappen`.
 - **RunCucumberTest.java**: de Cucumber-runner, in dezelfde package.
-- **bestelling.feature**: het feature-bestand, in de map `features` onder `resources`.
+- **registratie.feature**: het feature-bestand, in de map `features` onder `resources`.
 
 Hieronder zie je hoe de Cucumber-runner eruitziet, passend bij deze structuur:
 
@@ -194,8 +188,6 @@ import static io.cucumber.junit.platform.engine.Constants.GLUE_PROPERTY_NAME;
 public class RunCucumberTest {
 }
 ```
-
-Zorg ervoor dat de package-namen in je Java-bestanden overeenkomen met de mappenstructuur. Zo kan Cucumber de juiste bestanden vinden tijdens het uitvoeren van de tests.
 
 #### Cucumber gebruiken
 1. Voeg Cucumber toe aan je project (bijvoorbeeld via Maven of npm).
@@ -222,3 +214,4 @@ Voor Maven voeg je de volgende dependency toe aan je `pom.xml` (versie juni 2025
 4. Voer de tests uit met de Cucumber-runner.
 
 Cucumber maakt het mogelijk om specificaties en tests te combineren, waardoor je requirements direct kunt valideren met geautomatiseerde tests.
+
