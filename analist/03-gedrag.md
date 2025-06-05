@@ -1,14 +1,28 @@
 # Beschrijven van gedrag
 
-Nu we de processen in kaart hebben gebracht, is het tijd om te kijken naar het gedrag van de processen. Dit helpt ons 
-te begrijpen hoe de processen zich gedragen onder verschillende omstandigheden en hoe ze reageren op veranderingen in 
-de omgeving. Dit begrip kan dan meegenomen worden door de developers bij het schrijven van de code. De beschrijving van 
-het gedrag kan opgenomen worden in het zogenaamde design document, dat een belangrijk onderdeel is van het 
-softwareontwikkelingsproces.
+## Behavior-Driven Development (BDD)
 
-Er zijn veel manieren om het gedrag van processen te beschrijven. Wij gaan hier 2 manieren bespreken: 
-- De beschrijving van het gedrag in diagramvorm door middel van een state diagram (toestandsdiagram).
-- De beschrijving van het gedrag in tekstuele vorm door middel van Gherkin.
+Behavior-Driven Development (BDD) is een manier van software ontwikkelen waarbij je het gewenste gedrag van een systeem 
+beschrijft vanuit het perspectief van de gebruiker of de business. In plaats van direct te denken aan technische 
+oplossingen, begin je bij BDD met het beschrijven van voorbeelden van gewenst gedrag in gewone taal. Dit helpt om 
+misverstanden te voorkomen en zorgt ervoor dat iedereen (ontwikkelaars, testers, opdrachtgevers) hetzelfde beeld heeft 
+van wat het systeem moet doen.
+
+### Hoe werkt BDD?
+- Je beschrijft samen met de opdrachtgever of gebruiker het gewenste gedrag van het systeem in concrete voorbeelden.
+- Deze voorbeelden schrijf je op in een vaste structuur, vaak met de woorden: **Given** (gegeven), **When** (wanneer), **Then** (dan).
+- Ontwikkelaars gebruiken deze voorbeelden om tests te schrijven en de software te bouwen.
+
+### Waarom BDD?
+- Het maakt requirements concreet en testbaar.
+- Het bevordert samenwerking tussen ontwikkelaars, testers en opdrachtgevers.
+- Het voorkomt misverstanden over wat het systeem moet doen.
+
+### Samenvatting
+- BDD helpt je om gedrag van het systeem te beschrijven in gewone taal.
+- Gherkin is een veelgebruikte taal om BDD-scenario's op te schrijven.
+- State diagrams geven overzicht van toestanden en overgangen; BDD-scenario's vullen deze aan met concrete voorbeelden.
+
 
 ## State Diagram
 Een state diagram (toestandsdiagram) is een visueel hulpmiddel dat laat zien in welke verschillende toestanden (states) 
@@ -214,4 +228,3 @@ Voor Maven voeg je de volgende dependency toe aan je `pom.xml` (versie juni 2025
 4. Voer de tests uit met de Cucumber-runner.
 
 Cucumber maakt het mogelijk om specificaties en tests te combineren, waardoor je requirements direct kunt valideren met geautomatiseerde tests.
-
