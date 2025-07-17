@@ -72,8 +72,7 @@ belangrijke details niet vergeten worden, die anders tijdens de sprint voor prob
 Elke User Story is pas ‘sprintklaar’ als die voldoet aan de Definition of Ready. Door het toevoegen van 
 acceptatiecriteria kun je heel eenvoudig testen wanneer een User Story klaar is. Alleen wanneer aan alle 
 acceptatiecriteria volledig is voldaan, kun je een User story opleveren. Let er wel op dat de User Story pas deel wordt 
-van het increment als die voldoet aan de Definition of Done. Wat precies het verschil is tussen de acceptatiecriteria en 
-de Definition of Done kun je in het artikel van de Definition of Done lezen.
+van het increment als die voldoet aan de Definition of Done. 
 
 ### Hoe schrijf je acceptatiecriteria: do’s & don’ts?
 
@@ -84,12 +83,12 @@ makkelijker acceptatiecriteria identificeren. Dan rest ons alleen nog de vraag h
 Het schrijven van goede acceptatiecriteria is een kunst die je pas echt gaat beheersen door het veel te doen. Maar wat 
 als je het altijd op de verkeerde manier doet? Dan doe je het na een jaar nog steeds verkeerd. De beste 
 acceptatiecriteria voldoen aan het volgende:
-Blijf bij de “wat” en vermijd de “hoe”
+
+> Blijf bij de “WAT” en vermijd de “HOE”
 
 Misschien nog wel het lastigste van acceptatiecriteria is dat je de balans moet vinden tussen te gedetailleerd, precies 
-goed en te onduidelijk. Dat is ook gelijk de #1 fout die sommige Product Owners maken. Wij zien te vaak dat de Product 
-Owner te veel detail toevoegt waardoor de Developers helemaal geen ruimte hebben om hun creativiteit naar boven te 
-brengen. Om een voorbeeld te geven:
+goed en te onduidelijk. Dat is ook gelijk de #1 fout die gemaakt kan worden. Vaak wordt er te veel detail toegevoegd 
+waardoor de Developers helemaal geen ruimte hebben om hun creativiteit naar boven te brengen. Om een voorbeeld te geven:
 
 User Story: “Als gamer wil ik digitaal mijn emotie kunnen uitdrukken, zodat andere gamers kunnen zien hoe gelukkig ik 
 vandaag ben”
@@ -103,7 +102,7 @@ Acceptatiecriteria die bij deze user story kunnen horen:
 - Te onduidelijk: de gebruiker heeft een computerkarakter.
 
 De richtlijn is dat je de acceptatiecriteria zo wil formuleren dat het niet de oplossing definieert waardoor de 
-creativiteit van de Developers wordt afgenomen om wellicht een betere oplossing te bedenken waaraan de Product Owner in 
+creativiteit van de Developers wordt afgenomen om wellicht een betere oplossing te bedenken waaraan de analist in 
 eerste instantie niet had gedacht.
 
 ### Hoeveel acceptatiecriteria per User Story?
@@ -116,10 +115,10 @@ worden in twee kleinere User Stories.
 ### Vermijd subjectief en dubbelzinnig taalgebruik
 
 “De marketingcampagne verloopt vlotter, beter, juister.” Waarschijnlijk roept de vorige zin veel vragen bij je op. Je 
-bent niet de enige. Probeer acceptatiecriteria zo specifiek en SMART mogelijk te benaderen. Zoals eerder genoemd helpen 
-acceptatiecriteria je om te testen en daarom moeten ze meetbaar zijn. In andere woorden: ze moeten zo helder 
-geformuleerd worden dat ze niet voor verschillende interpretaties vatbaar zijn, maar niet zo gedetailleerd dat ze de 
-oplossing beschrijven.
+bent niet de enige. Probeer acceptatiecriteria zo specifiek en [SMART](https://nl.wikipedia.org/wiki/SMART-principe) 
+mogelijk te benaderen. Zoals eerder genoemd helpen acceptatiecriteria je om te testen en daarom moeten ze meetbaar zijn. 
+In andere woorden: ze moeten zo helder geformuleerd worden dat ze niet voor verschillende interpretaties vatbaar zijn, 
+maar niet zo gedetailleerd dat ze de oplossing beschrijven.
 
 ### Wat is het verschil tussen Acceptatiecriteria, Definition of Ready en Definition of Done?
 
@@ -144,7 +143,7 @@ weglaat. Daarom kijken we nu naar vier situaties waarin het ontbreken van accept
 #### Belang acceptatiecriteria tijdens refinement en planning
 
 Tijdens refinement en sprintplanning helpen acceptatiecriteria om werk te verduidelijken. Ze maken zichtbaar wat er 
-precies verwacht wordt. Als er tijdens refinement en planning geen duidelijke acceptatiecriteria zijn, blijft geeft 
+precies verwacht wordt. Als er tijdens refinement en planning geen duidelijke acceptatiecriteria zijn, geeft 
 iedereen vaak zijn eigen invulling aan wat er precies moet worden gebouwd of wanneer het af is. Dit leidt tot verkeerde 
 aannames en foutieve inschattingen. Taken lijken kleiner of eenvoudiger dan ze zijn, of de beoogde waarde wordt niet 
 geleverd. Gevolg: extra werk tijdens de sprint, onnodige discussies en het risico op een ontevreden klant of eindgebruiker.
@@ -160,7 +159,7 @@ Het verbeterproces stagneert en dezelfde fouten worden herhaald.
 Wanneer acceptatiecriteria ontbreken, is het lastig om tests op te stellen. Automatisering wordt ingewikkeld of zelfs 
 onmogelijk, omdat niet duidelijk is wat er precies getest moet worden. Daardoor moeten er meer handmatige tests worden 
 gedaan, wat tijd kost en foutgevoeliger is. Daarnaast kan het voorkomen dat een product als succesvol word getest, maar 
-in de praktijk niet de benodigde functies uitvoerd, de tester kan dit dan gemakkelijk over het hoofd zien doordat de 
+in de praktijk niet de benodigde functies uitvoert. De tester kan dit dan gemakkelijk over het hoofd zien doordat de 
 acceptatiecriteria niet goed zijn vastgelegd.
 
 #### Belemmering betrokkenheid van stakeholders
@@ -184,7 +183,7 @@ Use cases bestaan uit twee onderdelen: een use case diagram en een gedetailleerd
 use case diagram geeft een visuele weergave van de interacties tussen de gebruikers (actors) en het systeem, terwijl de 
 gedetailleerde beschrijving de stappen en voorwaarden van de interactie beschrijft.
 
-De manier waarop je use cases beschrifjt is gestandaardiseerd, dat wil zeggen dat iedereen op vrijwel dezelfde manier 
+De manier waarop je use cases beschrijft is gestandaardiseerd, dat wil zeggen dat iedereen op vrijwel dezelfde manier 
 use cases documenteert. Dat is prettig want daarmee is de overdraagbaarheid van het functioneel ontwerp van je website
 groter en kunnen meerdere betrokkenen (designers, developers, project managers) met dat document overweg.
 
@@ -270,16 +269,16 @@ In een use case diagram zou je dit dan als volgt uittekenen:
 Een voorbeeld van een uitgewerkte use case is dan als volgt:
 
 1. **Titel van de use case**
-    - Geef de use case een duidelijke en beschrijvende titel. Bijvoorbeeld: "Download e-book".
+    - "Download e-book".
 
 2. **Doel van de use case**
-    - Beschrijf het doel van de use case. Wat wil de gebruiker bereiken? Bijvoorbeeld: "Een betalende gebruiker wil een e-book downloaden om offline te kunnen lezen."
+    - "Een betalende gebruiker wil een e-book downloaden om offline te kunnen lezen."
 
 3. **Actor(s)**
-    - Identificeer de actor(en) die betrokken zijn bij de use case. Bijvoorbeeld: "Betalende gebruiker".
+    - "Betalende gebruiker".
 
 4. **Precondities**
-    - Beschrijf de voorwaarden waaraan moet worden voldaan voordat de use case kan worden uitgevoerd. Bijvoorbeeld: "De gebruiker heeft een betaald account en is ingelogd."
+    - "De gebruiker heeft een betaald account en is ingelogd."
 
 5. **Stappen**
     - Beschrijf de stappen die de actor en het systeem doorlopen om het doel te bereiken. Bijvoorbeeld:
@@ -290,7 +289,7 @@ Een voorbeeld van een uitgewerkte use case is dan als volgt:
         5. De gebruiker downloadt het e-book via de link.
 
 6. **Postcondities**
-    - Beschrijf de situatie nadat de use case is uitgevoerd. Bijvoorbeeld: "Het e-book is succesvol gedownload en beschikbaar op het apparaat van de gebruiker."
+    - "Het e-book is succesvol gedownload en beschikbaar op het apparaat van de gebruiker."
 
 7. **Uitzonderingen**
     - Beschrijf mogelijke uitzonderingen of fouten die kunnen optreden tijdens de uitvoering van de use case. Bijvoorbeeld:
@@ -298,9 +297,7 @@ Een voorbeeld van een uitgewerkte use case is dan als volgt:
         - "De downloadlink is verlopen: het systeem genereert een nieuwe link."
 
 8. **Relaties met andere use cases**
-    - Beschrijf hoe deze use case gerelateerd is aan andere use cases. Bijvoorbeeld: "Deze use case maakt gebruik van de use case 'Inloggen' en kan worden uitgebreid met de use case 'E-book delen'."
-
-Door deze stappen te volgen, kun je een gedetailleerde en gestructureerde beschrijving van een use case maken die helpt bij het ontwerpen en ontwikkelen van een systeem.
+    - "Deze use case maakt gebruik van de use case 'Inloggen' en kan worden uitgebreid met de use case 'E-book delen'."
 
 ### Wat zijn de voordelen van use cases?
 
@@ -315,5 +312,3 @@ uitgewerkt of dat er wellicht nog zaken ontbreken. Die kun je dan alsnog toevoeg
 Tot slot bieden de use cases een mooi instrument om als software developer en opdrachtgever goed op één lijn te komen 
 over welke  functies in welke versie van de website moeten zitten. Hier kan nooit onduidelijkheid over bestaan omdat 
 alles in een duidelijk schema is opgesomd.
-
-
