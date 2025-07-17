@@ -1,8 +1,8 @@
-# User Stories, acceotatiecriteria en Use Cases
+# User Stories, Acceptatiecriteria en Use Cases
 
 In de softwareontwikkeling zijn zowel user stories als use cases belangrijke technieken om de wensen en eisen van 
 gebruikers te beschrijven. Beide methoden helpen om inzicht te krijgen in wat een systeem moet doen, maar ze verschillen 
-in detailniveau, structuur en toepassing. 
+in detailniveau, structuur en toepassing.
 
 ## Wat zijn User Stories?
 
@@ -171,39 +171,149 @@ samenwerking verslechtert en doelen worden gemist.
 
 ## Wat zijn Use Cases?
 
-Een use case is een gedetailleerde beschrijving van hoe een gebruiker (of ander systeem) interactie heeft met het 
-systeem om een bepaald doel te bereiken. Use cases worden vaak gebruikt in meer traditionele, gestructureerde 
-ontwikkelmethoden, maar zijn ook waardevol in agile omgevingen voor complexe processen.
+Een use case is een beschrijving van een specifieke interactie tussen een gebruiker (actor) en een systeem (zoals een 
+website of applicatie) die een bepaald doel dient. Use cases worden vaak gebruikt in een functioneel ontwerp om de 
+functionaliteit van een systeem te beschrijven vanuit het perspectief van de gebruiker. Ze helpen bij het identificeren 
+van de vereisten en functionaliteiten die het systeem moet bieden.
 
-Een use case bestaat meestal uit:
-- Een titel (naam van de use case)
-- Actoren (wie gebruikt het systeem)
-- Doel (wat wil de gebruiker bereiken)
-- Hoofdscenario (stapsgewijze beschrijving van het normale verloop)
-- Alternatieve scenario's (wat als er iets misgaat of anders loopt)
-- Voorwaarden (wat moet er gelden voordat de use case start)
-- Resultaat (wat is het eindresultaat)
+Use cases zijn vooral nuttig in de vroege fasen van het ontwikkelingsproces, wanneer de vereisten nog niet volledig zijn 
+gedefinieerd. Ze kunnen ook worden gebruikt om de communicatie tussen verschillende belanghebbenden te vergemakkelijken, 
+zoals ontwikkelaars, ontwerpers en projectmanagers.
 
-**Voorbeeld use case:**
-- Titel: Bestelling volgen
-- Actor: Klant
-- Doel: Inzien van de status van een bestelling
-- Hoofdscenario: 1. Klant logt in. 2. Klant kiest 'Mijn bestellingen'. 3. Klant selecteert een bestelling. 4. Systeem toont de status en track & trace code.
-- Alternatief: Bestelling is nog niet verzonden → status is 'In behandeling'.
+Use cases bestaan uit twee onderdelen: een use case diagram en een gedetailleerde beschrijving van de use case zelf. Het 
+use case diagram geeft een visuele weergave van de interacties tussen de gebruikers (actors) en het systeem, terwijl de 
+gedetailleerde beschrijving de stappen en voorwaarden van de interactie beschrijft.
 
-### Wanneer gebruik je Use Cases?
-Use cases zijn vooral nuttig wanneer je te maken hebt met complexe interacties, meerdere actoren of wanneer je een 
-gedetailleerd overzicht nodig hebt van hoe het systeem moet functioneren. Ze helpen om de functionaliteit vanuit het 
-perspectief van de gebruiker te begrijpen en kunnen dienen als basis voor testen en documentatie.
+De manier waarop je use cases beschrifjt is gestandaardiseerd, dat wil zeggen dat iedereen op vrijwel dezelfde manier 
+use cases documenteert. Dat is prettig want daarmee is de overdraagbaarheid van het functioneel ontwerp van je website
+groter en kunnen meerdere betrokkenen (designers, developers, project managers) met dat document overweg.
 
-## Verschillen tussen User Stories en Use Cases
+Een use case diagram is een diagram opgemaakt in UML (Unified Modeling Language). Met een use case diagram noteer je de 
+“use case” van je website en welke “actors” daar gebruik van maken. Actors zijn type gebruikers, groepen of rollen die 
+gebruik moeten maken van die use cases. De use cases staan altijd genoteerd in een kader dat “het systeem” aanduidt, in 
+ons geval een website of web applicatie.
 
-| Aspect              | User Story                                 | Use Case                                      |
-|---------------------|--------------------------------------------|-----------------------------------------------|
-| Detailniveau        | Kort, globaal                              | Uitgebreid, gedetailleerd                     |
-| Structuur           | Vrij, één zin + acceptatiecriteria         | Vaste onderdelen (scenario's, actoren, etc.)   |
-| Doel                | Wensen en waarde voor de gebruiker         | Gedetailleerde interactie tussen mens en systeem |
-| Testbaarheid        | Door acceptatiecriteria                    | Door scenario's en voorwaarden                 |
-| Focus               | Wat de gebruiker wil bereiken              | Hoe de gebruiker het systeem gebruikt          |
+### Hoe zien use case diagrammen eruit?
+
+In een use case diagram gebruiken we de volgende symbolen:
+
+Het systeem: het systeem is in ons geval de website of web applicatie. Binnen het kader van het systeem noteer je de 
+specifieke use cases, de actors staan daar altijd buiten. Een systeem kan ook een versienummer hebben. Zo kun je 
+bijvoorbeeld aangeven in welke versie van je website een use case wordt geïntroduceerd. In het voorbeeld verderop zie je 
+hoe dat is uitgewerkt.
+
+![De notatie voor een systeem in een Use Case Diagram](systeem-use-case.jpg)
+
+De actor: de actor is de uitbeelding van de rol of groep die iets moet kunnen in de website. Het is dus niet een 
+individu zoals “Bob” of “Jan” maar wel “Beheerder” of “Gebruiker” of “Premium Gebruiker”.
+
+![De notatie voor een Actor in een Use Case Diagram](use-case-actor.jpg)
+
+De use case: de use case is een ovaal met daarin een naam die bepaalde functionaliteit omschrijft. Een goede use case 
+is er een die het doel van de use case het best omschrijft. Bijvoorbeeld: “bekijk agenda” of “wijzig besteloverzicht” of 
+“bekijk product informatie”. In het functioneel ontwerp kun je dan extra beschrijvingen toevoegen van de use case.
+
+![De notatie voor een use case in een Use Case Diagram](use-case-symbool.jpg)
+
+De pijlen: je verbindt actors en use cases met pijlen. Daarmee geef je aan welke actor gebruik moet kunnen maken van 
+welke use case. Wanneer je pijlen tekent tussen use cases dan kun je aangeven of de twee use cases elkaar nodig hebben 
+(noteer “uses” of “include”) of een optionele aanvulling op elkaar zijn (“extends”).
+
+![De notatie voor pijlen in een Use Case Diagram](pijlen-relaties-in-use-case-diagram.jpg)
+
+### Hoe schrijf je een use case?
+
+Een use case is opgebouwd uit verschillende onderdelen die samen een gedetailleerde beschrijving geven van een interactie tussen een gebruiker (actor) en een systeem:
+
+1. **Titel van de use case**
+   - Een korte en duidelijke naam die de functionaliteit beschrijft.
+
+2. **Doel van de use case**
+   - Het doel dat de actor wil bereiken door interactie met het systeem.
+
+3. **Actor(s)**
+   - De gebruiker(s) of rol(len) die betrokken zijn bij de interactie.
+
+4. **Precondities**
+   - De voorwaarden die moeten gelden voordat de use case kan worden uitgevoerd.
+
+5. **Stappen**
+   - Een gedetailleerde beschrijving van de interactie tussen de actor en het systeem, stap voor stap.
+
+6. **Postcondities**
+   - De situatie die geldt nadat de use case succesvol is uitgevoerd.
+
+7. **Uitzonderingen**
+   - Mogelijke afwijkingen of fouten die kunnen optreden tijdens de uitvoering van de use case.
+
+8. **Relaties met andere use cases**
+   - Hoe de use case samenhangt met andere use cases, bijvoorbeeld door gebruik te maken van gedeelde functionaliteiten.
+
+Door deze structuur te volgen, kun je een consistente en begrijpelijke beschrijving van een use case maken.
+
+### Een voorbeeld van een use case voor een website
+
+Stel, je wilt een website maken waar je een overzicht biedt van e-books en die ook als download beschikbaar stelt voor 
+gebruikers met een betaald account. Er zijn dus twee soorten gebruikers, namelijk de betalende en niet-betalende 
+gebruiker. De niet-betalende gebruikers kunnen het overzicht aan e-books bekijken en per e-book ook een samenvatting 
+lezen. De betalende gebruikers kunnen dat ook, maar krijgen ook de mogelijkheid om die te downloaden. Na het downloaden 
+kunnen betalende gebruikers een gratis kopie van dat e-book toezenden aan een bekende.
+
+In versie twee van ditzelfde platform komt de mogelijkheid dat betalende gebruikers ook een review kunnen achterlaten op 
+de site over het e-book. Ze krijgen ook de mogelijkheid om reviews te lezen van andere gebruikers. De afdeling inkoop 
+wil ook graag deze reviews inzien zodat ze hun inkoopbeleid kunnen optimaliseren.
+
+In een use case diagram zou je dit dan als volgt uittekenen:
+
+![Use Case Diagram voorbeeld](use-case-diagram.jpg)
+
+Een voorbeeld van een uitgewerkte use case is dan als volgt:
+
+1. **Titel van de use case**
+    - Geef de use case een duidelijke en beschrijvende titel. Bijvoorbeeld: "Download e-book".
+
+2. **Doel van de use case**
+    - Beschrijf het doel van de use case. Wat wil de gebruiker bereiken? Bijvoorbeeld: "Een betalende gebruiker wil een e-book downloaden om offline te kunnen lezen."
+
+3. **Actor(s)**
+    - Identificeer de actor(en) die betrokken zijn bij de use case. Bijvoorbeeld: "Betalende gebruiker".
+
+4. **Precondities**
+    - Beschrijf de voorwaarden waaraan moet worden voldaan voordat de use case kan worden uitgevoerd. Bijvoorbeeld: "De gebruiker heeft een betaald account en is ingelogd."
+
+5. **Stappen**
+    - Beschrijf de stappen die de actor en het systeem doorlopen om het doel te bereiken. Bijvoorbeeld:
+        1. De gebruiker navigeert naar de pagina van het gewenste e-book.
+        2. De gebruiker klikt op de knop "Download".
+        3. Het systeem controleert of de gebruiker een betaald account heeft.
+        4. Het systeem genereert een downloadlink voor het e-book.
+        5. De gebruiker downloadt het e-book via de link.
+
+6. **Postcondities**
+    - Beschrijf de situatie nadat de use case is uitgevoerd. Bijvoorbeeld: "Het e-book is succesvol gedownload en beschikbaar op het apparaat van de gebruiker."
+
+7. **Uitzonderingen**
+    - Beschrijf mogelijke uitzonderingen of fouten die kunnen optreden tijdens de uitvoering van de use case. Bijvoorbeeld:
+        - "De gebruiker heeft geen betaald account: het systeem toont een foutmelding."
+        - "De downloadlink is verlopen: het systeem genereert een nieuwe link."
+
+8. **Relaties met andere use cases**
+    - Beschrijf hoe deze use case gerelateerd is aan andere use cases. Bijvoorbeeld: "Deze use case maakt gebruik van de use case 'Inloggen' en kan worden uitgebreid met de use case 'E-book delen'."
+
+Door deze stappen te volgen, kun je een gedetailleerde en gestructureerde beschrijving van een use case maken die helpt bij het ontwerpen en ontwikkelen van een systeem.
+
+### Wat zijn de voordelen van use cases?
+
+Het grote voordeel van het gebruik van use cases is dat je overzichtelijk en in één oogopslag kunt zien wat de 
+verschillende typen gebruikers allemaal moeten kunnen in de website. Je ziet ook makkelijk welke functies in welke 
+versie van de website moet terugkomen.
+
+Vaak schrijf je de use cases in het functioneel ontwerp tot in detail uit. Je hebt dan een mooi overzicht van 
+functionaliteiten die je naast de wireframes kunt leggen. Je kunt dan kijken of alle genoemde use cases goed zijn 
+uitgewerkt of dat er wellicht nog zaken ontbreken. Die kun je dan alsnog toevoegen.
+
+Tot slot bieden de use cases een mooi instrument om als software developer en opdrachtgever goed op één lijn te komen 
+over welke  functies in welke versie van de website moeten zitten. Hier kan nooit onduidelijkheid over bestaan omdat 
+alles in een duidelijk schema is opgesomd.
 
 
