@@ -480,9 +480,9 @@ In the console you can see that the `isValidProductId` function is called before
 seen if you enter a non existing product ID in the URL. The `isValidProductId` function will redirect the user to the
 `page-not-found` page using a different URL, than the one we used in the `product-page.js` file.
 
-However if you are using ESLint, you will get a warning that the `isValidProductId` function is too long, which can be solved by removing the console.logs statements.
-But you will also get a error that ESLint expected a function expression instead of a function declaration.
-This can be solved easyly by exchanging the line:
+However if you are using ESLint, you will get a warning that the `isValidProductId` function is too long, which can be
+solved by removing the console.logs statements. But you will also get a error that ESLint expected a function expression
+instead of a function declaration. This can be solved easyly by exchanging the line:
 
 ```javascript
 async function isValidProductId(context, commands) {
@@ -496,11 +496,11 @@ const isValidProductId = async (context, commands) => {
 
 ## Final remarks
 
-It took the Vaadin team a while to get the router library to the point where it is now. The library just recently reached version 2.0.0.
-However, we discovered that the library has impact on the dev server. The dev server no longer always reloads the page when you change a file.
-We also saw strange behavior like duplicated web components on a page.
-All this could be solved by stopping the dev server and starting it again, as well as opening the site in a new tab.
-But this is not something you want to do every time you change a file. Hopefully these issues will be solved soon.
+It took the Vaadin team a while to get the router library to the point where it is now. The library just recently
+reached version 2.0.0. However, we discovered that the library has impact on the dev server. The dev server no longer
+always reloads the page when you change a file. We also saw strange behavior like duplicated web components on a page.
+All this could be solved by stopping the dev server and starting it again, as well as opening the site in a new tab. But
+this is not something you want to do every time you change a file. Hopefully these issues will be solved soon.
 
 ---
 
@@ -511,5 +511,5 @@ But this is not something you want to do every time you change a file. Hopefully
 
 ---
 
-:house: [Home](../README.md) | :arrow_backward: [Single Page Application (SPA) project setup](./spa-project-setup.md) | 
+:house: [Home](../README.md) | :arrow_backward: [Single Page Application (SPA) project setup](./spa-project-setup.md) |
 :arrow_up: [Multiple- and Single-page applications](./README.md) | [Challenges](./challenges.md) :arrow_forward:
