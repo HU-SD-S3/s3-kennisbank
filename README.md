@@ -9,4 +9,4 @@
 
 ---
 
-:house: [Home](../README.md) |  [Vanilla Web Components](./vanilla-web-components/README.md) :arrow_forward:
+:house: [Home](./README.md) |  [Vanilla Web Components](./vanilla-web-components/README.md) :arrow_forward:
