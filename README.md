@@ -5,6 +5,7 @@
 * [Data exchange](./data-exchange/README.md)
 * [Multiple- and Single-page applications](./mpa-spa/README.md)
 * [Testing](./testing/README.md)
+* [Architecture](./architecture/README.md)
 
 ---
 
