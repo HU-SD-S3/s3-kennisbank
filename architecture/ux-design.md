@@ -381,3 +381,7 @@ rendering of the application, and they are not reusable components.
 
 - [Atomic Design](https://atomicdesign.bradfrost.com/)
 - [Atomic Design - Chapter 2](https://atomicdesign.bradfrost.com/chapter-2/)
+---
+
+:house: [Home](../README.md) | :arrow_backward: []() | :arrow_up:
+[Architecture](./README.md) | [Architectural Patterns](./architectural-patterns.md) :arrow_forward:

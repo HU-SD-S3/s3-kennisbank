@@ -192,3 +192,8 @@ to focus on building a solid architecture first, and then optimize for performan
 
 - [Architectural Patterns](https://appmaster.io/blog/architectural-patterns-mvc-mvp-and-mvvm)
 - [FINAPS - Creating Scalable and maintainable Frontend Architecture](https://finaps.nl/creating-scalable-and-maintainable-front-end-architecture/)
+
+---
+
+:house: [Home](../README.md) | :arrow_backward: [UX Design](./ux-design.md) | :arrow_up:
+[Architecture](./README.md) | [Global Architecture](./global-architecture.md) :arrow_forward:

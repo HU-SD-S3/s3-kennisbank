@@ -96,4 +96,7 @@ Many real-world applications use a hybrid approach, combining elements from mult
 
 - [Modern Frontend Architecture Pattern](https://blog.logrocket.com/guide-modern-frontend-architecture-patterns/)
 
-:house: [Home](../README.md) | :arrow_up: [Architecture](./README.md) | [Web Components Architecture](./web-components-architecture.md) :arrow_forward:
+---
+
+:house: [Home](../README.md) | :arrow_backward: [Architectural Patterns](./architectural-patterns.md) | :arrow_up:
+[Architecture](./README.md) | [Challenges](./challenges.md) :arrow_forward:
