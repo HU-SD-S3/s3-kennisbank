@@ -49,15 +49,32 @@ Some common architectural patterns that we can use to achieve separation of conc
   separates the application into different layers. The model is responsible for managing the data, the view is
   responsible for displaying the data, and the "whatever" is responsible for handling user input and updating the model.
 
-In practice, we achieve separation of concerns by organizing our code into different files that represent the `view`,
-`controller`, and `service` layers. This allows us to keep our code organized and easy to navigate.
+Although these patterns have different names and variations, they all share the same basic principles of separation of
+concerns. They help us to organize our code into different layers, so that each layer has its own responsibility. This
+makes our code easier to understand, easier to maintain, and easier to test.
+
+We achieve this separation of concerns by organizing our code into different files that represent the `view`,
+`controller`, and `service` layers.
 
 ![Separation of Concerns](./assets/separation-of-concerns.png)
 
-Using this separation would mean that code of the `view` layer may not access the local storage or call the fetch API
-directly. This should be done in the `service` layer. The `controller` and `service` layer should not call any DOM API's
-directly (like `document.querySelector` or `document.addEventListener`). This should be done in the `view` layer. The
-`view` should not do any calculations or transformations of data, this should be done in the `controller` layer.
+You might have noticed that we are missing the `model` layer in this diagram. This is because in front-end applications,
+the model is often represented by the data that we fetch from an API or store in local storage.
+
+In practice, this separation of concerns means that:
+
+- Code of the `view` layer is responsible for **rendering the user interface** and handling **user interactions**. It
+  may therefore not access the local storage or call the fetch API directly.
+- The main responsiblity of the `service` layer is to **manage data**. Therefore the `service` layer may access the web
+  storage (local storage, session storage, ...) or call the fetch API to retrieve data from a server. It is responsible
+  for transforming the data into a format that can be easily consumed by the `view` layer. The `service` layer however
+  may not access the DOM directly (think about statements like the `document.querySelector`).
+- The `controller` layer is responsible for **coordinating the interaction** between the `view` and `service` layers. By
+  doing so, it acts as a mediator between the `view` and `service` layers, which makes it perfectly suitable for
+  managing the application's state and business logic. It handles data it receives from the `view` layer, processes it
+  if necessary, and interacts with the `service` layer to fetch or update data. The `controller` layer may not access
+  the DOM directly (think about statements like the `document.querySelector` or `addEventListener`) and may also not
+  access the web storage or call the fetch API directly.
 
 Next we could group our code into different folders that represent the different layers of our application. This allows
 us to keep our code organized and easy to navigate.
@@ -96,8 +113,14 @@ frontend-root/
 ```
 
 Here the `features` folder contains all the features of the application, and each feature has its own `view`,
-`controller`, and `service` folders. This allows us to keep all the code related to a specific feature together, making
-it easier to develop, test, and maintain.
+`controller`, and `service` folders.
+This allows us to keep all the code related to a specific feature together, making it easier to develop, test,
+and maintain.
+
+> [!NOTE]
+>
+> Instead of using subfolders within the `features` folder, you can also use files with a naming convention that
+> indicates the layer, such as `feature-1.service.js`, `feature-1.controller.js`.
 
 ## Reusability
 
