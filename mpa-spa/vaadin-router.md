@@ -511,5 +511,5 @@ But this is not something you want to do every time you change a file. Hopefully
 
 ---
 
-:house: [Home](../README.md) | :arrow_backward: [Single Page Application (SPA) project setup](./spa-project-setup.md) |
+:house: [Home](../README.md) | :arrow_backward: [Single Page Application (SPA) project setup](./spa-project-setup.md) | 
 :arrow_up: [Multiple- and Single-page applications](./README.md) | [Challenges](./challenges.md) :arrow_forward:
