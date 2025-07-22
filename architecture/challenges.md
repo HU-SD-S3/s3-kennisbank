@@ -14,6 +14,8 @@ Mark the part of the dialog box that you would use each tag for, by drawing a bo
 - Give the attributes and API that you would document for each tag.
 
 - Determine for each web component what atomic design level it belongs to (atom, molecule, organism, template, or page) and justify your choice.
+  
+- What is the minimum documentation requirement you would expect for each tag, so that other developers can use it effectively?
 
 ## Challenge 2: Date Input
 
@@ -32,6 +34,8 @@ To get a consistent appearance and behavior across browsers, we want to create a
 - Give the attributes and API that you would document for each tag.
 
 - Determine for each web component what atomic design level it belongs to (atom, molecule, organism, template, or page) and justify your choice.
+
+- Have the documentation requirements changed compared to the previous challenge? If so, how?
 
 ## Challenge 3: External Libraries
 
@@ -52,8 +56,13 @@ often not open source. So you might have to pay for a license to use them in you
 There are some libraries that are open source and based on web components, but they are often not maintained and not
 well documented. On the site [webcomponents.org](https://webcomponents.org/) you can find a list of web components that
 are available, like one for leaflet maps [leaflet-map](https://prtksxna.github.io/leaflet-map-component/), but as you
-can see are the most of the components you can find there not well maintained and not well documented.
+can see most of the components you can find there are not well maintained and not well documented.
 
 ### Task
 
-- Explain the atomic design level of each library and justify your choice.
+- Explain the atomic design level of the leaflet-map component and justify your choice.
+
+---
+
+:house: [Home](../README.md) | :arrow_backward: [Global Architecture](./global-architecture.md) | :arrow_up:
+[Architecture](./README.md) | []() :arrow_forward:
