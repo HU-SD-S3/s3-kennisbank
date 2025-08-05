@@ -288,8 +288,7 @@ registratie is niet zo boeiend), dan is het een beetje lelijk om in je
 constructor een Dependency te vragen, die je misschien helemaal niet
 nodig hebt! Dan biedt Property Injection een uitkomst.
 
-::: listing
-``` {.java linenos=""}
+``` java
     @Service
     public class RegistrationService {
         private final Mailer mailer;
@@ -319,7 +318,6 @@ nodig hebt! Dan biedt Property Injection een uitkomst.
         }
     }
 ```
-:::
 
 In het voorbeeld
 [\[di:propertydi\]](#di:propertydi){reference-type="ref"

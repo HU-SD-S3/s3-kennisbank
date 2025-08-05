@@ -402,3 +402,5 @@ worden de regels minder streng gehanteerd. Het is bedoeld om te wennen
 aan een modulaire opbouw. We accepteren een lichte koppeling op het
 framework en op ons domein.
 :::
+
+

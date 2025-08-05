@@ -1,303 +1,6 @@
 # Opdracht 2: Persistentie
 
-Het Engelse *to persist* betekent *volharden* en dat is precies wat
-persistentie inhoudt: de opslag overleeft het afsluiten van de
-applicatie. Het gaat dus langer mee dan het werkgeheugen, bijvoorbeeld
-door de data op te slaan in een bestand, database of web service.
-
-Wij gebruiken hiervoor een erg betrouwbare technologie die maar liefst
-een halve eeuw geleden is ontwikkeld! Nog steeds is het bij vele grote
-en kleine technologiebedrijven te vinden: een Relational Database
-Management System (RDBMS).
-
-De database die we gebruiken is PostgreSQL. Hiermee kunnen we praten
-middels SQL: *Structured Query Language*.
-
-Een relationele database biedt onder meer garanties rondom de
-integriteit bij het wegschrijven en uitlezen van data dankzij
-*transactions*. Ook blijft de data consistent wanneer meerdere
-gebruikers tegelijkertijd met de data werken dankzij *concurrency
-control* middels locking.
-
-De details van persistentie en SQL leer je bij de cursus Data and
-Persistency. Wij gebruiken Spring Boot en Hibernate om het ons wat
-makkelijker te maken. Maar daarmee moeten we nog wel leren werken.
-
-## Het opzetten van de database
-
-In deze cursus zetten we het liefst de database op met een
-developer-hulp-programma genaamd Docker. Latere cursussen maken nog een
-boel gebruik van Docker, dus het is aan te raden zo vroeg mogelijk aan
-dit programma gewend te raken.
-
-### Een database met Docker
-
-Heb je het project op je machine staan? Open het in je IDE (bij voorkeur
-IntelliJ).
-
-Je kan het project op twee manieren opzetten: met Docker of zonder
-Docker. Zie ook de README.md van het project.
-
-Het wordt aangeraden om Docker en docker-compose te gebruiken om het
-project op te starten. Docker zorgt ervoor dat de technische
-afhankelijkheden niet apart geïnstalleerd hoeven te worden, maar
-herbruikbaar in het project zelf kunnen worden opgenomen. Docker wordt
-daarom veel gebruikt in de praktijk om de infrastructuur gelijksoortig
-te houden of je nu op development-, test- of productie-omgeving aan het
-werk bent.
-
-In het geval van dit project gaat het om een voorgeconfigureerde
-PostgreSQL-database.
-
-#### Installeer Docker
-
-Als je op Windows werkt dan zul je eerst nog iets anders moeten
-installeren, namelijk WSL[^1]. WSL staat voor \"Windows Subsystem for
-Linux\" en het zorgt er voor dat je Docker op een snellere en stabielere
-manier kan draaien. WSL en Docker hebben in het verleden echter nogal
-eens gezorgd voor laptops (of desktops) die niet meer opstarten. Neem
-dus het zekere voor het onzekere en ***BACKUP AL JE BELANGRIJKE
-BESTANDEN***.
-
-Zie de [WSL download
-pagina](https://learn.microsoft.com/en-us/windows/wsl/install) voor
-verdere details over het installeren van WSL 2.
-
-Download en installeer Docker desktop via de [Docker download
-pagina](https://www.docker.com/products/docker-desktop). Volg de
-instructies op genoemd op de site.
-
-Vraag studenten en docenten om hulp als je er niet uit komt.
-
-#### Opstarten met docker-compose
-
-Als Docker geïnstalleerd is, kan je de database opstarten met
-docker-compose. Navigeer in de commandline naar de project directory (je
-kunt in je IDE meestal ook een terminal window openen). In de project
-directory kan je `docker-compose up` draaien vanaf de commandline. De
-eerste keer duurt dit even: de container voor PostgreSQL wordt
-gedownload, geconfigureerd, gebouwd als image en vervolgens wordt de
-image opgestart. De volgende keer dat je docker-compose runt wordt
-alleen de voorgeconfigureerde image opgestart.
-
-Als je de database op de achtergrond wil draaien (in plaats van dat hij
-actief in je commandline blijft), kan je ook `docker-compose start`
-gebruiken in plaats van `docker-compose up`.
-
-Gaat er iets mis met `docker-compose` en wil je de container image
-opnieuw bouwen, dan kan je `docker-compose up –build -V` gebruiken.
-
-Hoe dit precies werkt hoef je voor deze cursus niet te weten, maar ben
-je hierin geïnteresseerd, kijk dan eens naar de `docker-compose.yml` en
-in `development/db` binnen het project. Hier staat alles in
-gedefinieerd. Zo wordt er een algemene admin-gebruiker voor PostgreSQL
-met als username en password `admin` en `admin` aangemaakt. Ook worden
-er automatisch username, password en database aangemaakt onder de naam
-`bep2-huland-casino`.
-
-De standaardpoort van PostgreSQL is `5321`. Wij herschrijven deze poort
-in docker-compose.yml naar `15432` om conflicten te voorkomen met een
-bestaande PostgreSQL instantie. De connectiedetails worden beschreven in
-de projectconfiguratie onder src/main/resources/application.properties:
-
-``` ini
-spring.datasource.url=jdbc:postgresql://localhost:15432/bep2-huland-casino
-spring.datasource.username=bep2-huland-casino
-spring.datasource.password=bep2-huland-casino
-```
-
-Zie hieronder meer over hoe je moet verbinden met PostgreSQL.
-
-#### Problemen oplossen met Docker / PostgreSQL
-
-Check altijd of Docker Desktop draait en of onze PostgreSQL-image wel is
-opgestart!
-
-Als data niet lijkt te worden opgeslagen in Docker, zorg dan dat Docker
-een 'volume' kent om naar weg te schrijven. Voeg deze directory of de
-parent directory toe via de Docker user interface onder
-`Settings > Resources > File Sharing`.
-
-Als je niet met de database lijkt te kunnen verbinden, check dan of
-Docker wel bij het (virtuele) netwerk van de host kan.
-
-### Starten zonder Docker
-
-Hoewel Docker wordt aangeraden, kan het voorkomen dat dit op jouw
-systeem om wat voor een reden dan ook niet lukt. Dan moeten we
-PostgreSQL handmatig instellen. Daarvoor moeten we een aantal zaken
-handmatig installeren en configureren in het project.
-
-#### PostgreSQL installeren
-
-Zorg dat PostgreSQL geïnstalleerd is. Dit moet je ook voor de cursus
-Data & Persistency doen. Je kan ook de instructies voor die cursus erbij
-pakken! Zie: [Postgres website](https://www.postgresql.org/download/).
-
-Dit is een database die je gebruikt voor de ontwikkeling van
-webapplicaties met persistentie. Zorg dat je de hoofddatabase en de
-admin-inloggegevens onthoudt of bewaart. Ben je dit vergeten, dan kan je
-het best PostgreSQL opnieuw installeren.
-
-#### Verbinden met de database
-
-Zorg dat je een tool hebt om handmatig te verbinden met de database.
-Hiervoor kan je je *IntelliJ* gebruiken of een tool als *pgAdmin*. Om
-via IntelliJ te verbinden, kan je de instructies uitvoeren die te vinden
-zijn op: [Helppagina
-Jetbrains](https://www.jetbrains.com/help/idea/connecting-to-a-database.html#connect-to-postgresql-database).
-De instructies zijn vergelijkbaar voor DataGrip.
-
-Voor *pgAdmin*, zie: [Website pgAdmin](https://www.pgadmin.org/).
-
-De volgende gegevens heb je nodig voor het verbinden met de
-hoofddatabase:
-
--   **Host**: `localhost`
-
--   **Port**: `5432` (met Docker: `15432`)
-
--   **Database**: `<admin database>` (met Docker: `postgres`)
-
--   **Username**: `<admin user>` (met Docker: `admin`)
-
--   **Username**: `<admin password>` (met Docker: `admin`)
-
-#### Database en gebruikers instellen
-
-Als we geen Docker hebben gebruikt, moeten we zorgen dat de database,
-username en password voor `bep2-huland-casino` worden aangemaakt.
-Hiervoor kan je de volgende queries uitvoeren.
-
-De user (en password) maak je aan met de volgende SQL-query (gebruik een
-raw query in je database-tool):
-
-``` sql
-CREATE USER "bep2-huland-casino" WITH CREATEDB PASSWORD 'bep-huland-casino';
-```
-
-De database maak je als volgt aan met de juiste gebruiker (gebruik een
-raw query in je database-tool):
-
-``` sql
-CREATE DATABASE "bep2-huland-casino" OWNER "bep2-huland-casino";
-```
-
-#### Projectinstellingen veranderen
-
-De standaardpoort van PostgreSQL is `5321`. Ons project staat ingesteld
-om te verbinden met poort `15321`, omdat we dat met Docker doen om niet
-met andere PostgreSQL-instanties in de knoop te komen.
-
-We kunnen aanpassen hoe onze applicatie met de applicatie verbindt via
-de configuratie in src/main/resources/application.properties. Zorg dat
-deze er als volgt uitziet:
-
-``` ini
-spring.datasource.url=jdbc:postgresql://localhost:5432/bep2-huland-casino
-spring.datasource.username=bep2-huland-casino
-spring.datasource.password=bep2-huland-casino
-```
-
-Heb je iets veranderd en werkt het? Commit je wijzigingen met een
-duidelijke naam, bijvoorbeeld: \"Customize database configuration\".
-Push de wijzigingen naar je remote GitHub repository.
-
-### De applicatie starten
-
-Als onze database draait kunnen we onze applicatie starten. Dit kunnen
-we doen door in onze IDE op de play-knop te drukken naast de main-method
-van de klasse CasinoApplication. Of het Maven-commando
-`spring-boot:start`. Dit commando kan je in de IDE uitvoeren
-(Maven-paneel rechts of via het menu `View > Tool Windows > Maven`). Ook
-kan je de commandline gebruiken: `mvnw spring-boot:start`.
-
-Als het goed is, zie je nu in de commandline allerlei log-berichten. De
-laatste regels zouden moeten gaan over dat de applicatie te bereiken is
-op poort `8080`. Zie je dit niet en in plaats daarvan een lange
-foutmelding. Scroll dan omhoog (of omlaag) naar de plek waar je meer
-informatie kan vinden over deze fout. Probeer dit te googelen om er meer
-over te weten te komen.
-
-Twee veelvoorkomende fouten:
-
--   De database is onbereikbaar: zorg dat je bovenstaande instructies
-    hebt gevolgd om de database (met of zonder Docker) draaiende te
-    krijgen.
-
--   De poort 8080 is al in gebruik: er draait al een web-applicatie op
-    poort 8080. Sluit deze applicatie af of stel een andere poort in in
-    de application.properties.
-
-Kan je de fout niet oplossen? Trek dan even aan de bel bel je docent of
-medestudenten!
-
-## Stap 1: Doorgrond de object-relational impedance mismatch
-
-In onze cursus staat het objectmodel centraal. Een relationele database
-werkt echter volgens een heel ander idee.
-
-Relationele databases werken, kort gezegd, volgens het volgende
-conceptuele model:
-
-1.  Data wordt gestructureerd in **entiteiten (tabellen)** met **velden
-    (kolommen)**
-
-2.  Data kan worden ingevuld in **rijen**: per entiteit worden dan de
-    kolommen ingevuld
-
-3.  Entiteiten zijn identificeerbaar middels een **identifier (id)**
-
-4.  Tussen entiteiten kunnen **relaties** bestaan door naar elkaars
-    identifiers te wijzen
-
-Een andere manier hoe relationele databases anders werken dan onze
-applicatie is dat ze gebruik maken van een andere taal. De database
-maakt immers gebruik van SQL, terwijl onze applicatie is geschreven in
-Java!
-
-Er zit dus een mismatch tussen het objectmodel, waarin we een objectboom
-maken (een spel met allerlei benodigdheden), en het relationele model,
-waarin we entiteiten met relaties hebben. Deze mismatch noem je de
-*object-relational impedance mismatch* (*impedantie* betekent
-'belemmering, bemoeilijking of weerstand').
-
-Om deze mismatch te doorbreken kent een applicatie meestal
-*infrastructuur-laag*, waarin de omzetting plaatsvindt van Java naar
-SQL, van objectmodel naar relationeel model.
-
-In ons project schrijven we deze laag niet zelf, maar laten we een
-*object-relational mapper (ORM)* het werk doen: *Hibernate* via *Spring
-JPA*. Wij declareren een *repository* (in de *data-laag*), een interface
-voor opslag welke door Spring geïmplementeerd wordt op basis van de
-geconfigeerde database. Dat scheelt een boel werk! Voor de omzetting van
-domeinobjecten naar entiteiten kunnen we annotaties gebruiken om aan te
-geven welke kolommen we nodig hebben en welke relaties er gelegd moeten
-worden. Dit kunnen we in aparte data-objecten doen, maar in ons project
-staan we het toe om onze domein-objecten van annotaties te voorzien.
-
-Het mooie hieraan is dat we in onze service kunnen zeggen:
-`this.repository.save(game)`. Spring regelt de rest op basis van onze
-annotaties. En die annotaties\... dat is gelijk het moeilijke hieraan!
-Daarom gaan we daarmee oefenen.
-
-### Kanttekening: Geen écht 4-lagenmodel
-
-Hiermee koppelen we wel onze database-abstractielaag aan onze
-domeinlaag. Dit is gek in het kader van een gelaagde architectuur:
-afhankelijkheden lopen daarin meestal maar één kant op. Voor dit project
-staan we het echter toe. De impact van deze koppeling is namelijk te
-rechtvaardigen omdat de opslag in dienst staat van het domein. Het zijn
-immers de domeinobjecten die we willen opslaan. In dit geval zouden we
-de *domain* en de *data* packages als één laag kunnen beschouwen en het
-systeem als 3-lagenarchitectuur bestempelen.
-
-Willen we onze applicatie meer overeen laten komen met een
-4-lagensysteem, dan zouden we een expliciete vertaalslag kunnen
-toevoegen tussen domein- en data-laag. Dat gaat voor deze cursus te ver
-en komt terug in de cursus **Software Architecture**.
-
-## Stap 2: Maak een logisch datamodel
+## Stap 1: Maak een logisch datamodel (ERD)
 
 Voordat we verder gaan, is het van belang om op basis van ons domein- en
 objectmodel een logisch datamodel te maken. Een logisch datamodel geeft
@@ -330,79 +33,7 @@ Neem dit op in je projectdirectory (bijvoorbeeld onder een mapje
 en er feedback op kan geven. Dit hoeft niet perfect te zijn, dus verzand
 niet teveel in details.
 
-## Persistentie in Java
-
-In ons project werken we met een variant van het populaire
-Spring-framework: Spring Boot. Spring Boot maakt gebruik van Spring Data
-JPA, wat *repositories* toevoegt. Een repository is een opslagmechanisme
-voor horende bij één entiteit of een aggregatie van entiteiten. In
-Spring Data JPA wordt voor relationele databases Hibernate gebruikt, een
-library die de gestandardiseerde Java Persistency API (JPA)
-implementeert.
-
-Hibernate is een object-relational mapper (ORM). Dit betekent vrij
-letterlijk dat het de mapping (of: vertaling) verzorgt tussen het
-objectmodel en het relationele model! Deze mapping kunnen we natuurlijk
-met de hand doen door SQL-queries te schrijven voor elk object, maar
-Hibernate geeft ons de optie om dit met minder woorden te doen via XML
-of annotaties. In Java zijn annotaties tegenwoordig de meestgebruikte
-aanpak. Een ORM heeft als doel om de *object-relational impedence
-mismatch* te verkleinen!
-
-### Data entities
-
-Een *data entity* (of kortweg: *entity*) is een eenvoudige manier om
-persistentie van objecten te realiseren. Het kan een simpel object zijn
-met alleen velden en wat getters of een object zijn met meer complex
-gedrag.
-
-Een eenvoudig voorbeeld is te vinden in de Chips-entity. Hier zijn
-alleen geen relaties in opgenomen:
-
-``` java
-@Entity
-public class Chips {
-    @Id
-    @GeneratedValue
-    private Long id;
-
-    private String username;
-
-    private Long amount;
-
-    @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date creationDate;
-
-    @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastUpdate;
-
-    public Chips() {
-    }
-
-    // Methods...
-}
-```
-
-### Repositories
-
-Een *repository* is een *DAO (data access object)* dat zich als
-verzameling gedraagt. Een DAO is een specifieke vorm van een *gateway*:
-een interface naar buiten toe dat verschillende implementaties kan
-hebben. Hierover later meer.
-
-### Overzicht Spring Data JPA en Hibernate
-
-Het is zeer de moeite waard om de documentatie van [Hibernate (entity
-annotations)](https://docs.jboss.org/hibernate/stable/annotations/reference/en/html_single/#entity-overview)
-en [Spring Data JPA
-(repositories)](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories)
-door te nemen en als referentie te gebruiken (tip: doorzoek digitale
-bronnen met `CTRL + F`!). In deze bronnen zijn ook een aantal
-voorbeelden opgenomen.
-
-## Stap 3: Annoteer de hoofdentiteit
+## Stap 2: Annoteer de hoofdentiteit
 
 Als het goed is hebben we één hoofdobject waar alle domeinacties op
 uitgevoerd worden.
@@ -463,7 +94,7 @@ zijn of een mapping vereist naar een andere entiteit toe. In het eerder
 besproken model wordt een spelpotje altijd gespeeld met één Deck. Er is
 dus sprake van een `@OneToMany` relatie naar die Deck toe.
 
-## Stap 4: Annoteer de overige entiteiten
+## Stap 3: Annoteer de overige entiteiten
 
 Dit moeten we doen voor alle entiteiten, bijvoorbeeld voor de eerder
 besproken Deck-entiteit.
@@ -480,7 +111,7 @@ harten aas kan immers in meerdere spelpotjes voorkomen! Hoe gaan we
 daarmee om? En wat doen we met andere zaken die we als enum hebben
 gemodelleerd, zoals misschien de spelstatus? Zie hiervoor stap 5.
 
-## Stap 5: Zorg voor conversies van enums en samengestelde waarden
+## Stap 4: Zorg voor conversies van enums en samengestelde waarden
 
 Enums worden standaard omgezet naar integer representaties op basis van
 de volgorde van declareren in de enum-klasse. Als je de volgorde in je
@@ -541,29 +172,8 @@ een datatype specifiek voor PostgreSQL gebruiken, dan kunnen we
 `@Column(columnDefinition = "TEXT")` gebruiken. Let wel dat je dan
 minder makkelijk van database kunt veranderen in de toekomst.
 
-### Kom je er niet uit?
 
-Het kan soms pittig zijn om je domeinmodel te voorzien van de juiste
-annotaties.
-
-Lees foutmeldingen goed door, benut de Spring JPA / Hibernate
-documentatie en vergeet niet om gewijzigde database-tabellen te DROP'en
-en de applicatie opnieuw te starten wanneer je de tabelstructuur
-aanpast. Vraag docenten en medestudenten om hulp als je het even niet
-ziet.
-
-Als het allemaal niet wil lukken, dan zou je een deel kunnen omzetten
-naar een `@Lob`: een large object binary. Dan wordt het object
-opgeslagen en uitgelezen in binaire vorm. Dit brengt wel een groot
-risico met zich mee qua onderhoudbaarheid wanneer de vorm van het object
-wijzigt in je Java-code! Probeer dit dus alleen te doen bij objecten die
-klein en/of vormvast zijn!
-
-Je hebt zelf de keuze om een van deze oplossingen te kiezen. Wees niet
-bang om je tabellen weg te gooien en opnieuw te beginnen als het
-allemaal niet helemaal werk zoals verwacht.
-
-## Stap 6: Maak een repository voor de hoofdentiteit
+## Stap 5: Maak een repository voor de hoofdentiteit
 
 In JPA heb je twee gangbare manieren om een repository te maken. De
 eerste manier is om op basis van de *EntityManager* interface een
@@ -575,29 +185,26 @@ Data & Persistenty) kan omgaan, dan kan je ook met een EntityManager
 omgaan.
 
 De Chips-repository heeft een voorbeeldimplementatie met behulp van een
-EntityManager (excerpt in
-[1.1](#pers:entitymanager){reference-type="ref"
-reference="pers:entitymanager"}).
+EntityManager 
 
-<figure id="pers:entitymanager">
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode java"><code class="sourceCode java"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="at">@Component</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> JpaChipsRepository <span class="kw">implements</span> ChipsRepository <span class="op">{</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">private</span> <span class="dt">final</span> EntityManager entities<span class="op">;</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="fu">JpaChipsRepository</span><span class="op">(</span>EntityManager entities<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">entities</span> <span class="op">=</span> entities<span class="op">;</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">@Override</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">save</span><span class="op">(</span>Chips chips<span class="op">)</span> <span class="op">{</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        entities<span class="op">.</span><span class="fu">persist</span><span class="op">(</span>chips<span class="op">);</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">//Etc. voor de andere methods</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="op">}</span>    </span></code></pre></div>
-</figure>
+``` java
+@Component
+public class JpaChipsRepository implements ChipsRepository {
+
+    private final EntityManager entities;
+
+    public JpaChipsRepository(EntityManager entities) {
+        this.entities = entities;
+    }
+
+    @Override
+    public void save(Chips chips) {
+        entities.persist(chips);
+    }
+
+    //Etc. voor de andere methods
+}    
+```
 
 Deze aanpak, waarbij we de ORM laag achter een interface verstoppen is
 vrij standaard, maar Spring heeft nog een (technisch indrukwekkende)
@@ -656,41 +263,3 @@ liefhebber, dit doet Spring op basis van de
 Deze kun je vinden als je in IntelliJ je external libraries openklapt,
 en dan *Maven: org.springframework.data:spring-data-jpa:\...* openklapt.
 
-## Stap 7: Verbeter de applicatieservices
-
-Zorg dat onze applicatieservice bij onze repository kan door deze als
-veld op nemen. Spring zal de dependency injection via auto-wiring
-verzorgen.
-
-Verder is het verstandig om de `@Transactional` annotatie op te nemen
-boven de klasse. Dit zorgt ervoor dat alle acties die door de service
-worden uitgevoerd in één databasetransactie worden uitgevoerd. Als er
-ergens in het proces wat misgaat, worden de alle database-operaties
-binnen die actie teruggedraaid.
-
-Je zal waarschijnlijk op het volgende uitkomen:
-
-``` java
-@Service
-@Transactional
-public class BlackjackService {
-    private GameRepository gameRepository;
-    private ChipsService chipsService;
-
-    public BlackjackService(GameRepository gameRepository, ChipsService chipsService) {
-        this.gameRepository = gameRepository;
-        this.chipsService = chipsService;
-    }
-    
-    // Methods for use cases...
-}
-```
-
-Verbeter vervolgens alle use case-methodes om gebruik te maken voor het
-opslaan en uitlezen van de Game. De start game methode kan natuurlijk
-nog geen spel ophalen.
-
-Heb je het met meerdere centrale objecten opgelost, dan zal je meerdere
-repositories moeten aanmaken, injecteren en aanroepen.
-
-[^1]: WSL 2 om precies te zijn

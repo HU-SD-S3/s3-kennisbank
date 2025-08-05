@@ -1296,13 +1296,7 @@ Repositories.
 
 Dit is een pattern dat zeer wijdverspreid is. De repository is bedoeld
 als een hele simpele kijk op persistentie, eentje gebaseerd op een
-collectie zoals [formalpara_title](#javacollection).
-
-<div class="formalpara-title" markdown="1">
-
-**Collectie interface**
-
-</div>
+collectie zoals List, Map, etc.
 
 ``` java
 public interface Collection<E> extends Iterable<E>{
