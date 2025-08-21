@@ -239,6 +239,20 @@ This means that the service class should not only be responsible for fetching th
 this data transformation is indeed a task of the service or a task we allocate to a different architecture layer, is a
 question we will debate in the architecture section.
 
+## Conclusion
+
+In this article, we explored how to structure backend communication in a frontend application using a REST API. We emphasized the importance of separating concerns by delegating data fetching to a service class rather than embedding it directly in the view components. This approach improves maintainability, testability, and scalability.
+
+To summarize the data flow and promise resolution:
+
+- **`fetch(...)`** → returns a **Promise** → resolves to a **Response** object.
+- **`response.json()`** → returns a **Promise** → resolves to the **actual data** (an array of image objects).
+- **`picsumService.getImages(...)`** → returns a **Promise** → resolved in the `.then(...)` block inside `connectedCallback()`.
+- **Inside `.then(...)`** → we finally get the **usable data** and assign it to `this.images`.
+- **`render()`** → uses `this.images` to display the content in the component.
+
+By following this pattern, we ensure that our components remain focused on presentation, while services handle data retrieval and transformation. This separation lays the foundation for a clean and efficient frontend architecture.
+
 ## Active polling, WebSockets and Server-Sent Events
 
 The last thing we need to discuss is how to keep the data in sync between the front-end and the back-end. This is a
