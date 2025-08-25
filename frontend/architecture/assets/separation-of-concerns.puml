@@ -1,0 +1,9 @@
+@startuml
+node "View" {
+  [Components]
+  [Pages]
+}
+
+node "Service"
+node "Controller"
+@enduml

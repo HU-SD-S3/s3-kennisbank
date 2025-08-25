@@ -403,4 +403,4 @@ available that explain the different features of Playwright in detail.
 ---
 
 :house: [Home](../README.md) | :arrow_backward: [A11Y Testing](./a11y-testing.md) | :arrow_up: [Testing](./README.md) |
-[Challenges](./challanges.md) :arrow_forward:
+[Challenges](./challenges.md) :arrow_forward:
