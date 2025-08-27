@@ -103,19 +103,22 @@ maintain features independently, especially as the application grows.
 frontend-root/
 ├── features/
 │   ├── feature-1/
-│   │   ├── view/
+│   │   ├── components/
 │   │   ├── controller/
 │   │   └── service/
 │   └── feature-2/
-│       ├── view/
+│       ├── components/
 │       ├── controller/
 │       └── service/
+├── pages/
 ```
 
-Here the `features` folder contains all the features of the application, and each feature has its own `view`,
+Here the `features` folder contains all the features of the application, and each feature has its own web-`components`,
 `controller`, and `service` folders.
 This allows us to keep all the code related to a specific feature together, making it easier to develop, test,
 and maintain.
+And since pages might contain the components from multiple features, the `pages` folder is a sibling to the
+`features` folder.
 
 > [!NOTE]
 >
@@ -141,11 +144,11 @@ different features.
 frontend-root/
 ├── features/
 │   ├── feature-1/
-│   │   ├── view/
+│   │   ├── components/
 │   │   ├── controller/
 │   │   └── service/
 │   └── feature-2/
-│       ├── view/
+│       ├── components/
 │       ├── controller/
 │       └── service/
 ├── shared/
@@ -153,6 +156,7 @@ frontend-root/
 │   ├── service/
 │   └── utils/
 │   └── ...
+├── pages/
 ```
 
 By focusing on reusability, you create a more maintainable and robust front-end architecture that supports rapid
