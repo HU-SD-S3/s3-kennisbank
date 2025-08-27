@@ -142,9 +142,8 @@ vermeld:
 |---|---|
 | Vragen om verduidelijking  | “Ik denk niet dat ik helemaal begrijp wat je bedoelt. Kun je dit misschien verduidelijken?” |
 | Vragen om voorbeelden  | “Kun je een situatie noemen waarin een persoon volgens jou ongewenst gedrag vertoonde?” |
-| Vragen om het hele verhaal  | “Wat gebeurde er toen je de persoon aansprak op zijn ongewenste gedrag?”  |
-|  Non-verbale signalen benoemen | “Ik zie dat je knikt. Vind je dus dat dit onder ongewenst gedraag valt?” |
- 	
+| Vragen om het hele verhaal  | “Wat gebeurde er toen je de persoon aansprak op zijn ongewenste gedrag?” |
+|  Non-verbale signalen benoemen | “Ik zie dat je knikt. Vind je dus dat dit onder ongewenst gedrag valt?” |
 
 Door deze interviewtechnieken toe te passen, kun je als ICT’er problemen effectief verhelderen en een stevige basis 
 leggen voor een passende oplossing. Een goed verhelderd probleem is het halve werk!
