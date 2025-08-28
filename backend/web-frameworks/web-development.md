@@ -3,41 +3,47 @@
 Onze applicatie presenteert zichzelf naar buiten toe via het web: we
 reageren op HTTP requests en geven HTTP responses terug.
 
-Voor nu verwijzen we even door naar H1-6 en H8 van [Restful Web
+Voor nu verwijzen we vooral door naar H1-6 en H8 van [Restful Web
 Services](https://www.crummy.com/writing/RESTful-Web-Services/html). Een
 prima (gratis) boek (wel een beetje oud) dat grotendeels deze stof
-behandelt.
+behandelt. Maar ondertussen bouwen we het hier ook zelf op.
 
 ## Client/server-architectuur
 
 Het web werkt volgens een client/server-architectuur (of
 klant/bediende-model): We hebben een client, bijvoorbeeld een web
-browser, die een verzoek doet aan een server die dit afhandelt. Zie
-Figuur [1.1](#fig:client-server){reference-type="ref"
-reference="fig:client-server"}.
+browser, die een verzoek doet aan een server die dit afhandelt. 
 
-![HTTP requests worden van een client gestuurd naar een server, welke
-dit verwerkt en reageert met een HTTP
-response.](client-server){#fig:client-server width=".9\\linewidth"}
+Een voorbeeld:
+```mermaid
 
-## Content negotiation
+sequenceDiagram
+    participant Client
+    participant Server
 
-Zoals in Figuur [1.1](#fig:client-server){reference-type="ref"
-reference="fig:client-server"} is te zien, onderhandelen client en
-server over het ophalen van een *representatie* van een bepaalde
-*resource*. We zien dat de client een GET-verzoek doet naar localhost
-voor een Balance-resource te vinden via de Uniform Resource Locator
-(URL) 'chips/balance' (in combinatie met de token in de Authorization
-header) De gewenste representatie daarvan moet 'application/json' zijn.
+    Client ->> Server: Request A
+    note over Client, Server: GET /games HTTP/1.1<br/>Host: localhost<br/>Accept: application/json<br/>Authorizaiton: Bearer ey....
+    activate Server
+    Server -->> Client: Reponse A
+    note over Client, Server: HTTP/1.1 200 OK<br/>Content-type: application/json<br/><br/>[{ id: 1, title: 'G-1', ...}, { id: 2, ...}] 
+    deactivate Server
 
-Deze interactie tussen client en server noem je *content negotation*: er
-is een scheiding tussen de abstractie en de verschijningsvorm ervan.
+    Client ->> Server: Request B
+    note over Client, Server: POST /games HTTP/1.1<br/>Host: localhost<br/>Accept: application/xml<br/>Content-Type: application/json<br/>Authorizaiton: Bearer ey....<br/><br/>{title: 'new game', ...}
+    activate Server
+    activate Server
+    Server -->> Client: Reponse B
+    note over Client, Server: HTTP/1.1 201 CREATED<br/>Location: /games/3<br/>Content-type:application/xml<br/><br/><game id="3" title="new game" ...>
+    deactivate Server
+```
+
+We zien hier een client (bijv. een javascript frontend) een lijst games ophalen (zeg potjes Blackjack in een casino) met Request A. Het fraaie aan HTTP (Hypertext transfer protocol) is dat het een text-based protocol is. We kunnen dit dus relatief makkelijk lezen en schrijven. In tegenstelling tot bijv. een binair protocol zoals TCP, waarbij je expliciet moet weten dat nulletje of eentje 101 en 102 je vertellen of het om een nieuwe verbinding gaat, of dat het een voortgang van een oude is.
+
+Het tweede wat belangrijk (en tegenintuïtief) is, is om te realiseren dat elke request-response interactie stateless is. Dat houdt in dat elk request volledig los van alle anderen staat. Het lijkt nu zo dat Request A & B met elkaar te maken hebben (en dat zal in het echt ook zo zijn), maar er zit niets in het protocol om aan te geven dat deze twee requests van hetzelfde 'gesprekje' zijn.
 
 ## HTTP requests
 
-Een HTTP request (zie
-Figuur [1.1](#fig:client-server){reference-type="ref"
-reference="fig:client-server"}) wordt gevormd door:
+Een HTTP request wordt gevormd door:
 
 1.  Een beschrijving van method, URI en protocol
 
@@ -72,31 +78,21 @@ Idempotentie helpt een API betrouwbaar te maken tegen fouten: het
 betekent dat je een verzoek kan herhalen zonder als je als client niet
 zeker weet of het is aangekomen of niet.
 
-We kennen de volgende HTTP-methods, zie
-Figuur [1.1](#table:http-methods){reference-type="ref"
-reference="table:http-methods"}:
+We kennen de volgende HTTP-methods:
 
-::: {#table:http-methods}
-**Method**   **Bedoeling**                                                                **Safe**   **Idempotent**
-  ------------ ---------------------------------------------------------------------------- ---------- ----------------
-`GET`        opvragen van resource(s)                                                     Ja         Ja
-`HEAD`       opvragen van headers (voordat je een mogelijk grote GET-request doet)        Ja         Ja
-`OPTIONS`    opvragen van toegestane communicatiewijzen voor een bepaalde URL of server   Ja         Ja
-`TRACE`      opvragen van afgelegde weg van het verzoek ter debugging                     Ja         Ja
-`DELETE`     verwijderen van gehele resource op basis van URL (met identifier)            Nee        Ja
-`PUT`        aanmaken/wijzigen van gehele resource op basis van URL (met identifier)      Nee        Ja
-`PATCH`      wijzigen van deel van resource op basis van URL (met identifier)             Nee        Nee
-`POST`       aanmaken nieuwe resource op onder een bepaalde URL (zonder identifier)       Nee        Nee
-
-: Een opsomming van HTTP-methoden, hun bedoeling en verwachte
-eigenschappen
-:::
+| Method    | Bedoeling                                                                  | Safe | Idempotent | 
+|-----------|----------------------------------------------------------------------------|------|------------|
+| `GET`     | opvragen van resource(s)                                                   | Ja   | Ja         |
+| `POST`    | aanmaken nieuwe resource op onder een bepaalde URL (zonder identifier)     | Nee  | Nee        |
+| `PUT`     | aanmaken/wijzigen van gehele resource op basis van URL (met identifier)    | Nee  | Ja         |
+| `DELETE`  | verwijderen van gehele resource op basis van URL (met identifier)          | Nee  | Ja         |
+| `HEAD`    | opvragen van headers (voordat je een mogelijk grote GET-request doet)      | Ja   | Ja         |
+| `OPTIONS` | opvragen van toegestane communicatiewijzen voor een bepaalde URL of server | Ja   | Ja         |
+| `PATCH`   | wijzigen van deel van resource op basis van URL (met identifier)           | Nee  | Nee        |
 
 ## HTTP responses
 
-Een HTTP response (zie
-Figuur [1.1](#fig:client-server){reference-type="ref"
-reference="fig:client-server"}) wordt gevormd door:
+Een HTTP response wordt gevormd door:
 
 1.  Een beschrijving van protocol en statuscode
 
@@ -185,6 +181,24 @@ Deze statuscodes zijn als enum opgenomen in Spring, te vinden in
 Standaard geeft Spring een `200 OK` terug als het een object in de
 controller teruggeeft en een `500 Server Error` als er iets fout gaat
 bij de verwerking.
+
+## Content negotiation
+
+Zoals in ons voorbeeld is te zien, onderhandelen client en
+server over het ophalen van een *representatie* van een bepaalde
+*resource*. We zien dat de client een GET-verzoek doet naar localhost
+voor een Games-resource te vinden via de Uniform Resource Locator
+(URL) '/games' (in combinatie met de token in de Authorization
+header) De gewenste representatie geven we aan in de accept header en moet in dit geval 'application/json' zijn.
+
+Deze interactie tussen client en server noem je *content negotation*: er
+is een scheiding tussen de abstractie en de verschijningsvorm ervan.
+
+De server antwoord vervolgens met een lijst games, en zegt dat de inhoud van de response ook 'application/json' is (door de Content-type header).
+
+Bij Request B/Reponse B zie je hier een verschil: Request B stuurt zelf JSON, maar vraagt om XML. En de server werkt hier aan mee. Dit is puur om te illustreren wat het verschil tussen de 'Accept' en 'Content-type' header is, in de praktijk is het waarschijnlijk heel onhandig om op deze manier met twee verschillende formats te werken, en gebruik je gewoon één standaard.
+
+
 
 ## Representational State Transfer (REST)
 
