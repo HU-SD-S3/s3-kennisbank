@@ -1,7 +1,4 @@
-# Opdrachtbeschrijving {#opdrachtbeschrijving .unnumbered}
-
-De eindopdracht van deze cursus bestaat uit een Java-project met een
-mondeling assessment.
+# HU-land Casino: Blackjack API
 
 HU-land Casino is een aanbieder van online kansspelen. Spelers kunnen
 met speelgeld (*chips*) hun favoriete spelletjes spelen. Mogelijk dat
@@ -19,7 +16,7 @@ backend onderhoudbaar en flexibel wordt opgezet. Het bedrijf heeft al
 een aantal Java-applicaties draaien met behulp van het Spring Boot
 framework. Daarom is gekozen om ook deze applicatie met Java en Spring
 Boot op te zetten. HU-land Casino heeft aangegeven waarde te hechten aan
-standardisatie. Daarom is gevraagd extra aandacht te besteden aan object
+standaardisatie. Daarom is gevraagd extra aandacht te besteden aan object
 oriëntatie, design principles, design patterns en REST-principes.
 
 Er is gekozen voor een back-end applicatie om centrale controle te
@@ -31,7 +28,14 @@ Aan jou de taak om jouw ontwerp- en programmeervaardigheden in te zetten
 om een losgekoppelde, maar geïntegreerde, backend API voor het
 blackjackspel aan te bieden!
 
-## Het spel {#het-spel .unnumbered}
+## Het plan
+
+We starten aan de buitenkant van de applicatie: de REST-API. Welke acties 
+zou een frontend moeten kunnen aanroepen? En op welke urls.
+
+Vervolgens koppelen we aan deze API een eenvoudige database. 
+
+## Het spel
 
 Blackjack is het bekendste kaartspel dat in casino's te vinden is. Het
 spel wordt gespeeld met 1 of meer decks met 52 standaard speelkaarten.
@@ -49,7 +53,7 @@ In onze variant is er sprake van 1-speler-blackjack. Er kunnen wel
 meerdere potjes tegelijk gespeeld worden door verschillende en dezelfde
 speler. Spelers mogen niet aan elkaars spel meedoen.
 
-### Het spelverloop {#het-spelverloop .unnumbered}
+### Het spelverloop
 
 Laten we het spelverloop van blackjack bestuderen. Let wel voor een
 web-applicatie kan het zijn dat sommige stappen anders kunnen verlopen,
@@ -98,7 +102,7 @@ Het algemene spelverloop is als volgt:
 
     -   *Surrender*: opgeven en de helft van de inleg terugvragen
 
-### Kaart- en handscore {#kaart--en-handscore .unnumbered}
+### Kaart- en handscore
 
 Per kaart wordt de score bepaald op basis van de rang (*rank*) van de
 kaart:
@@ -109,29 +113,24 @@ kaart:
 
 -   **Aas (Ace): 1 of 11**
 
-De handscore wordt bepaald door deze scores bij elkaar op te tellen, zie
-Tabel [1](#table:handscores){reference-type="ref"
-reference="table:handscores"}.
+De handscore wordt bepaald door deze scores bij elkaar op te tellen:
 
-::: {#table:handscores}
-  **Kaarten**                                                 **Handscore**
-  ----------------------------------------------------------- ---------------
-  $\heartsuit 2, \clubsuit 3$                                 5
-  $\clubsuit 10, \diamondsuit 5, \heartsuit 3, \spadesuit2$   20
-  $\heartsuit 10, \clubsuit K$                                20
-  $\spadesuit A, \diamondsuit 4$                              15 (of: 5)
-  $\clubsuit A, \diamondsuit K$                               21 (of: 11)
-  $\clubsuit A, \heartsuit A$                                 12
+  | *Kaarten*                                                  | *Handscore* |
+  | ----------------------------------------------------------- |-------------|
+  | $\heartsuit 2, \clubsuit 3$                                 | 5           |
+  | $\clubsuit 10, \diamondsuit 5, \heartsuit 3, \spadesuit2$   | 20          |
+  | $\heartsuit 10, \clubsuit K$                                | 20          |
+  | $\spadesuit A, \diamondsuit 4$                              | 15 (of: 5)  |
+  | $\clubsuit A, \diamondsuit K$                               | 21 (of: 11) |
+  | $\clubsuit A, \heartsuit A$                                 | 12          |
 
-  : Voorbeelden van handscores.
-:::
 
 Merk op dat de aas ertoe leidt dat de speler kan kiezen om met de hogere
 aas-score uit te komen of te hopen op betere kaarten met de lagere
 aas-score. Als de hogere aas-score boven de 21 uitkomt, hoeven we alleen
 nog maar te kijken naar de lagere aas-score.
 
-### Speltoestanden {#speltoestanden .unnumbered}
+### Speltoestanden
 
 Er zijn een aantal toestanden waar het spel zich in kan bevinden:
 
@@ -155,7 +154,7 @@ Er zijn een aantal toestanden waar het spel zich in kan bevinden:
 -   *Won*: speler heeft een hogere handscore dan de dealer of de dealer
     heeft \>21
 
-### Uitbetaling {#uitbetaling .unnumbered}
+### Uitbetaling
 
 Het uitbetalen van chips is gebaseerd op de eindtoestand (rond af naar
 hele chips). Het spel eindigt alleen bij de volgende speltoestanden:
@@ -171,50 +170,3 @@ hele chips). Het spel eindigt alleen bij de volgende speltoestanden:
 -   *Blackjack*: speler krijgt $1.5\times$ zijn inleg terug
 
 -   *Won*: speler krijgt $2\times$ zijn inleg terug
-
-## Beoordeling {#beoordeling .unnumbered}
-
-Het gaat er bij dit vak om dat je een werkende en structureel goede
-back-end kan bouwen. De snelste of kortste oplossing is voor deze cursus
-(en in de praktijk) niet altijd de beste oplossing!
-
-### Assessment {#assessment .unnumbered}
-
-We willen ook dat je je project kunt toelichten aan de hand van de voor
-de leerdoelen relevante behandelde stof. Dit wordt getoetst aan de hand
-van een project met bijbehorend interview.
-
-Het is verstandig om je project kort te presenteren met behulp van
-slides. Sta daarbij alvast stil bij de theoretische onderbouwing.
-
-#### Voorbeeldvragen {#voorbeeldvragen .unnumbered}
-
-Vragen die je kunt verwachten zijn gebaseerd op de leerdoelen van de
-cursus. Je kan denken aan de volgende soort vragen:
-
--   Op welke manier heb je *separation of concerns, loose coupling en
-    high cohesion* bereikt?
-
--   Wat houdt *\<object model element, design principle, design
-    pattern\>* in?
-
--   Op welke manier heb je *\<design principle\>* toegepast?
-
--   Waarom zou je *\<object model element, design principle, design
-    pattern, dependency injection\>* gebruiken?
-
--   Hoe heb je *\<design pattern\>* in dit project uitgevoerd?
-
--   Welk *\<design pattern\>* zou je op *\<projectonderdeel\>* kunnen
-    toepassen?
-
--   Op welke manier voldoe je aan *\<REST principe\>*?
-
--   Wat is de verantwoordelijkheid van *\<laag X\>*?
-
-## Rubric {#rubric .unnumbered}
-
-Zie Canvas voor de rubric van het project. Heb je alle punten gehaald,
-dan haal je een 10. Mocht je wat minder scoren op bepaalde onderdelen,
-dan wil dat niet zeggen dat je een onvoldoende hebt! Hier kan je
-natuurlijk rekening mee houden wanneer je met een planning bezig gaat.

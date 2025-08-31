@@ -1,6 +1,6 @@
-# Opdracht 2: Domeinmodel implementeren
+# Opdracht 3: Domeinmodel
 
-## Stap 3: Realiseer eerste domeinconcepten
+## Stap 1: Realiseer eerste domeinconcepten
 
 Het kan handig zijn om met deze stap te beginnen als je al wat feedback
 hebt gehad op je domeinmodel, maar je kan natuurlijk alvast beginnen en
