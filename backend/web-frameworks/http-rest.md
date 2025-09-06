@@ -321,9 +321,142 @@ verrijken!
 
 Een RESTful systeem moet zo zijn opgezet dat dit mogelijk is.
 
-### RESTful of niet?
+
+### Richardson Maturity Model
 
 Striktgenomen noemen we een web service RESTful als deze voldoet aan
 alle principes van REST. In de praktijk is dat helaas niet het geval en
 worden veel web APIs RESTful genoemd zonder dat aan alle voorwaarden
 wordt voldaan.
+
+In Restful Web Services [Richardson & Ruby,
+2007](#richardson_webservices) geeft Richardson een mooi
+overzicht van de filosofie achter REST. De meest beroemde toevoeging is
+echter het Richardson maturity model
+([Richardson,
+2008](#richardson_maturity)). Flauw gezegd heeft elke API een
+bepaald level:
+
+|  |  |
+|------------------------|------------------------------------------------|
+| Level 0 | Urls betekenen niets. HTTP verbs ook niet. Maar hey, het werkt. Denk aan een enkel */api* endpoint, waar je alles naartoe *POST* |
+| Level 1 | Urls betekenen iets, maar qua HTTP verbs doen we maar wat. (vaak de klassieke 'alles is een POST'-services) |
+| Level 2 | Urls betekenen iets, en HTTP verbs betekenen iets. Dit is onze standaard tot nu toe. |
+| Level 3 | Level 2 + Hypermedia: HatEoAS |
+
+De gedachte achter HatEoAS, een verschrikkelijke afkorting die staat
+voor Hypermedia as the Engine of Application State, is precies dezelfde
+stap als van Text naar Hypertext (de HT van HTTP): Text, of Media (zoals
+JSON, XML, etc.) is tof, maar het wordt pas echt tof (hypertof, zeg
+maar) als de stukken tekst en data naar elkaar gaan verwijzen. Dit is de
+basis van het toch best wel succesvolle 'World Wide Web'.
+
+> Persoonlijk heb ik soms enigszins moeite met REST level 3. Er is
+absoluut niets tegen een collectietje links in je response-documenten.
+En als je moet kiezen voor een (publiek!) id voor je entity is vaak
+"customerid: 3785" een stuk minder informatief dan customerid:
+<https://myapi.example.org/customers/3785>. Die tweede optie kost een
+stuk meer bytes, maar elke client weet dan ook precies waar verdere
+informatie gezocht kan worden.
+>
+>Aan de andere kant heb je dan weer vrij pittige standaarden als
+[JSON:API](https://jsonapi.org/). Deze standaarden zorgen er voor dat je
+allerlei randgevallen netjes kan afhandelen, maar de prijs die je
+betaalt is wel dat je …​ nouja…​ vrij lelijke JSON returnt. En het is me
+niet altijd direct duidelijk waarom dat steekt? Waarom zou ons
+serializatie-format mooi moeten zijn? Maar steken doet het.
+>
+>Een andere interessante stelling vind je bij één van mijn favoriete
+auteurs: [Mark Seemann over Hackable
+URLs](https://blog.ploeh.dk/2013/05/01/rest-lesson-learned-avoid-hackable-urls/).
+In die post lezen we dat als we HatEoAS hanteren, dat we dan eigenlijk
+ook al onze voorheen-leesbare REST-2 urls compleet onleesbaar moeten
+maken, zodat we clients *dwingen* ook daadwerkelijk alleen de links te
+gebruiken.
+>
+>De combinatie van deze twee adviezen lijkt me helemaal interessant: dan
+zou je om een REST-3-API te worden zowel je URLs moeten slopen, als de
+leesbaarheid van je responses omlaag moeten halen. Ik snap de
+redenaties, en ik zie er geen gaten in, maar toch kan ik moeilijk uit de
+voeten met de conclusie.
+>
+>Maar misschien jij wel? Laat 't me vooral weten!
+>
+>-Tom
+
+
+### Task-based REST
+
+Het is relatief eenvoudig om CRUD services (services die create, read,
+update & delete functionaliteit aanbieden) op entities via REST aan te
+bieden. Je koppelt een controller aan een Repository. Met een POST save
+je dan een nieuwe entity, met een GET kun je een find method aanroepen,
+met een PUT wederom een (updatende) save, en je zult nooit raden wat we
+met DELETE doen…​
+
+Maar wat doe je als de applicatie ingewikkelder wordt?
+
+Stel we hebben groothandel, die containerladingen vol electronica over
+de Atlantische Oceaan verscheept en een winkelketen als klant die zaken
+inkoopt. Zo’n bedrijf heeft vaak enorm veel contacten over de hele
+wereld, en zou het best fijn vinden om als service aan te kunnen bieden
+dat bedrijven hun bestelling nog een klein beetje kunnen aanpassen (voor
+een extra bedrag natuurlijk).
+
+Dus stel winkelketen MM merkt dat het net teveel TV’s heeft besteld,
+maar ja, die zijn al onderweg met de container. Er is een best goede
+kans dat de groothandel die Tvs binnen afzienbare tijd bij één van diens
+andere klanten kwijt zou kunnen (misschien voor een kleine korting, maar
+kleiner dan het bedrag dat MM extra betaald). En als het allemaal niet
+lukt voordat de schepen uitgeladen moeten worden, tja, dan heeft
+winkelketen MM pech en moet alsnog de originele factuur voldaan worden.
+
+In dit soort gevallen ga je er waarschijnlijk niet komen met een
+standaard entity-based REST-ful model. Dan heb je waarschijnlijk een
+resource */orders*, en als je dan dus iets minder TVs wil bestellen, wat
+doe je dan?
+
+Je zou kunnen proberen te gaan PUTten of PATCHen op bijv. */orders/764*,
+maar de verwachting is dan dat je die resource aanpast, en dat je dan
+vervolgens een GET naar diezelfde URL kan doen, om direct het resultaat
+te zien.
+
+Een veel gebruikte oplossing in de praktijk is dat je de neiging om
+alles als resources te modelleren even loslaat. En dan heb je toch een
+paar 'Remote Procedure'-oriented urls, zoals bijv.
+*/orders/764/requestOrderChange*. Daar kun je dan naartoe POSTen (want
+POST heeft de minste regels), en dan krijg je een result terug (de REST
+regels hebben we toch al opgegeven, dus je kunt doen wat je wil).
+Aangezien het overduidelijk geen RESTful url is, is er ook geen
+verwachting dat een GET naar */orders/764/requestOrderChange* iets
+nuttigs gaat opleveren.
+
+Maar kan het niet netter? Een relatief simpele manier is om er 'even
+anders tegenaan te kijken'. Nu maken we van onze entities de resources,
+maar wat als we juist van onze usecases de resources maken? We zouden
+'de verzochte wijzigingen aan een order' als resource kunnen
+bestempelen: */orders/764/orderChanges*. Als dit de resource is, dan
+kunnen wijzigingsverzoeken gePOST worden, vervolgens krijgen we volgens
+RESTful standaarden een Location-header terug, en kunnen we op zeg
+*/orders/764/changes/1* kijken wat de status is van die wijziging. We
+zouden 'm zelfs kunnen proberen te PUTen (nog meer TVs!) of DELETEn
+(toch maar geen extra TVs). Kortom, niet alleen de originele usecase
+heeft een plekje gekregen, maar ons ontwerp bedelt ons om nog meer
+handige functionaliteit te implementeren!
+
+Uiteraard zullen er altijd een paar vreemde eenden overblijven. Het
+meest bekende voorbeeld zien we op urls als */login* en */logout*. Dit
+heeft z’n grondvesten in het feit dat naast de REST-structuur, we ook
+nog de klassieke HTML-paginas hebben. Daar kan men een formulier
+(\<form\>) definiëren, en dat vervolgens opsturen naar een url middels
+een POST. De login use-case past prima in zo’n
+'formulier-verwerkings'-stroom, maar niet in een standaard
+Resource-oriented setup. We POSTen er welliswaar iets naartoe, maar het
+voelt niet logisch om vervolgens een lijst van logins te krijgen als je
+een GET doet naar */login*.
+
+Het organiseren van je applicatie in resources (zowel entities, als
+usecases, of acties) is dus een goede richtlijn, en er zullen altijd een
+paar uitzonderingen blijven. Soms heb je ook gewoon meer tijd nodig om
+de juiste resources te ontdekken, dus blijf vooral niet geforceerd
+proberen overal resources van te maken. Gebruik het als het past.

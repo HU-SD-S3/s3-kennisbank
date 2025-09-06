@@ -8,7 +8,7 @@ object allemaal doen), en de Implementatie daarvan (hoe dan?!).
 
 We hebben onze Software al sinds het begin van de opleiding in lagen
 ingedeeld. De belangrijkste eerste verdeling was tussen \"De
-presentatielaag\" en \"De rest\". In een standaard GUI applicatie
+presentatielaag\" en \"De rest van de applicatie\". In een standaard GUI applicatie
 bepaalt de presentatielaag hoe dingen eruit zien (bijv. knopjes,
 kleuren, schermen etc.), en daar hebben gebruikers gewoon standaard heel
 veel (en veranderende!) meningen over.
@@ -39,7 +39,7 @@ van zo'n usecase, en als je het begrip een beetje breed interpreteert is
 een Unit-Test ook gewoon een prima buitenkant (en daarmee een
 \"Presentatielaag\").
 
-Binnen die \"De Rest\" willen we vaak ook een onderscheid maken tussen
+Binnen die \"De rest van de applicatie\" willen we vaak ook een onderscheid maken tussen
 Applicatie-logica en Domein-logica. Met domein-logica bedoelen we alle
 regels en gekkigheden die optreden binnen het onderwerp waar de
 applicatie over gaat (wanneer is een cijfer voldoende, wanneer komt een
@@ -47,10 +47,9 @@ klant in aanmerking voor korting, etc.) loskoppelen van de
 applicatie-logica (hoe logt een gebruiker in, hoe slaan we onafgeronde
 bestellingen op, hoe loggen we errors, etc.). Het verschil tussen domein
 en applicatielogica is een grijs gebied, en het loopt vaak in elkaar
-over. Maak je dus over dat grijze gebied niet teveel zorgen, dan kies je
-er gewoon eentje op de gok (en je zult altijd developers tegenkomen die
-je maar wat graag vertellen dat het *overduidelijk* die andere had
-moeten zijn). Wanneer het winkelmandje van een webwinkel verloopt kun je
+over. Maak je dus over dat grijze gebied niet teveel zorgen, dan maak je gewoon een keuze (en je zult altijd developers tegenkomen die
+je maar wat graag vertellen dat het *overduidelijk* die andere keuze had moeten zijn). 
+Wanneer het winkelmandje van een webwinkel verloopt kun je
 bijvoorbeeld als zowel domeinlogica als applicatielogica zien.
 
 Die applicatielogica stoppen we graag in een Applicatielaag (ook wel
@@ -67,7 +66,7 @@ Services.
 Een andere standaard laag die vaak besproken wordt is de Data-laag, daar
 komen we in het hoofdstuk Persistentie uitgebreider op terug.
 
-#### Servicelagen, domeinlagen en Unit Tests {#servicelagen-domeinlagen-en-unit-tests .unnumbered}
+### Servicelagen, domeinlagen en Unit Tests
 
 In dit hoofdstuk zeggen we dat de Applicatielaag handig is voor Unit
 Tests. Terwijl we ook vaak zeggen dat het belangrijk is om je Domeinlaag
@@ -92,7 +91,15 @@ proces horen.
 Het doel van testen is dat je vertrouwen krijgt dat je code foutloos zal
 werken in een productie-omgeving. Dus je kiest waar en hoe je het test
 op basis van een goed compromis tussen dat vertrouwen en ouderwetse
-gemakzucht[^1].
+gemakzucht.
+
+>Gemakzucht\... niet echt natuurlijk. 
+>
+>Wij worden als programmeurs betaald voor werkende features, niet voor werkende tests. 
+Een deel van het kiezen van het juiste testniveau is dus op een professionele
+manier omgaan met \"de baas z'n centen\".
+>
+>-Tom
 
 ### Services in Spring Boot
 
@@ -125,7 +132,7 @@ Notifaction-interface, waarachter dan mails, smsjes of wie-weet kan
 liggen; dat is het mooie van interfaces!).
 
 Kortom een Service class heeft mooie methodes die representeren wat een
-applicatie allemaal kan, en de
+applicatie allemaal kan.
 
 ## Dependency injection
 
@@ -138,8 +145,8 @@ De meest voor de hand liggende methode om in een OOP taal als Java aan
 die dependencies te komen is om zelf de benodigde constructors aan te
 roepen.
 
-::: listing
-``` {.java linenos=""}
+
+```java
     @Service
     public class RegistrationService {
         private final MailChimpMailer mailer;
@@ -160,17 +167,15 @@ roepen.
         }
     }
 ```
-:::
 
-Zoals we zien in
-[\[di:controlfreak\]](#di:controlfreak){reference-type="ref"
-reference="di:controlfreak"} neemt deze RegistrationService class alle
+Zoals we hierboven zien neemt deze RegistrationService class alle
 verantwoordelijkheid om alle technische zaken zelf netjes te regelen.
+
 Dat heeft als grote voordeel dat het 'lekker makkelijk' is om zo'n
 Service te constructen (want geen parameters). Het heeft ook nadelen,
 want stel we willen in een andere class rapporteren over de registraties
 die gedaan zijn, dan moeten we in code heel goed gaan controleren of
-daar wel degelijk met dezelfde database geconnect wordt [^2].
+daar wel degelijk met dezelfde database geconnect wordt.
 
 Verder is deze Service class ook weinig flexibel. Het is nagenoeg
 onmogelijk om hier bijv. goede automatische tests voor te schrijven
@@ -178,8 +183,9 @@ onmogelijk om hier bijv. goede automatische tests voor te schrijven
 database zien gaan onderscheppen. Dat kan, maar is niet makkelijk, of
 leuk).
 
-::: listing
-``` {.java linenos=""}
+
+Laten we het iets beter maken:
+```java
     @Service
     public class RegistrationService {
         private final MailChimpMailer mailer;
@@ -203,11 +209,8 @@ leuk).
         }
     }
 ```
-:::
 
-Laten we het iets beter maken in
-[\[di:baddi\]](#di:baddi){reference-type="ref" reference="di:baddi"}. We
-hebben hier in elk geval al die configuratie weg kunnen duwen (zodat dat
+We hebben hier in elk geval al die configuratie weg kunnen duwen (zodat dat
 netjes op één centrale plek geregeld kan worden).
 
 Dat is mooi, maar het grote probleem hier is dat we met een hele kleine
@@ -216,8 +219,9 @@ niet verantwoordelijk zijn voor exact hoe bijv. die repository
 geconfigureerd is, willen we dan wel verantwoordelijk zijn dat het
 altijd exact een PostGres database moet zijn?
 
-::: listing
-``` {.java linenos=""}
+
+Het standaardpatroon wordt dus:
+```java
     @Service
     public class RegistrationService {
         private final Mailer mailer;
@@ -241,12 +245,8 @@ altijd exact een PostGres database moet zijn?
         }
     }
 ```
-:::
 
-Het standaardpatroon zien we vervolgens in
-[\[di:constructordi\]](#di:constructordi){reference-type="ref"
-reference="di:constructordi"}. Het enige verschil met
-[\[di:baddi\]](#di:baddi){reference-type="ref" reference="di:baddi"} is
+Het enige verschil met eerdere voorbeeld is
 dat we alle concrete classes in onze parameters en fields hebben
 vervangen met Java interfaces.
 
@@ -260,7 +260,8 @@ standaard manier om Dependency Injection te implementeren (denk 90+% van
 de gevallen).
 
 Voor de volledigheid lichten we ook de andere mogelijkheden kort(!) toe.
-Voor details verwijzen we naar [@SeemannDependencyInjection].
+Voor details verwijzen we naar [Seemann, Dependency Injection in .NET 
+](#@SeemannDependencyInjection).
 
 1.  Constructor Injection
 
@@ -319,17 +320,13 @@ nodig hebt! Dan biedt Property Injection een uitkomst.
     }
 ```
 
-In het voorbeeld
-[\[di:propertydi\]](#di:propertydi){reference-type="ref"
-reference="di:propertydi"} zien we dat we in de constructor niet meer
+In dit voorbeeld zien we dat we in de constructor niet meer
 een Mailer als parameter vragen. Maar dat we een setter exposen. Wel
 zorgen we er voor dat er een goede default implementatie beschikbaar is,
 door (in dit geval) een NoOp implementatie in ons private field te
 zetten. (Dit heet ook wel het Null-Object Design Pattern)
 
-Eerder in de cursus hebben we het gehad over het begrip Cohesion. En in
-een class met goede cohesion hebben veel methodes allemaal veel van de
-private fields nodig. Stel nou dat onze RegistrationService een method
+De volgende is Parameter Injection. Stel nou dat onze RegistrationService een method
 of 15 heeft...en van die 15 methods gebruikt alleen de register method
 de AdresChecker. Dat is vanuit het perspectief van Cohesie niet zo
 handig, want al die andere 14 methods hebben die dependency niet nodig!
@@ -375,7 +372,7 @@ Ambient Context, je 1 dependency geeft als global variable, maar Service
 Locator geeft er heel veel. En global variables zijn vroeg of laat
 ellende.
 
-#### Dependency Injection & Inversion of Control {#dependency-injection-inversion-of-control .unnumbered}
+#### Dependency Injection & Inversion of Control
 
 Er is een lange geschiedenis van verwarring en verwisseling tussen de
 termen Dependency Injection en Inversion of Control. Het is handig
@@ -424,8 +421,10 @@ in gegooid wordt. Het probleem begint te onstaan als je dependencies ook
 weer dependencies hebben. Dan kan er al snel een ingewikkeld web van
 dependencies ontstaan.
 
-::: listing
-``` {.java linenos=""}
+Hier zie je een groter voorbeeld hoe dit
+allemaal in z'n werk gaat:
+
+```java
     @SpringBootApplication
     public class HelloApplication {
         public static void main(String[] args){
@@ -477,11 +476,8 @@ dependencies ontstaan.
         } 
     }
 ```
-:::
 
-In [\[di:springexample\]](#di:springexample){reference-type="ref"
-reference="di:springexample"} zie je een groter voorbeeld hoe dit
-allemaal in z'n werk gaat. Uiteraard is het niet bedoeld als realistisch
+ Uiteraard is het niet bedoeld als realistisch
 voorbeeld (niemand doet zoveel moeite voor een Hello-World achtige
 applicatie), maar het is een klein scenario (pastte net op een A4) wat
 in elk geval de aanpak van Spring laat zien.
@@ -516,21 +512,15 @@ interface implementeert, maar helaas voor de arme container zijn er twee
 (want Spring wil geen onduidelijkheid welke er gekozen moet worden),
 maar gelukkig staat er \@Primary (r38).
 
-#### Spring Boot en \@Autowired {#spring-boot-en-autowired .unnumbered}
+#### Spring Boot en \@Autowired
 
 Tot slot moeten we nog heel even iets zeggen over \@Autowired, dit komt
 namelijk héél veel voor in code-voorbeelden en documentatie op het
 internet. En het is iets dat je in je eigen code zoveel mogelijk wil
 vermijden.
 
-We hadden de GreetingService (of de runner) in
-[\[di:springexample\]](#di:springexample){reference-type="ref"
-reference="di:springexample"} ook zo kunnen schrijven als in
-[\[di:autowired\]](#di:autowired){reference-type="ref"
-reference="di:autowired"}.
-
-::: listing
-``` {.java linenos=""}
+We hadden de GreeterService hierboven ook zo kunnen schrijven:
+```java
     @Service
     public class GreetingService {
         @Autowired
@@ -542,7 +532,6 @@ reference="di:autowired"}.
         }
     }
 ```
-:::
 
 Dit is 2 regels korter dan het alternatief, maar veel slechter. We
 kunnen nu ineens geen instantie van deze class meer maken zonder dat we
@@ -554,7 +543,7 @@ zitten we gelijk vast. Unit-Tests zijn een veel voorkomend geval waarin
 we graag Spring zoveel mogelijk aan de kant zetten. Spring kost namelijk
 enkele tientallen tot honderden milisecondes om op te starten. Als we
 dat bij elke unit-test gaan doen, dan gaan onze automatische tests al
-snel irritant lang duren [^3].
+snel irritant lang duren.
 
 Kunnen we \@Autowired dan gewoon vergeten? Nee, helaas dat ook niet.
 Soms kom je een library of framework tegen waarin een class een
@@ -563,14 +552,9 @@ parameterloze constructor *moet* hebben.
 Ironisch genoeg zijn de Unit-Test classes van JUnit zo'n voorbeeld. Als
 we daar in een test onze echte database code zouden willen testen (tegen
 een Test-database natuurlijk!), dan willen we graag onze database class
-(bijv. de RegistrationRepository uit
-[\[di:constructordi\]](#di:constructordi){reference-type="ref"
-reference="di:constructordi"}) de JUnit test in injecteren. Dat zou er
-dan als in [\[di:autowiretest\]](#di:autowiretest){reference-type="ref"
-reference="di:autowiretest"}:
+ de JUnit test in injecteren:
 
-::: listing
-``` {.java linenos=""}
+```java
     @DataJpaTest
     public class RegistrationRepositoryTest {
         @Autowired
@@ -582,20 +566,20 @@ reference="di:autowiretest"}:
         }
     }
 ```
-:::
 
 Dus in de meeste gevallen zorgt \@Autowired voor problemen bij het
 testen. Maar als je nou juist Spring iets in je test wil laten
-injecteren is het je enige optie.
+injecteren is het je enige optie. En de kans dat je ooit zelf een
+RegistrationRepositoryTest zou instantieren is toch ook vrij klein.
 
-#### Spring Boot & Configuration {#spring-boot-configuration .unnumbered}
+#### Spring Boot & Configuration
 
 Annotaties als \@Component, \@Service, \@RestController zijn voorbeelden
 van annotaties waarmee we classes aanmelden bij de Spring
 ApplicationContext (de DI Container) als bruikbare bouwstenen van onze
 applicatie.
 
-Er zijn uiteraard nog meer manieren om bruikbare bouwstenen (Beans[^4]
+Er zijn uiteraard nog meer manieren om bruikbare bouwstenen (Beans
 in Spring terminologie). Als je b.ijv. later in de opleiding
 message-queues gaat gebruiken dan registreert de \@RabbitListener
 annotatie ook een nieuwe Bean, en zo zullen veel Spring-uitbreidingen
@@ -604,8 +588,8 @@ hun eigen nieuwe \@BeanRegistratie-variant-annotatie hebben.
 Er is echter nog een andere handige, maar iets complexere manier om
 Beans te registreren, namelijk met \@Configuration classes.
 
-::: listing
-``` {.java linenos=""}
+
+```java
     @Configuration
     public class GreeterConfiguration {
 
@@ -632,16 +616,16 @@ Beans te registreren, namelijk met \@Configuration classes.
         } 
     }
 ```
-:::
-
-In voorbeeld
-[\[di:springconfiguration\]](#di:springconfiguration){reference-type="ref"
-reference="di:springconfiguration"} zien we een variant van
-[\[di:springexample\]](#di:springexample){reference-type="ref"
-reference="di:springexample"}. Spring is zo opgezet dat bij het
+Spring is zo opgezet dat bij het
 opstarten er wordt gezocht naar \@Configuration classes, en (de
 resultaten van) alle methods op die classes die een \@Bean opleveren
-worden geregistreerd als dependency.
+worden geregistreerd als dependency. 
+
+> Het woord Bean betekent in verschillende contexten veel verschillende dingen 
+> in Java. Kennelijk kan geen programmeur de woordgrap van het eiland Java
+> richting koffiebonen weerstaan.
+>
+> -Tom
 
 Deze configuratie geeft aan dat we op maandag chagrijnig zijn, en
 onbeleefd mensen groeten, maar dat we er de rest van de week beter aan
@@ -656,8 +640,8 @@ beleefde variant.
 In de praktijk gebruik je dit soort functies vooral om onder
 verschillende omstandigheden andere dependencies te gebruiken. Een
 realistischer voorbeeld is bijv. het versturen van Emails, dat is nog
-best ingewikkeld, en veel bedrijven betalen hier liever een derde partij
-voor dan dat ze hun eigen mailserver gaan opzetten en onderhouden[^5].
+best ingewikkeld, en veel bedrijven betalen hier liever (een derde partij)[https://cfenollosa.com/blog/after-self-hosting-my-email-for-twenty-three-years-i-have-thrown-in-the-towel-the-oligopoly-has-won.html]
+voor dan dat ze hun eigen mailserver gaan opzetten en onderhouden.
 Dat houdt natuurlijk in dat je een klein bedrag per mailtje betaald.
 Superhandig voor je productie-omgeving. Minder handig voor je
 development-omgeving. Er zijn in Spring andere manieren om deze usecase
@@ -686,23 +670,3 @@ Spring Boot zorgt er voor dat we hier niet heel veel ingewikkelde dingen
 hoeven doen, maar vooral door middel van attributen er voor kunnen
 zorgen dat het geheel overzichtelijke geconfigureerd wordt.
 
-[^1]: Gemakzucht\... niet echt natuurlijk. Wij worden als programmeurs
-    betaald voor werkende features, niet voor werkende tests. Een deel
-    van het kiezen van het juiste testniveau is dus op een professionele
-    manier omgaan met \"de baas z'n centen\".
-
-[^2]: Je zal niet de eerste developer zijn die acceptatiegegevens
-    rapporteert op productie, of vice-versa. Dat kan ik je (helaas)
-    garanderen.
-
-[^3]: Een beetje 'echte' applicatie heeft al gauw honderden tot
-    duizenden unit-tests
-
-[^4]: Beans is een heel erg overloaded woord in Java. Java is een eiland
-    dat bekend staat om koffie. Dus meerdere teams van programmeurs
-    willen graag de koffiebonen grap maken. Spring Beans zijn dus hele
-    andere dingen dan Java Beans in andere frameworks. Onfortuinlijk,
-    maar helaas...
-
-[^5]: Email is echt een
-    [moeras](https://cfenollosa.com/blog/after-self-hosting-my-email-for-twenty-three-years-i-have-thrown-in-the-towel-the-oligopoly-has-won.html)...
