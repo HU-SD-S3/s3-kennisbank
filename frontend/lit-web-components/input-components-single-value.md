@@ -1,21 +1,17 @@
 # Single Value Custom Components
 
-Using the input components introdruction boilerplate code, we get a `Topics` fieldset where a user can rate a topic
-using either a number input or a range input. The number input is more precise, but the range input is more
-user-friendly. But the inputs are not related yet, meaning we can rate the HTML topic with a 4 using the number input
-and a 7 using the range input. This is not what we want. We want the inputs to be related, so if we change the number
-input, the range input should change accordingly and vice versa.
+Using the input components boilerplate, we’ve created a Topics fieldset where users can rate a topic using either a number input or a range input. This setup works, but it introduces two key issues:
 
-Another issue we face is that HTML code for those inputs is basically the same for each topic and takes up a lot of
-space, causing ESLint to complain about the number of lines in our method.
+1. **Lack of synchronization**: The number input offers precision, while the range input is more user-friendly. However, they currently operate independently, changing one doesn’t update the other. We want them to stay in sync so that updating one automatically updates the other.
+2. **Lengthy render method**: The `render()` method that generates the HTML for these inputs is quite lengthy and repetitive, which also triggers ESLint warnings.
 
 ![number-range-input](./assets/number-range-input.png)
 
-By creating a component that combines the number and range input, we can solve both issues.
+### Our Goal
 
-Creating a web component that holds input fields which can be used as within a form is a good way to keep the logic of
-each User Story separated from each other, and to keep the render method of the component that holds the form fields
-clean and structured. But defining such web components is not as straightforward as it might seem.
+We aim to build a custom web component that combines both the number and range inputs into a single, synchronized unit. This will not only streamline the user experience but also reduce the amount of HTML in the `render()` method.
+
+There’s real value in this approach: by encapsulating each input field in its own component, we keep the logic for each User Story self-contained and separate from others. This results in a cleaner, more maintainable codebase and a more structured `render()` method. While the benefits are clear, implementing such a component comes with its own set of challenges.
 
 ## The Number-Range-Input Component
 
@@ -29,14 +25,14 @@ following attributes:
 - `required`: Whether the input is required or not.
 - `value`: The value of the input.
 
-Note that the `name` attribute is required for the form data to extract the value of the input, but does not have any
-meaning within the component itself. We will therefore not add this attribute in our component, but remember that if you
-don't add the `name` attribute to the input element, the value of the input will not be included in the form data when
-the form is submitted. Let's create a new file `number-range-input.js` in the `src/view/components` folder and add the
-following code:
+The `name` attribute plays a crucial role in form submission. If it's missing from an input element, the browser won’t include that input’s value in the submitted form data, meaning the backend won’t receive it. So, even though the `name` attribute doesn’t influence the internal behavior of the component itself, it’s essential to include it on the input element to ensure proper data handling during form submission.
+
+In short: the name attribute is irrelevant to the component’s internal behavior, but essential for successful form submission.
+
+Now, let’s create a new file called `number-range-input.js` inside the `src/view/components` folder and begin implementing the component.
 
 ```javascript
-import { LitElement, html, css } from 'lit';
+import { LitElement, html, css } from "lit";
 
 export class NumberRangeInput extends LitElement {
   static styles = css`
@@ -58,12 +54,12 @@ export class NumberRangeInput extends LitElement {
       padding: 0.5rem;
     }
 
-    input[type='number'] {
+    input[type="number"] {
       width: 3rem;
       font-size: 1.5rem;
     }
 
-    input[type='range'] {
+    input[type="range"] {
       width: 50%;
     }
 
@@ -94,18 +90,18 @@ export class NumberRangeInput extends LitElement {
   }
 
   firstUpdated() {
-    this.shadowRoot.querySelector('#number-input').value = this.value;
-    this.shadowRoot.querySelector('#range-input').value = this.value;
+    this.shadowRoot.querySelector("#number-input").value = this.value;
+    this.shadowRoot.querySelector("#range-input").value = this.value;
   }
 
   numberInputHandler(event) {
     this.value = event.target.value;
-    this.shadowRoot.querySelector('#range-input').value = this.value;
+    this.shadowRoot.querySelector("#range-input").value = this.value;
   }
 
   rangeInputHandler(event) {
     this.value = event.target.value;
-    this.shadowRoot.querySelector('#number-input').value = this.value;
+    this.shadowRoot.querySelector("#number-input").value = this.value;
   }
 
   render() {
@@ -134,7 +130,8 @@ export class NumberRangeInput extends LitElement {
         />
         <datalist id="values">
           ${Array.from({ length: this.max + this.step }).map(
-            (_, index) => html` <option value="${index}" label="${index}"></option> `
+            (_, index) =>
+              html` <option value="${index}" label="${index}"></option> `
           )}
         </datalist>
       </div>
@@ -142,7 +139,7 @@ export class NumberRangeInput extends LitElement {
   }
 }
 
-customElements.define('number-range-input', NumberRangeInput);
+customElements.define("number-range-input", NumberRangeInput);
 ```
 
 Also let's make some small changes to the `EvaluationForm` component, to use the new `number-range-input` component.
@@ -204,32 +201,26 @@ export class EvaluationForm extends LitElement {
 customElements.define("evaluation-form", EvaluationForm);
 ```
 
-As you can now experience, the form is much more compact and the number and range input are related to each other. If
-you change the number input, the range input changes accordingly and vice versa. This is because we have added event
-handlers to the number and range input that update the value of the other input as well as the reactive property `value`
-causing a rerender of the component.
+The new code in the `number-input-range` component links the changes of number input with range input, and vice versa. It does this via two event handlers (called `rangeInputHandler()` and `numberInputHandler()`). Internally we use the reactive property `value`. Using `value` as a reactive property is smart, as any change would generate a re-render of the component. The result in the UI is that the number and range input are now related to each other. This was one of our goals.
 
-The initialization of the values of the two input components within our `number-input-range` component is done in the
-`firstUpdated` method. You might expect that this should be done in the `connectedCallback` method, but this is not the
-case. The `connectedCallback` method is called when the element is added to the DOM, but the shadow DOM is not yet
-created at that time. So we cannot access the elements of the shadow DOM yet. The `firstUpdated` method is called after
-the first update of the element, which is after the shadow DOM is created. This is the moment we can access the shadow
-DOM and initialize the values of the inputs.
+In the `number-input-range` component we initialize values in the `firstUpdated` method as when this method runs the shadow DOM has been initialized. We cannot initialize them in the `connectedCallback` method as when this method runs the shadow DOM is not yet loaded, and thus we can't place the values into the HTML elements of the shadow DOM.
 
-But if you play around with the component, you will notice that there are also some new issues we have to deal with:
+### New challenges: Front-End validation
 
-- The `required` attribute of the input elements is not working. If you submit the form without filling in the required
-  fields, the form is still submitted.
-- The `min` and `max` attributes of the input elements are not working. You can enter any value in the input fields,
-  even negative values.
-- The `value` attribute of the `number-range-input` component is reflected to the attribute of the element, but when we
-  submit the form, the value of the input fields is not included in the form data.
+So far, we’ve made solid progress, but now we’re facing a few new challenges:
 
-The reason for these issues is that the
-[ElementInternals](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals) of our component are not correctly
-initialized. The `ElementInternals` is a new API that is part of the
-[Forms module](https://html.spec.whatwg.org/multipage/custom-elements.html#elementinternals) of the HTML specification.
-It provides a way to access the form-associated custom elements of a custom element.
+- The `required` attribute isn’t working. Even if you leave fields empty, the form still submits.
+- The `min` and `max` attributes don’t prevent invalid values. You can enter anything, even negative numbers.
+- The `value` of the `number-range-input` component is reflected correctly, but it’s not included in the form data when submitted.
+
+To solve these issues, we need to use the [ElementInternals](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals) elements (like our `number-range-input`) behave like regular form elements (`<input>`, `<select>`, etc.).
+
+With `ElementInternals`, we can:
+
+- Make custom inputs work properly in forms, so they can be validated and submitted like native inputs.
+- Improve accessibility, so screen readers and other assistive tools can interact with them correctly.
+
+This API is part of the [Forms module](https://html.spec.whatwg.org/multipage/custom-elements.html#elementinternals).
 
 ## Setting the value
 
@@ -266,13 +257,17 @@ the form-associated custom element.
 ...
 ```
 
-Using the `#internals` property we can now set the value of the component as a form-associated value by calling the
-`setFormValue` method of the `ElementInternals` object. Let's add a method `setValue` to our component that sets the
-value of the component and calls the `setFormValue` method.
+When you create a custom form element (like this NumberRangeInput), it doesn't automatically integrate with HTML forms. That means if you put it inside a `<form>` and submit the form, its value won't be included by default.
+
+By calling `this.#internals.setFormValue(this.value)` you're telling the browser: "When this form is submitted, include this value as if it were a native input element." This makes the custom element form-associated, meaning it behaves like a regular `<input>` in terms of form submission, validation, and so on.
 
 ```javascript
   setValue(value) {
     this.value = value;
+
+  // Register the value with the browser's form system using ElementInternals.
+  // This makes the custom element form-associated, so its value is included
+  // when the parent <form> is submitted.
     this.#internals.setFormValue(this.value);
   }
 ```
@@ -299,7 +294,7 @@ of the component is always in sync with the value of the input fields.
 ```
 
 If you now run the application, you will get an error in the console at the `setFormValue` method, stating that the
-element is not a form-assiciated custom element.
+element is not a form-associated custom element.
 
 To fix this, we have to add a static property `formAssociated` to our component and set it to `true`. This tells the
 browser that our component is a form-associated custom element.
@@ -318,7 +313,7 @@ and the `min` and `max` attributes of the input elements are not working either.
 
 ## Setting the constraints
 
-The range slider and the number up/down buttons on the input elements are working as aspected and prevent us from
+The range slider and the number up/down buttons on the input elements are working as expected and prevent us from
 entering values that are not within the range of the `min` and `max` attributes. But we can still enter values in the
 input field that are not within the range of the `min` and `max` attributes, which will be included in the form data
 when the form is submitted, without any validation check. This is why we will focus on the validation of the number
@@ -340,8 +335,8 @@ by the DOM API.
 If we enter a value that is not within the range of the `min` and `max` attributes, the `checkValidity` method will
 return `false`.
 
-We can use this boolean value to use the DOM API again to rapport to the user that the value is not valid, using a
-standaard message of the browser.
+We can use this boolean value to use the DOM API again to report to the user that the value is not valid, using a
+standard message of the browser.
 
 ```javascript
   numberInputHandler(event) {
@@ -355,47 +350,59 @@ standaard message of the browser.
   }
 ```
 
-If we now enter a value that is not within the range of the `min` and `max` attributes, the browser will show a message
-that the value is not valid. After rapporting that the value is not valid, we had a choice to make. We could have call
-the `return` statement after the `reportValidity` method to prevent the value from being set in the input field. But if
-we do that, the value of our component will not be updated and will still hold the last set valid value. Which value
-that is, is not clear to the user, because the input field will hold the invalid value. That is why we still will set
-the incorrect value of the input field as the value of our component by not calling the `return` statement after the
-`reportValidity` method.
+### Handling Invalid Input and Component Validity
 
-But now we have to make sure that the incorrect value of the component is not accepted when the form is submitted. To
-prevent this, we have to set the validity of our component, which we can also do within the `setValue` method.
+Now when a user enters a value outside the defined `min` and `max` range, the browser displays a default validation message using `reportValidity()`. At this point, we face a decision:
+
+- **Option 1:** Stop execution with a `return` after `reportValidity()`. This prevents the invalid value from being set in the input field, but the component’s internal value remains unchanged. This can be confusing because the input field displays the invalid value, while the component retains the last valid one.
+- **Option 2 (chosen):** Allow the invalid value to be set in the input field and update the component’s value accordingly. This keeps the UI consistent but requires additional validation when the form is submitted.
+
+To ensure invalid values are not accepted during form submission, we use the `setValidity()` method inside the `setValue()` method:
 
 ```javascript
-  setValue(value) {
-    this.value = value;
-    this.#internals.setFormValue(this.value);
-    const numberInput = this.shadowRoot.querySelector("#number-input");
-    const validity = numberInput.checkValidity()
-      ? {}
-      : {
-          rangeUnderflow: this.value <= this.min,
-          rangeOverflow: this.value >= this.max,
-        };
-    this.#internals.setValidity(validity, numberInput.validationMessage, numberInput);
-  }
+setValue(value) {
+  this.value = value;
+  this.#internals.setFormValue(this.value);
+
+  const numberInput = this.shadowRoot.querySelector("#number-input");
+
+  const validity = numberInput.checkValidity()
+    ? {}
+    : {
+        rangeUnderflow: this.value < this.min,
+        rangeOverflow: this.value > this.max,
+      };
+
+  this.#internals.setValidity(
+    validity,                     // Validation flags
+    numberInput.validationMessage, // Browser-generated message
+    numberInput                    // Element to focus on
+  );
+}
 ```
 
-We do this by first determine if our number input field is valid by calling the `checkValidity` method. If the input
-field is valid, we set the validity of the input field to an empty object, which means that the input field is valid. If
-the input field is not valid, we set the validity of the input field to an object filled with a
-[flags](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/setValidity#flags) that provides some
-information about the validity. In this case we provide two properties, `rangeUnderflow` and `rangeOverflow`, which are
-both booleans of which one must be `true` to indicate that the value of the input field is not within the range of the
-`min` and `max` attributes. The second argument of the `setValidity` method is the error message that will be shown to
-the user when the value is not valid. In this case we don't provide a custom message, so the browser will show a
-standard message, based on the validity flags we provided. The third argument of the `setValidity` method is an anchor
-element to focus on in case of an error. In this case we provide the input field itself, since that is the only element
-that can hold the invalid value.
+Here’s what happens:
 
-When we now enter a value that is not within the range of the `min` and `max` attributes and submit the form, the form
-is not submitted and the input field is marked as invalid. Even if we remove the value of the input field, the input
-field is marked as invalid, since the input field is required, and the form is not submitted.
+1. **Validation Check:** We use checkValidity() to verify the input’s validity.
+2. **Set Validity Flags:** If invalid, we create a flags object with `rangeUnderflow` and `rangeOverflow` to indicate the issue.
+3. **Set Component Validity:** We call `setValidity()` with:
+   - The flags object
+   - The browser’s default validation message
+   - The input element as the anchor for error focus
+
+This ensures that:
+
+- The component reflects the current (even invalid) input value
+- The form will not submit if the value is invalid
+- The user receives clear feedback on what went wrong
+
+Even if the input is cleared, the field remains invalid due to the `required` attribute, and the form submission is blocked.
+
+---
+
+## Conclusion
+
+In this tutorial, we built a synchronized number-range input component using LitElement, improving both usability and maintainability. We tackled key challenges like input synchronization, form integration, and validation using the ElementInternals API. By making our custom component form-associated, we ensured proper data submission and validation behavior.
 
 ---
 

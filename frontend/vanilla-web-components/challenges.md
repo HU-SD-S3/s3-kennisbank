@@ -34,6 +34,15 @@ Let the index.html file contain the following code:
 
 Style the `section` element so that it look like a card (e.g. with a border, padding, and a shadow).
 
+## Challenge 4: Add a stylesheet
+
+Augment the previous challenge by using a CSS file that contains the styling for the component.
+
+## Challenge 5: Dynamic content
+
+- Create a web component that uses attributes like `title` and `content` and an HTML file that shows 5 of those components.
+- Create a JS file that changes the values of the attributes in the HTML and import that JS file in a script tag within the HTML.
+
 ---
 
 :house: [Home](../README.md) | :arrow_backward: [Lifecycle Callbacks](./lifecycle-callbacks.md) | :arrow_up:

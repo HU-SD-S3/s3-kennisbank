@@ -5,7 +5,8 @@
 * [Data exchange](./data-exchange/README.md)
 * [Multiple- and Single-page applications](./mpa-spa/README.md)
 * [Testing](./testing/README.md)
+* [Architecture](./architecture/README.md)
 
 ---
 
-:house: [Home](../README.md) |  [Vanilla Web Components](./vanilla-web-components/README.md) :arrow_forward:
+:house: [Home](./README.md) |  [Vanilla Web Components](./vanilla-web-components/README.md) :arrow_forward:

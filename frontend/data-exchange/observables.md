@@ -1,18 +1,24 @@
 # Observables
 
-In the previous chapters we discussed different ways of exchanging data between web components. What most of them had in common was that the communication was triggered by something the user did. For example clicking a button or changing the value of an input field. And for such cases where the data is exclusiefly exchange within the view layer, events are a good solution.
+In earlier chapters, we explored various methods for exchanging data between web components. Most of these methods were event-driven, meaning the communication was triggered by user actions, such as clicking a button or changing an input field. For these view-layer-only interactions, using events is a suitable and effective solution.
 
-But for the scenario when the data or changes of the data needs to be stored by the service layer and other components are interested in this data, events originated from the view layer are not the best solution. This is because the view layer is not responsible for the data. The view layer is only responsible for the view (separation of concerns principle). The service layer is responsible for the data. So if you want to inform other components about changes in the stored data, you should use a different approach.
+However, there are scenarios where events from the view layer are not ideal:
 
-Another scenario occurs when the service layer fetches some new data from the server, based on active polling (regularly checking for new data) or a push notification (the server informs the client that there is new data). In this case, the service layer needs to inform the view layer that there is new data.
+- **Shared Data Across Components:** When data is stored in the service layer, and multiple components need to be informed about changes to that data. The view layer should not manage this communication, as it violates the separation of concerns principle. The service layer owns the data and should be responsible for notifying interested components.
 
-In both scenarios events originated from the service layer are not the best solution. This is because the service layer should not invoke DOM API calls and therefore could not trigger such an event. So we need a different approach. This is where observables come into play. They can be compared to push notifications, which will be send to everyone who is subscribed to specific data. They are based on the observer pattern, which is a design pattern that allows an object (the observable) to notify other objects (the observers) about changes in its state. The observer pattern is a common pattern in programming and is used in many libraries and frameworks, including RxJS.
+- **Server-Initiated Updates:** When the service layer receives new data from the server via polling (regular checks for updates), or push notifications (server actively sends updates). The service layer must inform the view layer about these updates.
 
-In general the Observer pattern is looks like this:
+In both cases, using DOM events is not appropriate, because the service layer should not interact with the DOM, and events are tightly coupled to the view layer and not suitable for broader data communication.
+
+## Observables
+
+To solve this, we use Observables, which are based on the Observer Pattern. Think of Observables like push notifications for data. Any component that subscribes to an observable will be notified automatically when the data changes. This pattern is widely used in libraries like RxJS.
+
+Here’s a clearer and more structured version of your explanation of the Observer Pattern:
 
 ```mermaid
 classDiagram
-  
+
   class Subject {
     +observerCollection
     +subscribe(observer: Observer)
@@ -34,17 +40,35 @@ classDiagram
   Observer <|.. ConcreteObserverB
 ```
 
-The this pattern the Subject holds the data our Concrete Observer instances are interested in. The Concrete Observer instances take a subscription on the Subject to get notified when the data changes. With the subscription they provide the Subject with a callback function (`update()`)  that will be called when the data changes. The Subject holds a collection of observers and notifies them when the data changes. The Concrete Observer instances implement the `update()` method to handle the notification, which holds the changed data, from the Subject.
+## Observer Pattern explained
 
-In the next two sub-chapters we will implement the Observer pattern, first we implement the [Observable in vanilla JavaScript](./observables-vanilla-js.md) from scratch and then with the help of a library called [RxJS](./observables-rxjs.md).
+The Observer Pattern is a design pattern that enables an object (called the Subject) to maintain a list of dependents (called Observers) and automatically notify them of any state changes.
+
+#### 1. Subject
+
+The Subject is the part of your app that has the data. It keeps a list of observers (other parts of your app that want to know when the data changes). It has three main actions:
+
+- `subscribe(observer)` → Add an observer to the list.
+- `unsubscribe(observer)` → Remove an observer from the list.
+- `notify()` → Tell all observers that something has changed.
+
+#### 2. Observer (Abstract)
+
+This is like a rule or guideline. It says: “Every observer must have an `update(data)` method.” This method is what gets called when the Subject sends out a notification. It doesn’t do anything itself, it just acts as a 'template' that defines what observers should be able to do.
+
+#### 3. Concrete Observers (A & B)
+
+These are the real observers, actual parts of your app that want updates. They follow the rule by implementing the `update(data)` method. They subscribe to the Subject so they can be notified when the data changes. When they get notified, they use the `update(data)` method to do something, like update the screen or log the change.
+
+---
+
+In the upcoming two sections, we’ll explore how to implement the Observer Pattern in practice. First, we’ll build an observable from scratch using [vanilla JavaScript](./observables-vanilla-js.md) to understand the core mechanics. After that, we’ll use a library called [RxJS](./observables-rxjs.md), which simplifies working with observables and offers powerful tools for reactive programming.
 
 ---
 
 ## Sources
 
-- [YouTube - The Biggest Misconception of PROMISES vs OBSERVABLES](https://youtu.be/vdsujUhFMLY?si=qv7eMB7qHEMqQQNI)  
-[![YouTube - The Biggest Misconception of PROMISES vs OBSERVABLES](https://i.ytimg.com/an_webp/vdsujUhFMLY/mqdefault_6s.webp?du=3000&sqp=CN7IpMAG&rs=AOn4CLDio2kXaptS_pbYF4FnIubHUySfGw)](https://youtu.be/vdsujUhFMLY?si=qv7eMB7qHEMqQQNI)  
-
+- [YouTube - The Biggest Misconception of PROMISES vs OBSERVABLES](https://youtu.be/vdsujUhFMLY?si=qv7eMB7qHEMqQQNI)
 - [Wikipedia - Observer pattern](https://en.wikipedia.org/wiki/Observer_pattern)
 
 ---
