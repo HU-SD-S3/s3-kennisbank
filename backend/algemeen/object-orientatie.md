@@ -628,6 +628,87 @@ de mogelijkheid om te koppelen tegen een (abstracte) interface. Op die
 manier hoeven we ons nog niet vast te pinnen op een bepaalde
 implementatiekeuze!
 
+## Invarianten
+
+Met state bedoelen we alle stukjes data die
+bij die entity horen; alle attributen in een taal als Java, C# of
+Python. Die veranderingen gebeuren in een OOP taal via public methods.
+Het is belangrijk dat die veranderingen altijd netjes gebeuren. Daarmee
+bedoelen we dat de regels van het object altijd gevolgd moeten worden:
+met een chique woord zijn objecten *invariant onder hun methodes*. Die
+invarianten wijzen dingen aan die altijd waar moeten zijn, zoals "het
+totaalbedrag van een bestelling moet gelijk zijn aan de optelsom van de
+delen". Hoewel zowel de bestelde onderdelen, als het totaalbedrag kunnen
+variëren, staat het feit dat die twee met elkaar kloppen vast, de regel
+is invariant.
+
+Niet alle combinaties van state zijn geldig voor een object. Laten we
+als voorbeeld de Java ArrayList nemen. Het handige van een List ten
+opzichte van een gewone Array is dat je er zomaar objecten aan kan
+toevoegen. Een Array moet je elke keer met een bepaalde grootte
+aanmaken. De naam suggereert dat een ArrayList de List interface biedt
+met een Array op de achtergrond, en als we even onder de motorkap
+kijken[^12]
+
+``` java
+//Fields uit de source van ArrayList.java
+transient Object[] elementData;
+private int size;
+```
+
+Je ziet dat het size veld onafhankelijk wordt bijgehouden van de
+elementData array. Dat voelt in eerste instantie misschien een beetje
+stom (waarom niet gewoon elementData.length returnen in getSize()?),
+maar daar zit een goede reden achter.
+
+De ArrayList class doet veel moeite om zo min mogelijk keren een nieuwe
+elementData array te maken. Dus als je elementen toevoegt, en er is geen
+ruimte meer in de array, dan maakt de ArrayList de nieuwe array 'ietsje
+groter dan nodig'. Op dezelfde manier laat de ArrayList met plezier wat
+plekjes in de array leeg als je iets removed. Het size veld moet dus los
+worden bijgehouden, en het zou echt *superverwarrend* worden als het
+size veld niet exact klopt met hoeveel elementen er in de array zitten.
+
+Een ander voorbeeld zie je in [programlisting_title](#entityconsistent):
+
+``` java
+public class Order {
+    private Money total = Money.zero(); //Money is in dit geval een value-object die afrondingscomplexiteit met doubles afvangt
+    private List<LineItems> items = new ArrayList<>();
+
+    public List<LineItems> getItems(){ return this.items; }
+    public Money getTotal(){ return total; }
+
+    public void addItem(Product item){
+        items.add(new LineItem(this, item));
+        total = total.add(item.getPrice());
+    }
+}
+```
+
+Het probleem hier is dat je items aan de order kan toevoegen (waardoor
+de prijs omhoog gaat), maar vervolgens buitenom
+*order.getItems().clear()* (bijv.) kan aanroepen. Met als gevolg een
+order zonder items, maar **met** een prijs.
+
+-   OF *getItems* moet een Collections.unmodifiableList(this.items)
+    returnen, zodat de collectie niet stiekem aangepast kan worden[^13].
+
+-   OF *getTotal* moet elke keer vers z’n totaal berekenen. Als het kan
+    is dit makkelijker, maar er zijn zat variaties waarin dit niet
+    wenselijk is (omdat er bijv. extra kortingen zijn, of het heel duur
+    is om de hele collectie uit de database te vissen).
+
+Dit is wederom het principe van OOP encapsulatie. En dat is echt
+essentieel voor OOP als geheel, en DDD in het bijzonder.
+
+Kortom, in een nette codebase gaan entities (en dit is feitelijk gewoon
+een basisprincipe van OOP) per public method van een nette (consistente)
+toestand, naar een volgende nette toestand, waarbij aan alle invarianten
+voldaan is. Dit is heel belangrijk, omdat we bij DDD persistentie graag
+zo ver mogelijk naar de achtergrond drukken. En dat doen we met
+Repositories.
+
 ## Samenvatting
 
 In dit hoofdstuk hebben we het object-georiënteerd modelleren en
