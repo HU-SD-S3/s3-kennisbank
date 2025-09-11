@@ -8,10 +8,11 @@ Je kunt een nieuw Project aanmaken in IntelliJ via ```New Project / Java / Maven
 
 ```mermaid
 classDiagram
-    
+    direction RL
 
     class AvailableGame {
         <<enumeration>>
+        
         Blackjack
         Roulette
         Uno
@@ -21,18 +22,23 @@ classDiagram
     }
 
     class Lobby {
-        - List<> players
+        - List~Player~ players
         - Player host
         - AvailableGame chosenGame
         ...
-        +join(Player actingPlayer)
-        +leave(Player actingPlayer)
-        +start(Player actingPlayer)
+        
+        +join(Player actingPlayer) void
+        +leave(Player actingPlayer) void
+        +start(Player actingPlayer) void
         +end()
     }
+    note for Lobby "Op de plek van de puntjes mag je naar eigen inzicht velden toevoegen"
     
     class Player {
-        +String username
+        
+        
+        +String username 
+        
     }
     note for Player "Je mag aannemen dat username uniek is"
 
@@ -47,8 +53,7 @@ classDiagram
 * Alleen de Host mag de game starten
 * Er mogen geen dubbele spelers in de lobby 
 
-Klaar? Hand omhoog, docent checkt het even. Docent(en) druk? Extra uitdagingen.
-
+Klaar? Hand omhoog, docent checkt het even.
 Was het goed? Top, jij bent nu ook (even) docent.
 
 ## Extra uitdagingen
@@ -56,4 +61,5 @@ Was het goed? Top, jij bent nu ook (even) docent.
 * Na het starten van het spel mogen nieuwe spelers niet meer joinen. 
   * Reeds gejoinede spelers mogen wel leaven en later terugkomen.
 * Nadat het spel is afgelopen mogen spelers niet meer joinen.
-* ...
+* Het spel mag alleen gestart worden als alle spelers "Ready" zijn.
+* ... 

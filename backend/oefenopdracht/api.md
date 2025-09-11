@@ -3,7 +3,6 @@
 We gaan voor de Lobby uit de eerdere opdracht een @RestController maken.
 
 Als startcode gebruiken we een template van https://start.spring.io/. Zorg dat je als Dependency ```Spring Web``` toevoegt.
-
 Voor nu gebruiken we gewoon een List<> als data-bron.
 
 ```java
@@ -41,7 +40,7 @@ Implementeer de volgende endpoints, gebruik in deze versie nog geen DTOs:
 * **POST /lobbies**
 
     Gebruik de @RequestBody om een nieuwe lobby te kunnen maken.
-    Return het zojuist gemaakte object als response. Let op een ResponseStatus van 201 Created, ipv. 200 OK.
+    Return het zojuist gemaakte object als response. Let op een ResponseStatus van 201 Created, ipv. 200 OK. Daarvoor zul je ook een Spring @-annotatie nodig hebben.
 
 * **GET /lobbies/{id}**
 
@@ -55,6 +54,8 @@ Implementeer de volgende endpoints, gebruik in deze versie nog geen DTOs:
 * **DELETE /lobbies/{id}**
 
     Verwijder een enkele Lobby uit de databron (in dit geval onze lijst).
+
+    (Hier is met de simpelste implementatie iets vreemds aan de hand: wat?)
 
 * **PUT /lobbies/{id}**
 
@@ -71,7 +72,9 @@ Dit zou je ook in staat moeten stellen om een zinnigere implementatie te maken v
 
 ## Opdracht 3: API-Design
 
-We kunnen nu Lobbies aanmaken en verwijderen. Maar wat is nu een mooi ontwerp voor om een extra speler de lobby te laten joinen? (of leaven)
+We kunnen nu Lobbies aanmaken en verwijderen. Maar wat is nu een alternatief ontwerp voor om een extra speler de lobby te laten joinen? (of leaven)
+
+Is deze resource-aanpak wat jou betreft beter?
 
 ## Extra uitdagingen
 
