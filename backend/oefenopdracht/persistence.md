@@ -60,16 +60,3 @@ Verwijder nu de container, en maak 'm opnieuw aan. Waarom is je data nog steeds 
 Gooi alle data een keer weg, en zorg ervoor dat je echt met een clean slate begint!
 
 Wat vind je fijner als Developer? H2 of Postgres+Docker?
-
-## Opdracht 4: ORMs
-
-We gaan in een aantal stappen kennismaken met ORMs.
-
-* Haal de initDb method uit de playerController weg, en voeg een @Entity annotatie toe op Player. Voeg ook een @Id toe aan de username. JPA/Hibernate zal nu automatisch de tabellen voor je maken! Je zult mogelijk wat @Table en @Column annotaties moeten toevoegen om de gegenereerde tabel en column-names overeen te laten komen met de selects/insert/updates die je in opdracht 2 hebt geschreven.
-
-* Verwijder de dependency op je DAO (dit mag pijn doen, afhankelijk van hoe mooi je 'm vindt), en vervang die met een dependency op de JPA EntityManager. Gebruik nu de EntityManager om je Player objecten te Find'en, Persisten, Removen en Updaten!
-
-
-## Opdracht 5: Relaties
-
-Hier gaan we probably geen tijd voor hebben ;)
