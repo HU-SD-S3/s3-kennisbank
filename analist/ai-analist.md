@@ -51,3 +51,5 @@ Verder kan je natuurlijk de verschillende test mogelijkheden ook gebruiken om de
 Er zijn helaas nog geen standaarden voor het instrueren van LLMs met betrekking tot het genereren van code. Er zijn veel initiatieven, maar het gedrag van LLMs verandert per release eigenlijk nog teveel om hier iets over vast te leggen.
 
 Maar wat in ieder geval goed werkt is markdown. LLMs kunnen markdown prima lezen (en genereren). Dus je hebt al een mooie stap gemaakt als je de architectuur volledig en nauwkeurig in markdown hebt (iets dat je natuurlijk al gedaan hebt als projectdocumentatie, toch?).
+
+...
