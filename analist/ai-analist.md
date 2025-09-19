@@ -1,5 +1,5 @@
 # De rol van een analist bij gebruik van AI
-In deze paragraaf gaan we in op de rol van een analist bij het gebruik van AI en LLMs (Large Language Models) bij het ontwikkelen van software. We bespreken wat vibe coding is, waarom het relevant is, en hoe een analist kan bijdragen aan het succes van een project dat gebruik maakt van AI.
+In dit onderdeel gaan we in op de rol van een analist bij het gebruik van AI en LLMs (Large Language Models) bij het ontwikkelen van software. We bespreken wat vibe coding is, waarom het relevant is, en hoe een analist kan bijdragen aan het succes van een project dat gebruik maakt van AI.
 
 ## What is vibe coding?
 Er is veel nog onduidelijk over de toekomst van AI en LLMs, maar een van de kreten die veel gebruikt wordt is 'vibe coding'. Sommigen zijn fel tegenstander en vinden het belachelijk anderen denken dat het de toekomst is. Veel van de tegengestelde meningen komen voort uit de interpretatie van de kreet 'vibe coding'. Dus wat is het? 
@@ -102,6 +102,9 @@ De User Stories zullen zeer volledig moeten zijn, maar je kan in dit bestand ook
 
 Eigenlijk niets anders als wat je normaal gesproken ook doet (zou moeten doen) als analist/architect, maar dan nu in een vorm die een LLM kan begrijpen.
 
+- [Voorbeelden van AGENTS.md](https://agentsmd.net/agents-md-examples/)
+- [Meer informatie over AGENTS.md](https://agentsmd.net/)
+
 > TODO: OEFENING TOEVOEGEN VOOR HET WERKEN MET AGENTS.md
 
 
@@ -173,4 +176,23 @@ Voor het gebruiken van MCP server in VSCode is er een extensie beschikbaar: [MCP
 Ook voor Intellij is er een extensie beschikbaar: [MCP server](https://plugins.jetbrains.com/plugin/26071-mcp-server) en is er documentatie beschikbaar op [Use MCP servers in IntelliJ](https://www.jetbrains.com/help/idea/mcp-server.html)
 
 Het zelf opzetten van een MCP server is iets voor de meer gevorderde developer. Maar als analist/architect is het goed om te weten dat deze mogelijkheid er is en wat de mogelijkheden zijn. Het biedt echter veel mogelijkheden voor een jonge developer om zich te onderscheiden.
+
+### Spec driven development
+Spec Kit maakt jouw specificatie het middelpunt van je ontwikkelproces. In plaats van een specificatie te schrijven en deze vervolgens te negeren, stuurt de specificatie de implementatie, checklists en taakverdeling aan. Jouw primaire rol is sturen; de code-agent doet het grootste deel van het schrijfwerk. Het is een soort van AGENTS.md, maar dan veel uitgebreider en met meer mogelijkheden.
+
+Het proces werkt als volgt:
+1. Specify:
+   - Geef een high-level specificatie van wat je wilt bouwen.
+2. Plan:
+   - Nu wordt het technisch. In deze fase geef je de code-agent jouw gewenste stack, architectuur en randvoorwaarden, en genereert de code-agent een uitgebreid technisch plan.
+3. Tasks:
+   - De code-agent neemt de specificatie en het plan en verdeelt deze in daadwerkelijk uit te voeren taken. Hij genereert kleine, goed te beoordelen stukjes werk die elk een specifiek deel van het probleem oplossen.
+4. Implementation:
+   - Jouw code-agent pakt de taken één voor één op (of parallel, waar mogelijk). Maar wat hier anders is: in plaats van het beoordelen van enorme code-dumps van duizenden regels, beoordeel jij als ontwikkelaar gerichte wijzigingen die specifieke problemen oplossen.
+
+- [Blog post over Spec Kit](https://github.blog/ai-and-ml/generative-ai/spec-driven-development-with-ai-get-started-with-a-new-open-source-toolkit/)
+- [github repo Spec Kit](https://github.com/github/spec-kit)
+
+## Next steps
+In het volgende deel gaan we dieper in op Spec Kit en hoe je dit kan gebruiken in jouw ontwikkelproces.
 
