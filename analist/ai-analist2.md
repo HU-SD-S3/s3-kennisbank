@@ -280,4 +280,37 @@ Door gebruik te maken van AGENTS.md kunnen we de AI sturen om code te genereren 
 
 We hebben nu de feature direct in copilot ingetypt. We hebben dus niet eerst een specificatie en een plan gemaakt. Dit gaan we in het volgende deel doen.
 
-TODO: Oefening met taken.
+## Copilot prompts
+Naast de tab toets kan je ook copilot prompts gebruiken om de AI te sturen. Dit zijn korte zinnen die je typt om de AI te vertellen wat je wil dat de AI doet. Dat kan je doen in de copilot chat of in de code editor zelf.
+
+Misschien heb je gemerkt dat als je de prompt begint met `/` dat de AI dan een lijst met suggesties geeft. Dit zijn de copilot prompts.
+
+![Copilot prompts](./prompts.jpg)
+
+Deze prompts kan je zelf maken. Maak in de root van je project een folder met de naam `.github` (vergeet de punt niet) en maak daarin een folder met de naam `prompts`. In deze folder kan je markdown bestanden maken met de prompts die je wil gebruiken. Gebruik het format `<command>.prompt.md`. Bijvoorbeeld `hello.prompt.md` voor een prompt die tests genereert. In de file zet je dan de prompt die je wil gebruiken. Bijvoorbeeld:
+
+```markdown
+Tell me something about yourself
+```
+
+Als je nu in je code editor `/hello` typt dan zal de AI de prompt uit het bestand gebruiken en reageren met bv: 
+
+> I am GitHub Copilot, an AI-powered coding assistant designed to help you write, understand, and improve code efficiently. I can answer questions, generate code, automate tasks, and guide you through best practices for your projects.
+
+Je kan deze prompts zo lang maken als je zelf wil. Je kan zelf een parameter meegeven. Als voorbeeld maken een nieuwe promt met de naam `inspect.prompt.md` met de volgende inhoud:
+
+```markdown
+Inspect the code using the constraints below and provide suggestions for improvement:
+
+Constraints:
+1. The render function must use Lit HTML for rendering HTML templates.
+2. Utility functions must be pure functions.
+3. The render function may not be longer then 30 lines of code.
+```
+
+Vervolgens type je `/inspect ColorSquare.js` in je code editor en de AI zal de code in de file `ColorSquare.js` inspecteren en suggesties geven voor verbetering op basis van de constraints die je opgegeven hebt. Hiermee kan je als Analist/architect (en/of developer) de AI gebruiken om te controleren of de geschreven code voldoet aan de richtlijnen van jou project. Dit is heel krachtig bij het doen van code reviews.
+
+
+
+
+# TODO: Oefening met taken.
