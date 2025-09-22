@@ -26,6 +26,7 @@ export function shuffleArray(array) {
     }
     return array;
 }
+```
 
 ## Tests genereren met AI
 Je kan AI ook gebruiken om tests te genereren voor je code. Dit kan je helpen om sneller tests te schrijven en om fouten te voorkomen.
