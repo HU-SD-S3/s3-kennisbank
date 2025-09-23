@@ -311,7 +311,96 @@ Constraints:
 
 Vervolgens type je `/inspect ColorSquare.js` in je code editor en de AI zal de code in de file `ColorSquare.js` inspecteren en suggesties geven voor verbetering op basis van de constraints die je opgegeven hebt. Hiermee kan je als Analist/architect (en/of developer) de AI gebruiken om te controleren of de geschreven code voldoet aan de richtlijnen van jou project. Dit is heel krachtig bij het doen van code reviews.
 
+## UI genereren van een design
+Stel we hebben een design (of iig een wireframe) en we willen dat de AI code voor de componenten genereert. We maken weer gebruik van de AGENTS.md file om de AI te sturen. 
 
+We maken een nieuw vite project aan (met lit als framework, javascript als taal). Halen de template code weg en maken een nieuwe AGENTS.md file met de zelfde inhoud als hierboven.
 
+In de folder `docs/design` plaatsen we een wireframe van een design. Gebruik onderstaande afbeelding:
 
-# TODO: Oefening met taken.
+![wireframe](./wireframe1.png)
+
+In de folder `docs/features` maken we een nieuwe file met de naam `feature.mockup-implementation.md` met de volgende inhoud:
+
+```markdown
+# Instructions for AI: Implementing the Space News Mockup
+
+To implement the design specified by `space-news-mockup.md`, follow these steps:
+
+1. **Review the Mockup:**  
+   Open `/docs/design/space-news-mockup.md` and study the layout, components, and interactions described.
+
+2. **Component Structure:**  
+   - Create reusable components in `/src/components` for each distinct UI element (e.g., news card, header, article list).
+   - Use PascalCase for component names.
+
+3. **Page Setup:**  
+   - Assemble the main page in `/src/pages` using the components.
+   - Ensure the layout matches the mockup’s structure.
+   - Name the main page (index.html) component `SpaceNewsPage`.
+   - Insert the `SpaceNewsPage` component into `index.html` to render it. 
+
+4. **Responsiveness:**  
+   - Use CSS (preferably within Lit components) to make the design responsive for mobile and desktop.
+   - Test with different screen sizes.
+
+5. **Lit HTML:**  
+   - Render all templates using Lit HTML syntax.
+
+6. **Utility Functions:**  
+   - Place pure helper functions in `/src/utils` if needed (e.g., formatting dates).
+
+7. **Testing:**  
+   - Write unit tests for components in `/tests/components` using vitest.
+
+8. **Branching:**  
+   - Before starting, create a new branch named `feature/space-news-mockup`.
+
+9. **Documentation:**  
+   - Document any design decisions or deviations from the mockup in this file.
+
+> Follow the coding standards and project structure outlined in `AGENTS.md`.
+```
+
+We zetten copilot (of een andere AI) aan in je IDE zet deze in Agent mode. En geef de volgende opdracht: `Implement the feature described in feature.mockup-implementation.md`. De AI gaat nu aan de slag om de code te genereren die past binnen de structuur en standaarden van ons project.
+
+Als het goed is heb je nu een nieuwe branch met de naam `feature/space-news-mockup` en de code die de AI gegenereerd heeft. Waarschijnlijk heb je nog wat handmatige acties nodig om het aan de praat te krijgen (dit kan je ook samen met de AI doen). Verder lijkt het resultaat niet echt op het design. In. mijn geval kreeg ik het volgende resultaat:
+
+![result](./implementation1.jpg)
+
+Niet echt wat we verwacht hadden. Dus ik stel de AI de volgende vraag:
+
+> A lot of the mockup is still missing, what can I do to make the mockup clearer?
+
+Waarop ik als antwoord kreeg:
+
+To make the mockup clearer and ensure a complete implementation, you can:
+
+1. **Provide a detailed mockup file:**
+   Include a visual design (image, wireframe, or screenshot) and a *written description of all UI elements, layout, colors, fonts, and interactions*.
+2. **List all required components and features:**
+   Specify each section, card, button, icon, and any dynamic behavior (e.g., filtering, loading states).
+3. **Describe data structure and sample content:**
+   Show example articles, images, dates, and any metadata that should appear.
+4. **Clarify responsive requirements:**
+   Indicate how the layout should adapt to mobile, tablet, and desktop.
+5. **Add acceptance criteria:**
+   Define what must be present for the mockup to be considered “done.”
+6. **Reference design files directly:**
+   Link to or embed the actual design file (e.g., PNG, Figma, PDF) in your documentation.
+
+The more specific and visual your mockup and requirements, the easier and more accurate the implementation will be.
+
+Wat we moeten doen is direct naar de figma file verwijzen en in deze file alle details (*written description of all UI elements, layout, colors, fonts, and interactions*) van het design opnemen. We kunnen dus niet volstaan met enkel een wireframe.
+
+Dit is niets anders dan wat we ook zonder AI zouden moeten doen. Zorg dat je een goed design hebt en dat je alle details van het design hebt beschreven! Het werken met AI neemt je werk uit handen, maar het belang van een goede analyse en een goed (uitgebreid) design wordt alleen maar groter.
+
+> Je kan de AI ook gebruiken om UI code te genereren van een design. Dit kan je doen door een design te maken in Figma en de AI te vragen om de code te genereren. Dit kan je doen door de Figma plugin van copilot te gebruiken.
+
+### Oefening met Figma
+Maak een gratis account aan bij Figma (als je die nog niet hebt). Maak een nieuw design aan met meerdere elementen. Geef via comments aan wat de verschillende elementen doen.
+
+Maak een nieuw vite project aan (met lit als framework, javascript als taal) en haal het leeg. Gebruik de markdown file AGENTS.md zoals hierboven beschreven (of breid deze uit naar je eigen inzichten). Voeg een feature beschrijving in de feature folder toe zoals hierboven beschreven waarin je verwijst naar de Figma file.
+
+Laat de AI de code genereren. Bekijk het resultaat. Is dit wat je verwacht had? Wat kan er beter? Hoe kan je de AI nog beter sturen?
+
