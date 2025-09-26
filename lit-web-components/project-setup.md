@@ -7,7 +7,7 @@ In this article we will setup a new boilerplate project that we use for the lit 
 Start with creating a vite project.
 
 ```bash
-npm init vite@latest
+npm create vite@latest
 ```
 
 Choose the following options:
@@ -17,6 +17,10 @@ Choose the following options:
 > Framework: **lit**
 >
 > Select a variant: **JavaScript**
+> 
+> Use rolldown-vite: **No**
+>
+> Install with npm and start now? **No**
 
 Open the new project in your code editor (in Visual Studio Code, select open Folder and open the newly created
 vanilla-web-components folder), in order to always have your terminal open in the project folder and not in the parent
@@ -127,7 +131,7 @@ npm install --save-dev prettier
 To configure prettier create a `prettier.config.js` file in the root of your project with the following content:
 
 ```javascript
-export const semi = false;
+export const semi = true;
 export const singleQuote = true;
 export const trailingComma = 'all';
 export const arrowParens = 'always';
@@ -142,11 +146,12 @@ documentation of the rule that is violated to understand why it is there and if 
 setup a configuration file for ESLint at the root of your project by running:
 
 ```bash
-npm init @eslint/config@latest
+npm create @eslint/config@latest
 ```
 
-You will than be asked some questions to setup the configuration file.
+You will then be asked some questions to setup the configuration file.
 
+The first question: _"What would you like to lint?"_ choose "**JavaScript**".  
 On the question _"How would you like to use ESLint?"_ choose "**To check syntax and find problems**".  
 When asked _"What type of modules does your project use?"_ choose "**JavaScript modules (import/export)**".  
 And on the question _"Which framework does your project use?"_ choose "**None of these**".  
@@ -160,31 +165,28 @@ This will install the necessary dependencies and create a `eslint.config.js` fil
 this file we can add and/or remove rules as well as change the severity of a rules. Edit this file to look like this:
 
 ```javascript
-import globals from 'globals';
-import pluginJs from '@eslint/js';
-import prettier from 'eslint-config-prettier';
+import js from "@eslint/js";
+import globals from "globals";
+import prettier from "eslint-config-prettier";
+import { defineConfig } from "eslint/config";
 
-export default [
-  pluginJs.configs.all,
-  {
-    languageOptions: {
-      ecmaVersion: 'latest',
-      globals: globals.browser,
-      sourceType: 'module',
-    },
-    plugins: {
-      prettier,
-    },
+export default defineConfig([
+  { 
+    files: ["**/*.{js,mjs,cjs}"],
+    plugins: { js, prettier },
+    extends: ["js/all"],
+    languageOptions: { globals: globals.browser },
     rules: {
-      'no-console': 'warn',
-      'sort-keys': 'off',
-      'sort-imports': 'off',
-      'one-var': 'off',
-      'no-ternary': 'off',
-      'capitalized-comments': 'off',
+      "no-console": "warn",
+      "sort-keys": "off",
+      "sort-imports": "off",
+      "one-var": "off",
+      "no-ternary": "off",
+      "capitalized-comments": "off",
+      "class-methods-use-this": "warn"
     },
-  },
-];
+   },
+]);
 ```
 
 This configuration file requires us to also install the eslint-prettier plugin. We can do this by running:
@@ -196,7 +198,7 @@ npm install --save-dev eslint-config-prettier
 To run eslint on your project **add** the following script to your `package.json` file `scripts` section:
 
 ```json
-  "eslint": "eslint ./src/**/*.js"
+  "eslint": "eslint ."
 ```
 
 Running this script with:
