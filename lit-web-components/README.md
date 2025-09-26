@@ -16,6 +16,8 @@ small library that is easy to learn and use. It is a great choice for building w
   - [Input Components - Single value attribute](./input-components-single-value.md) - How to create a custom input component with a single value attribute.
   - [Input Components - Multi value attribute](./input-components-multi-value.md) - How to create a custom input component that wants to return multiple value attributes.
 
+To exercise the knowledge you gained from this chapter, you can try some [challenges](./challenges.md).
+
 ---
 
 :house: [Home](../README.md) | :arrow_up: [Lit Web Components](./README.md) | [Project Setup](./project-setup.md) :arrow_forward:
