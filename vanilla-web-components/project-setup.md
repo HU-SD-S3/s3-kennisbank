@@ -151,7 +151,7 @@ setup a configuration file for ESLint at the root of your project by running:
 npm init @eslint/config@latest
 ```
 
-You will than be asked some questions to setup the configuration file.  
+You will then be asked some questions to setup the configuration file.  
 On the question "How would you like to use ESLint?" choose "**To check syntax and find problems**".  
 When asked "What type of modules does your project use?" choose "**JavaScript modules (import/export)**".  
 And on the question "Where does your code run?" choose "**Browser**".  
@@ -171,7 +171,7 @@ To prevent conflicts between ESLint and Prettier, install the `eslint-config-pre
 npm install --save-dev eslint-config-prettier
 ```
 
-Your eslint.config.js file could than look something like this:
+Your eslint.config.js file could then look something like this:
 
 ```javascript
 import globals from 'globals';
