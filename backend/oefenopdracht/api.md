@@ -5,6 +5,8 @@ We gaan voor de Lobby uit de eerdere opdracht een @RestController maken.
 Als startcode gebruiken we een template van https://start.spring.io/. Zorg dat je als Dependency ```Spring Web``` toevoegt.
 Voor nu gebruiken we gewoon een List<> als data-bron.
 
+Kopieer je Lobby / Player class uit de vorige opdracht het nieuwe project in.
+
 ```java
 @RestController
 public class LobbyController {
@@ -69,17 +71,18 @@ We willen nu niet meer de Player als losse class kunnen herkennen, maar gewoon u
 
 Dit zou je ook in staat moeten stellen om een zinnigere implementatie te maken van **PUT /lobbies/{id}**
 
-
 ## Opdracht 3: API-Design
 
-We kunnen nu Lobbies aanmaken en verwijderen. Maar wat is nu een alternatief ontwerp voor om een extra speler de lobby te laten joinen? (of leaven)
+We kunnen nu Lobbies aanmaken en verwijderen.
+Implementeer een tweetal endpoints voor het joinen/leaven van een lobby:
 
-Is deze resource-aanpak wat jou betreft beter?
+* **POST /lobbies/{id}/join**
+* **POST /lobbies/{id}/leave**
+
+Dit is een procedure-oriented ontwerp. Zie je ook een resource-oriented alternatief?
 
 ## Extra uitdagingen
 
 * Location Header op Post. Om een POST helemaal netjes te doen voeg je een Header "Location" toe aan de Response, met daarin de url naar de zojuist aangemaakte resource (want meestal kan je een toegekend Id niet raden)
-
-* HATEOAS, in plaats van pure strings voor de players, maak je een losse @RestController voor players aan, en in je Lobby responses _link je de Players naar hun eigen Resource.
 
 * Pagination, voeg queryparameters toe, zoals ?pagesize=5&pageStart=10 zodat hele grote hoeveelheden lobbies niet een enorme database-hit worden.
