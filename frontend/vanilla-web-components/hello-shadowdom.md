@@ -161,6 +161,8 @@ export class HelloShadowDOM extends HTMLElement {
     this.shadowDOM.appendChild(h1Element);
   }
 }
+
+customElements.define('hello-shadowdom', HelloShadowDOM);
 ```
 
 When you now open the page in your web browser, you should see the text `Hello Shadow DOM` displayed on the page with a
@@ -186,6 +188,8 @@ export class HelloShadowDOM extends HTMLElement {
     this.shadowDOM.appendChild(h1Element);
   }
 }
+
+customElements.define('hello-shadowdom', HelloShadowDOM);
 ```
 
 This should again show the text `Hello Shadow DOM` displayed on the page with a blue background and white text color.
