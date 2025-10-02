@@ -1,5 +1,19 @@
 # ORMs
 
+
+## Opdracht 0: Docker Database
+
+In de Classroom repository gebruiken we H2, een In-Memory database. Het nadeel hiervan is dat je elke applicatie-herstart al je data kwijt bent.
+
+* Probeer met de Docker-Compose file een PostGres database op te starten. Pas de application-properties aan zodat de postgres database gebruikt wordt.
+
+Als je nu de applicatie afsluit en opnieuw opstart zou je data gewoon bewaard moeten worden.
+
+* Waarschijnlijk heb je nog PGAdmin van S2 op je laptop staan. Probeer met PGAdmin te connecten op de Postgres database van de container. (als je geen PGAdmin meer hebt zit er ook een ingebouwde database-client in IntelliJ)
+
+Wat vind je fijner als Developer? H2 of Postgres+Docker?
+
+
 ## Opdracht 1: ORMs
 
 ```mermaid
@@ -18,9 +32,25 @@ classDiagram
 
 We gaan in een aantal stappen kennismaken met ORMs.
 
-* Haal de initDb method uit de playerController weg, en voeg een @Entity annotatie toe op Player. Voeg ook een @Id toe aan de username. JPA/Hibernate zal nu automatisch de tabellen voor je maken! Je zult mogelijk wat @Table en @Column annotaties moeten toevoegen om de gegenereerde tabel en column-names overeen te laten komen met de selects/insert/updates die je in opdracht 2 hebt geschreven.
+* Haal de initDb method uit de playerDAO weg (en ook de plek waar deze werd aangeroepen), en voeg een @Entity annotatie toe op Player. Voeg ook een @Id toe aan de username. JPA/Hibernate zal nu automatisch de tabellen voor je maken! Je wat @Table en @Column annotaties moeten toevoegen om de gegenereerde tabel en column-names overeen te laten komen met de selects/insert/updates.
 
-* Verwijder de dependency op je DAO (dit mag pijn doen, afhankelijk van hoe mooi je 'm vindt), en vervang die met een dependency op de JPA EntityManager. Gebruik nu de EntityManager om je Player objecten te Find'en, Persisten, Removen en Updaten!
+* We gaan de DAO vervangen door een Repository. Maak een class PlayerRepository aan. Gebruik "Dependency Injection" om een ```Entity Manager``` in deze class te injecteren en implementeer de volgende methodes:
+
+```mermaid
+classDiagram
+
+    class PlayerRepository {  
+        - entities: EntityManager
+
+        + findAll()
+        + findById(username: String)
+        + add(Player player)
+        + remove(Player player)
+    }
+```
+    
+* Voeg @Transactional toe aan de ```PlayerController```, en injecteer je PlayerRepository naast de DAO. Herschrijf de methodes zodat alle functionaliteit weer werkt!
+Zodra alles werkt kun je de DAO-injectie verwijderen.
 
 ## Opdracht 2: Relaties
 
@@ -58,16 +88,12 @@ classDiagram
     }
 ```
 
-Nu is het tijd om de Lobby, en de relatie toe te voegen.
+Nu is het tijd om de Lobby, en de relatie toe te voegen. We volgen dezelfde stappen als hierboven.
 
-* Zorg eerst dat je een Lobby tabel kan aanmaken. Je zult een @Id attribuut moeten toevoegen, want zo 1,2,3 is er niets gegarandeerd unieks aan een Lobby. Maak een bewuste keuze tussen @One-to-Many, @Many-to-One of @Many-to-Many. Zoek op hoe je de Enum het beste kan opslaan!
+* Zorg eerst dat je de Lobby tabellen kan aanmaken. Gebruik JPA annotaties zoals @Id, @Table, @Column, @Enumerated, @One-to-Many, @Many-to-One en/of @Many-to-Many om de juiste tabelstructuur te maken. De koppeltabel kun je specificeren met @JoinTable, die is een beetje lastig.
 
-* Zodra de Lobby tabel correct gegenereerd wordt kun je de LobbyController (of die V2 met DTOs) gaan aanpassen. Zorg dat er een EntityManager in ge-injecteerd wordt. Verder zul je ipv. 'new Player(...)' calls juist de bestaande Player uit de database moeten gaan zoeken.
+* Maak een LobbyRepository class aan, zoals hierboven voor Players, en migreer de controller naar de LobbyRepository class.
 
 * Welke Cascade zou je kunnen toevoegen aan de relatie tussen Lobby en Player? En welke *zeker niet*?
 
-* Voeg PlayerRepository en LobbyRepository classes toe, en verplaats de dependency van EntityManager daarin (net zoals we eerder met de Datasource en de DAO deden!)
-
-* Optioneel: In Lobby hebben we uiteindelijk 2 verschillende Lists. Zou niet 1 'iets complexere' tabel dit beter kunnen oplossen?
-
-* Optioneel: Gebruik in plaats van zelf-gemaakte classes de Automagische JPA-interface-Repositories voro Player/Lobby
+* Optioneel: Gebruik in plaats van zelf-gemaakte classes de Automagische JPA-interface-Repositories voor Player/Lobby
