@@ -5,11 +5,17 @@ In deze paragraaf laten we zien hoe je AI kan gebruiken om ervoor te controleren
 
 ## Inhoud
 
+- [AI in compliance](#ai-in-compliance)
+  - [Inhoud](#inhoud)
+  - [Compliance prompt](#compliance-prompt)
+    - [Opdracht](#opdracht)
+
+
 ## Compliance prompt
 Maak in je project een nieuwe branch aan met de naam `feature/compliance-prompt`. In deze branch gaan we een nieuwe prompt maken die we kunnen gebruiken om de code te controleren op compliance met de afspraken die we gemaakt hebben. Eerst maken we de folder .github/prompts aan in de root van je project. In deze folder maken we een nieuw bestand aan met de naam `compliance.prompt.md`. In dit bestand schrijven we de prompt die we willen gebruiken om de code te controleren op compliance met de afspraken die we gemaakt hebben. Een voorbeeld van zo'n prompt is:
 
 ```markdown
-Check the code for compliance with the specified guidelines and standards.
+Check the code for compliance with the specified guidelines and standards. Create a markdown report in de docs folder listing any violations of these guidelines and standards, along with suggestions for how to fix them.
 
 Standards
 ## Lit elements guidelines
