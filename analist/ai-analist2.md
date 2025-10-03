@@ -1,9 +1,25 @@
 # AI in development
+Hier laten we zien hoe je AI kan gebruiken in development. We gaan er hierbij vanuit dat je een IDE gebruikt die AI ondersteunt (zoals bv Visual Studio Code met copilot).
+
+## Inhoud
+- [AI in development](#ai-in-development)
+  - [Inhoud](#inhoud)
+  - [Tab Driven Development](#tab-driven-development)
+  - [Tests genereren met AI](#tests-genereren-met-ai)
+  - [De rol van de Analist/architect (en/of developer)](#de-rol-van-de-analistarchitect-enof-developer)
+  - [Voorbeeld met AGENTS.md](#voorbeeld-met-agentsmd)
+    - [Oefening met AGENTS.md:](#oefening-met-agentsmd)
+    - [Conclusie](#conclusie)
+  - [Copilot prompts](#copilot-prompts)
+    - [Oefenen met prompts](#oefenen-met-prompts)
+  - [UI genereren van een design](#ui-genereren-van-een-design)
+    - [Oefening met Figma](#oefening-met-figma)
+
 
 ## Tab Driven Development
-Als je de AI in je IDE aanzet dan zal je zien dat als je code aan het intikken ben dat er regelmatig suggesties komen. Dit is een vorm van AI die je helpt bij het schrijven van code. Dit is een voorbeeld van Tab Driven Development. Je typt een paar letters en de AI vult de rest aan. Dit kan je helpen om sneller code te schrijven en om fouten te voorkomen.
+Als je de AI in je IDE aanzet dan zal je zien dat als je code aan het intikken bent dat er regelmatig suggesties komen. Dit is een vorm van AI die je helpt bij het schrijven van code. Dit is een voorbeeld van Tab Driven Development. Je typt een paar letters en de AI vult de rest aan. Dit kan je helpen om sneller code te schrijven en om fouten te voorkomen.
 
-Nadeel is dat de AI geen idee heeft van de context van je code. De AI redeneerd vanuit wat je ingetypt hebt en wat er in de omgeving van je code staat. Maar de AI heeft geen idee van wat je aan het bouwen bent. Hierdoor kan de AI soms suggesties doen die niet relevant zijn voor wat je aan het bouwen bent.
+Nadeel is dat de AI geen idee heeft van de context van je code. De AI redeneert vanuit wat je ingetypt hebt en wat er in de omgeving van je code staat. Maar de AI heeft geen idee van wat je aan het bouwen bent. Hierdoor kan de AI soms suggesties doen die niet relevant zijn voor wat je aan het bouwen bent.
 
 Een heel simpele stap die je kan nemen is om een comment te schrijven boven de code die je aan het schrijven bent. Bijvoorbeeld:
 
@@ -13,7 +29,7 @@ Een heel simpele stap die je kan nemen is om een comment te schrijven boven de c
 
 Op deze manier geef je de AI meer context over wat je aan het bouwen bent. De AI kan dan betere suggesties doen die relevant zijn voor wat je aan het bouwen bent. 
 
-> Eigenlijk is dat natuurlijk ook wat we ook zonder AI zouden moeten doen. Schrijf eerst op wat je wil geen programmeren, pas dan de code. Doe dit zowel op project basis, op feature basis en op functie basis. Met AI wordt dit alleen maar belangrijker.
+> Eigenlijk is dat natuurlijk ook wat we ook zonder AI zouden moeten doen. Schrijf eerst op wat je wil gaan programmeren, pas dan de code. Doe dit zowel op project basis, op feature basis en op functie basis. Met AI wordt dit alleen maar belangrijker.
 
 Een iets lastiger voorbeeld zou kunnen zijn:
 
@@ -31,7 +47,7 @@ export function shuffleArray(array) {
 ## Tests genereren met AI
 Je kan AI ook gebruiken om tests te genereren voor je code. Dit kan je helpen om sneller tests te schrijven en om fouten te voorkomen.
 
-Neem het bovenstaade voorbeeld. Je kan de AI vragen om tests te genereren voor de `shuffleArray` functie. Selecteer de functie en type bij de (bv copilot) AI in:
+Neem het bovenstaande voorbeeld. Je kan de AI vragen om tests te genereren voor de `shuffleArray` functie. Selecteer de functie en type bij de (bv copilot) AI in:
 
 ```
 /tests  write a cucumber test for the selected function
@@ -238,7 +254,7 @@ Hiermee sturen we de AI om code te genereren die past binnen de structuur en sta
 Zet copilot (of een andere AI) aan in je IDE zet deze in Agent mode. En geef de volgende opdracht:
 
 ```
-Using the AGENTS.md as a guide add a new feature to the project; User can push a button changing the collor of a square to a random color.
+Using the AGENTS.md as a guide add a new feature to the project; User can push a button changing the color of a square to a random color.
 ```
 
 De AI gaat nu aan de slag om de code te genereren die past binnen de structuur en standaarden van ons project.
@@ -246,7 +262,7 @@ De AI gaat nu aan de slag om de code te genereren die past binnen de structuur e
 De eerste keer dat ik dit deed kreeg maakte de AI geen nieuwe branch aan. Dus heb ik de volgende vraag gesteld:
 
 ```
-Why did you not create a new branch for the fature?
+Why did you not create a new branch for the feature?
 ```
 
 Waarop ik als antwoord kreeg:
@@ -288,17 +304,21 @@ Misschien heb je gemerkt dat als je de prompt begint met `/` dat de AI dan een l
 
 ![Copilot prompts](./prompts.jpg)
 
-Deze prompts kan je zelf maken. Maak in de root van je project een folder met de naam `.github` (vergeet de punt niet) en maak daarin een folder met de naam `prompts`. In deze folder kan je markdown bestanden maken met de prompts die je wil gebruiken. Gebruik het format `<command>.prompt.md`. Bijvoorbeeld `hello.prompt.md` voor een prompt die tests genereert. In de file zet je dan de prompt die je wil gebruiken. Bijvoorbeeld:
+Deze prompts kan je zelf maken. Maak in de root van je project een folder met de naam `.github` (vergeet de punt niet) en maak daarin een folder met de naam `prompts`. In deze folder kan je markdown bestanden maken met de prompts die je wil gebruiken. Gebruik het format `<command>.prompt.md`. Bijvoorbeeld `hello.prompt.md` voor een prompt die tests genereert. 
+
+![Copilot prompts folder](./github-prompts.jpg)
+
+In de file zet je dan de prompt die je wil gebruiken. Bijvoorbeeld:
 
 ```markdown
 Tell me something about yourself
 ```
 
-Als je nu in je code editor `/hello` typt dan zal de AI de prompt uit het bestand gebruiken en reageren met bv: 
+Als je nu in je code editor `/hello` typt dan zal de AI de prompt uit het bestand gebruiken en reageren met bijvoorbeeld: 
 
 > I am GitHub Copilot, an AI-powered coding assistant designed to help you write, understand, and improve code efficiently. I can answer questions, generate code, automate tasks, and guide you through best practices for your projects.
 
-Je kan deze prompts zo lang maken als je zelf wil. Je kan zelf een parameter meegeven. Als voorbeeld maken een nieuwe promt met de naam `inspect.prompt.md` met de volgende inhoud:
+Je kan deze prompts zo lang maken als je zelf wilt. Je kan zelf een parameter meegeven. Als voorbeeld maken een nieuwe prompt met de naam `inspect.prompt.md` met de volgende inhoud:
 
 ```markdown
 Inspect the code using the constraints below and provide suggestions for improvement:
@@ -310,6 +330,9 @@ Constraints:
 ```
 
 Vervolgens type je `/inspect ColorSquare.js` in je code editor en de AI zal de code in de file `ColorSquare.js` inspecteren en suggesties geven voor verbetering op basis van de constraints die je opgegeven hebt. Hiermee kan je als Analist/architect (en/of developer) de AI gebruiken om te controleren of de geschreven code voldoet aan de richtlijnen van jou project. Dit is heel krachtig bij het doen van code reviews.
+
+### Oefenen met prompts
+Verzin een prompt die je zelf zou willen gebruiken. Maak deze prompt aan in de folder `.github/prompts` en test deze uit in je code editor.
 
 ## UI genereren van een design
 Stel we hebben een design (of iig een wireframe) en we willen dat de AI code voor de componenten genereert. We maken weer gebruik van de AGENTS.md file om de AI te sturen. 
@@ -364,7 +387,7 @@ To implement the design specified by `space-news-mockup.md`, follow these steps:
 
 We zetten copilot (of een andere AI) aan in je IDE zet deze in Agent mode. En geef de volgende opdracht: `Implement the feature described in feature.mockup-implementation.md`. De AI gaat nu aan de slag om de code te genereren die past binnen de structuur en standaarden van ons project.
 
-Als het goed is heb je nu een nieuwe branch met de naam `feature/space-news-mockup` en de code die de AI gegenereerd heeft. Waarschijnlijk heb je nog wat handmatige acties nodig om het aan de praat te krijgen (dit kan je ook samen met de AI doen). Verder lijkt het resultaat niet echt op het design. In. mijn geval kreeg ik het volgende resultaat:
+Als het goed is heb je nu een nieuwe branch met de naam `feature/space-news-mockup` en de code die de AI gegenereerd heeft. Waarschijnlijk heb je nog wat handmatige acties nodig om het aan de praat te krijgen (dit kan je ook samen met de AI doen). Verder lijkt het resultaat niet echt op het design. In mijn geval kreeg ik het volgende resultaat:
 
 ![result](./implementation1.jpg)
 

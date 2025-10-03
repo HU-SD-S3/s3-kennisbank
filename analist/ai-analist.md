@@ -1,6 +1,21 @@
 # De rol van een analist bij gebruik van AI
 In dit onderdeel gaan we in op de rol van een analist bij het gebruik van AI en LLMs (Large Language Models) bij het ontwikkelen van software. We bespreken wat vibe coding is, waarom het relevant is, en hoe een analist kan bijdragen aan het succes van een project dat gebruik maakt van AI.
 
+- [De rol van een analist bij gebruik van AI](#de-rol-van-een-analist-bij-gebruik-van-ai)
+  - [What is vibe coding?](#what-is-vibe-coding)
+  - [Waarom vibe coding?](#waarom-vibe-coding)
+  - [We doen al jaren aan vibe coding...](#we-doen-al-jaren-aan-vibe-coding)
+    - [Not all code is created equal](#not-all-code-is-created-equal)
+  - [Kwaliteit van door LLMs gegenereerde code](#kwaliteit-van-door-llms-gegenereerde-code)
+    - [Beperking van LLMs](#beperking-van-llms)
+  - [Werken met LLMs](#werken-met-llms)
+    - [AGENTS.md](#agentsmd)
+    - [Vector stores](#vector-stores)
+    - [MCP Server](#mcp-server)
+    - [Spec driven development](#spec-driven-development)
+  - [Next steps](#next-steps)
+
+
 ## What is vibe coding?
 Er is veel nog onduidelijk over de toekomst van AI en LLMs, maar een van de kreten die veel gebruikt wordt is 'vibe coding'. Sommigen zijn fel tegenstander en vinden het belachelijk anderen denken dat het de toekomst is. Veel van de tegengestelde meningen komen voort uit de interpretatie van de kreet 'vibe coding'. Dus wat is het? 
 
@@ -194,5 +209,5 @@ Het proces werkt als volgt:
 - [github repo Spec Kit](https://github.com/github/spec-kit)
 
 ## Next steps
-In het volgende deel gaan we dieper in op Spec Kit en hoe je dit kan gebruiken in jouw ontwikkelproces.
+In het volgende deel gaan we dieper in op de verschillende technieken die je als analist/architect kan gebruiken om een LLM te instrueren. 
 
