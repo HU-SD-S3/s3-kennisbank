@@ -190,8 +190,6 @@ Voor het gebruiken van MCP server in VSCode is er een extensie beschikbaar: [MCP
 
 Ook voor Intellij is er een extensie beschikbaar: [MCP server](https://plugins.jetbrains.com/plugin/26071-mcp-server) en is er documentatie beschikbaar op [Use MCP servers in IntelliJ](https://www.jetbrains.com/help/idea/mcp-server.html)
 
-Het zelf opzetten van een MCP server is iets voor de meer gevorderde developer. Maar als analist/architect is het goed om te weten dat deze mogelijkheid er is en wat de mogelijkheden zijn. Het biedt echter veel mogelijkheden voor een jonge developer om zich te onderscheiden.
-
 ### Spec driven development
 Spec Kit maakt jouw specificatie het middelpunt van je ontwikkelproces. In plaats van een specificatie te schrijven en deze vervolgens te negeren, stuurt de specificatie de implementatie, checklists en taakverdeling aan. Jouw primaire rol is sturen; de code-agent doet het grootste deel van het schrijfwerk. Het is een soort van AGENTS.md, maar dan veel uitgebreider en met meer mogelijkheden.
 

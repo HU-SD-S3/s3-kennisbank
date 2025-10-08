@@ -63,3 +63,7 @@ Wees je ervan bewust dat de AI niet perfect is en dat deze soms fouten kan maken
 Hiermee heb je een heel krachtig middel in handen om de kwaliteit van de code die er geschreven wordt te verbeteren.
 
 > NOTE: Het is NIET toegestaan om AI te gebruiken om code te genereren die je inlevert in je portfolio. Het is wel toegestaan om AI te gebruiken om code te controleren op compliance met de afspraken die je gemaakt hebt.
+
+> TODO: Check met : https://www.npmjs.com/package/eslint-config-husds3
+
+
