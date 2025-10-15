@@ -11,6 +11,7 @@ In dit onderdeel gaan we in op de rol van een analist bij het gebruik van AI en 
   - [Werken met LLMs](#werken-met-llms)
     - [AGENTS.md](#agentsmd)
     - [Vector stores](#vector-stores)
+    - [Tool calling](#tool-calling)
     - [MCP Server](#mcp-server)
     - [Spec driven development](#spec-driven-development)
   - [Next steps](#next-steps)
@@ -174,11 +175,21 @@ async continueConversation(message: string, conversationId: string) {
 
 [OpenAI API reference](https://platform.openai.com/docs/api-reference/conversations)
 
+### Tool calling
+Een andere manier om context te bieden aan een LLM is door gebruik te maken van tool calling. Dit is een manier om de LLM te instrueren om bepaalde taken uit te voeren door gebruik te maken van externe tools.
+
+Bij tool calling definieer je een aantal tools die de LLM kan gebruiken. Dit kunnen API's zijn, maar ook functies die je zelf hebt geschreven. De LLM kan deze tools aanroepen om bepaalde taken uit te voeren. Op deze manier kan je dynamische data vanuit je applicatie aanbieden aan de LLM.
+
+Denk bijvoorbeeld aan een spel. De spelregels zijn statisch en kan je prima via bv een vector store aanbieden. Maar de status van het spel is dynamisch en verandert continu. Je kan de LLM niet steeds de volledige status van het spel aanbieden, dat wordt veel te groot. Maar je kan de LLM wel een tool aanbieden die de status van het spel kan opvragen. De LLM kan deze tool aanroepen om de huidige status van het spel op te vragen en deze gebruiken om het spel te leiden.
+
+Wat een belangrijk verschil met een MCP server is dat je bij tool calling zelf de tools moet definiëren en implementeren. De LLM vraagt aan jou applicatie om een tool functie aan te roepen en het resultaat aan de LLM terug te geven. Bij een MCP server gaat de LLM zelf naar de MCP server om de context op te halen.
+
+![Tool calling diagram](./tool-calling.jpg)
+
+[Documentatie over function calling](https://platform.openai.com/docs/guides/function-calling)
 
 ### MCP Server
-Een derde manier om context te bieden aan een LLM is door gebruik te maken van een MCP (Model Control Plane) server. Dit is een server die je zelf kan hosten en die fungeert als tussenlaag tussen jou en de LLM. De MCP server kan je gebruiken om de LLM te instrueren, om de output van de LLM te filteren, en om de LLM te monitoren.
-
-Er zijn verschillende MCP servers beschikbaar, zowel open source als commercieel. Enkele voorbeelden zijn LangChain, LlamaIndex, en Haystack (open source). Als je met openAI (ChatGPT) werkt, dan kan je ook gebruik maken van hun ingebouwde MCP server. Je opload files (bv in markdown) en deze worden automatisch omgezet in vectoren en opgeslagen. Bij de prompt kan je dan aangeven dat de LLM deze files als context moet gebruiken.
+Een derde manier om context te bieden aan een LLM is door gebruik te maken van een MCP (Model Control Plane) server. Dit is een server die via het [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) communiceert met een LLM en die context kan bieden aan de LLM en de LLM in staat stelt om acties te ondernemen.
 
 Een MCP server kan veel meer dan een vector store. Je kan er ook logica in opnemen om de output van de LLM te filteren, om meerdere LLMs te combineren, om de LLM te monitoren, etc. Je kan met MCPs hele workflows bouwen waarin de LLM een onderdeel is. 
 

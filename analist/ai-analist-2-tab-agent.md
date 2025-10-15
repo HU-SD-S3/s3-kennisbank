@@ -6,9 +6,10 @@ Hier laten we zien hoe je AI kan gebruiken in development. We gaan er hierbij va
   - [Inhoud](#inhoud)
   - [Tab Driven Development](#tab-driven-development)
   - [Tests genereren met AI](#tests-genereren-met-ai)
+    - [Opdracht: genereer m.b.v. een LLM een test voor een function uit je eigen project](#opdracht-genereer-mbv-een-llm-een-test-voor-een-function-uit-je-eigen-project)
   - [De rol van de Analist/architect (en/of developer)](#de-rol-van-de-analistarchitect-enof-developer)
   - [Voorbeeld met AGENTS.md](#voorbeeld-met-agentsmd)
-    - [Oefening met AGENTS.md:](#oefening-met-agentsmd)
+    - [Opdracht: AGENTS.md:](#opdracht-agentsmd)
     - [Conclusie](#conclusie)
   - [Copilot prompts](#copilot-prompts)
     - [Oefenen met prompts](#oefenen-met-prompts)
@@ -53,7 +54,7 @@ Neem het bovenstaande voorbeeld. Je kan de AI vragen om tests te genereren voor 
 /tests  write a cucumber test for the selected function
 ```
 
-De AI zal dan het volgende genereren:
+De AI zal dan (iets dat lijkt op) het volgende genereren:
 
 ```markdown
 Workspace: **Pseudocode plan:**
@@ -197,6 +198,13 @@ defineFeature(feature, test => {
 });
 ```
 
+### Opdracht: genereer m.b.v. een LLM een test voor een function uit je eigen project
+Gebruik bovenstaande aanpak om een test te genereren voor een functie uit je eigen project. Selecteer de functie en vraag de AI om een test te genereren. Bekijk de gegenereerde test en voer deze uit. Werkt de test zoals verwacht? 
+
+Wat je oplevert is een analyse van de gegenereerde test en van de geschreven code. Klopt de test? Klopt de code? Wat kan er beter? Wat heb je geleerd van deze oefening?
+
+
+
 ## De rol van de Analist/architect (en/of developer)
 Mooi dat zowel de code als de tests automatisch gegenereerd worden. Maar hoe zorg je er nu voor dat de juiste code en tests gegenereerd worden? Hier komt de rol van de analist/architect (en/of developer) om de hoek kijken.
 
@@ -209,7 +217,7 @@ Hiervoor gaan we dus specificaties en plannen maken. Dit is een taak die de anal
 ## Voorbeeld met AGENTS.md
 Een manier om dit te doen is door gebruik te maken van AGENTS.md. Dit is een manier om specificaties en plannen te maken die de AI kan begrijpen.
 
-### Oefening met AGENTS.md:
+### Opdracht: AGENTS.md:
 Maak een nieuwe vite project aan (met lit als framework, javascript als taal):
 ```zsh
 npm create vite@latest ai-test -- --template lit

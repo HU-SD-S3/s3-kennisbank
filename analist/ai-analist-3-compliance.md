@@ -21,6 +21,10 @@ Standards
 ## Lit elements guidelines
 - The component should be built using Lit (https://lit.dev/).
 
+### folder structure
+// Change this to match the folder structure you use in your project
+// Lit components should be in the src/components folder
+
 ### Naming conventions
 - The component html tag should be named using kebab-case and include at least one - character.
 - The name of the component file should be the same as the html tag of the component.
@@ -36,11 +40,11 @@ Standards
 - The component should use events to send data to its parent component.
 - The component should not call any functions outside of itself with the exception of
   - Subscribing to (for example) RxJS Observables 
-  - Calls to services (for collecting data)
+  - Calls to services (for exchanging data)
   - Calls to utility functions (for example for formatting data)
 
 ## Separation of concerns
-- The component should not contain any business logic. Business logic should be in services or utility functions
+- The component should not contain any business logic. Business logic should be in Models.
 - The component should not contain any data fetching logic. Data fetching logic should be in services.
 - The component should not contain any formatting logic. Formatting logic should be in utility functions.
 ```
@@ -53,7 +57,7 @@ De AI gaat nu aan het werk om de code te controleren op compliance met de afspra
 The component 'my-component' does not follow the naming conventions. The html tag should be named using kebab-case and include at least one - character. The name of the component file should be the same as the html tag of the component. The component class name should be in PascalCase and should resemble the component html tag without the - character.
 ```
 
-Het voorbeeld dat hierboven gegeven is beperkt zich tot een Lit component en is daar niet eens volledig in. 
+Het voorbeeld dat hierboven gegeven is beperkt zich tot een Lit component en is **daar niet eens volledig in**. Je zult zelf de prompt moeten uitbreiden met de afspraken en standaarden die je gemaakt hebt in je project.
 
 ### Opdracht
 Breid deze prompt uit met afspraken en standaarden die je geleerd hebt bij het frontend en backend gildes. Dit stelt je in staat om heel eenvoudig de code die er geschreven wordt te controleren op compliance met de afspraken die je gemaakt hebt. 
