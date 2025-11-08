@@ -12,3 +12,4 @@ We bekijken dit vanuit 3 hoeken:
 * Hoe organiseren en structureren we [Object-Georiënteerde](./algemeen) code? 
 * Hoe slaan we netjes onze [data](./persistentie) op?
 
+* Hoe [deployen](/backend/deployment) we al dit moois?
