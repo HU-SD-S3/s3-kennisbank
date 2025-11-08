@@ -101,6 +101,8 @@ data binding** feature of Polymer. This would have allowed us to use the value p
 tag, without having to add an event listener to the input tag. The Polymer library would have taken care of the data
 binding for us.
 
+<!-- Er staan dubbele krulhaken hieronder, die moet je met raw escapen voor Github Pages -->
+{% raw %}
 ```javascript
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 
@@ -129,6 +131,7 @@ class MyComponent extends PolymerElement {
 
 customElements.define('my-component', MyComponent);
 ```
+{% endraw %}
 
 The two-way data binding feature however didn't make it into the `Lit` library, because it was a performance issue. That
 was a design decision of the `Lit` team. Other front-end frameworks like `Angular` and `Vue` do support two-way data

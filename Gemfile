@@ -1,2 +1,4 @@
 source "https://rubygems.org"
-gem "jemoji"
+gem "github-pages", group: :jekyll_plugins
+gem "jemoji", group: :jekyll_plugins
+gem "jekyll-diagrams", group: :jekyll_plugins
