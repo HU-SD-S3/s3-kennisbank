@@ -67,3 +67,11 @@ PlantUML wordt door een Jekyll plugin via de plantuml website gegenereerd (build
   }
 @enduml
 {% endplantuml %}
+
+PlantUML is kennelijk ook nukkig, want dit is **iets anders**??
+
+{% plantuml %}
+@startuml
+testdot
+@enduml
+{% endplantuml %}
