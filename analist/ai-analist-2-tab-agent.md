@@ -8,8 +8,8 @@ Hier laten we zien hoe je AI kan gebruiken in development. We gaan er hierbij va
   - [Tests genereren met AI](#tests-genereren-met-ai)
     - [Opdracht: genereer m.b.v. een LLM een test voor een function uit je eigen project](#opdracht-genereer-mbv-een-llm-een-test-voor-een-function-uit-je-eigen-project)
   - [De rol van de Analist/architect (en/of developer)](#de-rol-van-de-analistarchitect-enof-developer)
-  - [Voorbeeld met AGENTS.md](#voorbeeld-met-agentsmd)
-    - [Opdracht: AGENTS.md:](#opdracht-agentsmd)
+  - [Voorbeeld met AGENT.md](#voorbeeld-met-agentmd)
+    - [Opdracht: AGENT.md:](#opdracht-agentmd)
     - [Conclusie](#conclusie)
   - [Copilot prompts](#copilot-prompts)
     - [Oefenen met prompts](#oefenen-met-prompts)
@@ -214,10 +214,10 @@ Met bovenstaande voorbeelden bereik je dat de AI de code en de test schrijft, ma
 
 Hiervoor gaan we dus specificaties en plannen maken. Dit is een taak die de analist/architect (en/of developer) moet doen.
 
-## Voorbeeld met AGENTS.md
-Een manier om dit te doen is door gebruik te maken van AGENTS.md. Dit is een manier om specificaties en plannen te maken die de AI kan begrijpen.
+## Voorbeeld met AGENT.md
+Een manier om dit te doen is door gebruik te maken van AGENT.md. Dit is een manier om specificaties en plannen te maken die de AI kan begrijpen.
 
-### Opdracht: AGENTS.md:
+### Opdracht: AGENT.md:
 Maak een nieuwe vite project aan (met lit als framework, javascript als taal):
 ```zsh
 npm create vite@latest ai-test -- --template lit
@@ -225,7 +225,7 @@ cd ai-test
 npm install
 ```
 
-Maak in de root van het project een bestand aan met de naam `AGENTS.md` en voeg de volgende inhoud toe:
+Maak in de root van het project een bestand aan met de naam `AGENT.md` en voeg de volgende inhoud toe:
 
 ```markdown
 # Project guidelines for agents
@@ -262,7 +262,7 @@ Hiermee sturen we de AI om code te genereren die past binnen de structuur en sta
 Zet copilot (of een andere AI) aan in je IDE zet deze in Agent mode. En geef de volgende opdracht:
 
 ```
-Using the AGENTS.md as a guide add a new feature to the project; User can push a button changing the color of a square to a random color.
+Using the AGENT.md as a guide add a new feature to the project; User can push a button changing the color of a square to a random color.
 ```
 
 De AI gaat nu aan de slag om de code te genereren die past binnen de structuur en standaarden van ons project.
@@ -278,14 +278,14 @@ Waarop ik als antwoord kreeg:
 ```markdown
 I did not create a new branch because I do not have direct access to your git environment or permissions to run git commands automatically. My capabilities are limited to file and code changes within your workspace.
 
-However, according to your AGENTS.md guidelines, the correct process is to create a descriptive branch before implementing a new feature. You should run:
+However, according to your AGENT.md guidelines, the correct process is to create a descriptive branch before implementing a new feature. You should run:
 
 > git checkout -b feature/color-square
 
 before making changes. If you want, I can guide you through the full branching workflow or provide the exact commands to use.
 ```
 
-Hieruit blijkt dat de AI heel duidelijk de richtlijnen uit AGENTS.md volgt. Maar dat de AI geen acties kan uitvoeren die buiten de scope van het project vallen (zoals git commands uitvoeren).
+Hieruit blijkt dat de AI heel duidelijk de richtlijnen uit AGENT.md volgt. Maar dat de AI geen acties kan uitvoeren die buiten de scope van het project vallen (zoals git commands uitvoeren).
 
 Dit kunnen we oplossing door een setting te veranderen:
 ![copilot settings](./ai-git-allow.jpg)
@@ -298,10 +298,10 @@ We verwachten dat de AI de volgende bestanden heeft aangepast:
 - `src/components/ColorSquare.js`
 - `tests/components/ColorSquare.test.js`
 
-Controleer of dat daadwerkelijk gebeurd is. En bekijk de code die de AI gegenereerd heeft. Is deze code goed? Volgt de code de richtlijnen uit AGENTS.md?
+Controleer of dat daadwerkelijk gebeurd is. En bekijk de code die de AI gegenereerd heeft. Is deze code goed? Volgt de code de richtlijnen uit AGENT.md?
 
 ### Conclusie
-Door gebruik te maken van AGENTS.md kunnen we de AI sturen om code te genereren die past binnen de structuur en standaarden van ons project. Dit maakt het makkelijker om de code te begrijpen en te onderhouden.
+Door gebruik te maken van AGENT.md kunnen we de AI sturen om code te genereren die past binnen de structuur en standaarden van ons project. Dit maakt het makkelijker om de code te begrijpen en te onderhouden.
 
 We hebben nu de feature direct in copilot ingetypt. We hebben dus niet eerst een specificatie en een plan gemaakt. Dit gaan we in het volgende deel doen.
 
@@ -343,9 +343,9 @@ Vervolgens type je `/inspect ColorSquare.js` in je code editor en de AI zal de c
 Verzin een prompt die je zelf zou willen gebruiken. Maak deze prompt aan in de folder `.github/prompts` en test deze uit in je code editor.
 
 ## UI genereren van een design
-Stel we hebben een design (of iig een wireframe) en we willen dat de AI code voor de componenten genereert. We maken weer gebruik van de AGENTS.md file om de AI te sturen. 
+Stel we hebben een design (of iig een wireframe) en we willen dat de AI code voor de componenten genereert. We maken weer gebruik van de AGENT.md file om de AI te sturen. 
 
-We maken een nieuw vite project aan (met lit als framework, javascript als taal). Halen de template code weg en maken een nieuwe AGENTS.md file met de zelfde inhoud als hierboven.
+We maken een nieuw vite project aan (met lit als framework, javascript als taal). Halen de template code weg en maken een nieuwe AGENT.md file met de zelfde inhoud als hierboven.
 
 In de folder `docs/design` plaatsen we een wireframe van een design. Gebruik onderstaande afbeelding:
 
@@ -390,7 +390,7 @@ To implement the design specified by `space-news-mockup.md`, follow these steps:
 9. **Documentation:**  
    - Document any design decisions or deviations from the mockup in this file.
 
-> Follow the coding standards and project structure outlined in `AGENTS.md`.
+> Follow the coding standards and project structure outlined in `AGENT.md`.
 ```
 
 We zetten copilot (of een andere AI) aan in je IDE zet deze in Agent mode. En geef de volgende opdracht: `Implement the feature described in feature.mockup-implementation.md`. De AI gaat nu aan de slag om de code te genereren die past binnen de structuur en standaarden van ons project.
@@ -431,7 +431,7 @@ Dit is niets anders dan wat we ook zonder AI zouden moeten doen. Zorg dat je een
 ### Oefening met Figma
 Maak een gratis account aan bij Figma (als je die nog niet hebt). Maak een nieuw design aan met meerdere elementen. Geef via comments aan wat de verschillende elementen doen.
 
-Maak een nieuw vite project aan (met lit als framework, javascript als taal) en haal het leeg. Gebruik de markdown file AGENTS.md zoals hierboven beschreven (of breid deze uit naar je eigen inzichten). Voeg een feature beschrijving in de feature folder toe zoals hierboven beschreven waarin je verwijst naar de Figma file.
+Maak een nieuw vite project aan (met lit als framework, javascript als taal) en haal het leeg. Gebruik de markdown file AGENT.md zoals hierboven beschreven (of breid deze uit naar je eigen inzichten). Voeg een feature beschrijving in de feature folder toe zoals hierboven beschreven waarin je verwijst naar de Figma file.
 
 Laat de AI de code genereren. Bekijk het resultaat. Is dit wat je verwacht had? Wat kan er beter? Hoe kan je de AI nog beter sturen?
 
