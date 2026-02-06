@@ -5,13 +5,22 @@
 
 .wrapper {
   max-width: 1200px;
-  width: auto;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 20px;
+  overflow: auto;
+}
+
+asside {
+  float: left;
+  width: 200px;
+  margin: 0;
 }
 
 section {
-  width: auto;
+  float: left;
+  width: calc(100% - 220px);
+  padding-left: 20px;
+  word-wrap: break-word;
 }
 
 // GitHub-style alerts
