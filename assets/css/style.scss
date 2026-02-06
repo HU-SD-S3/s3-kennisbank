@@ -8,72 +8,61 @@
   width: 100%;
 }
 
-header {
-  width: 25%;
-}
-
 section {
-  margin-left: 27%;
+  margin-left: 240px;
   padding: 0 20px;
 }
 
 @media (max-width: 800px) {
-  header {
-    width: 100%;
-    position: static;
-  }
-  
   section {
     margin-left: 0;
   }
 }
 
-// GitHub-style alerts
-blockquote {
-  &[data-type="note"],
-  &[data-type="tip"],
-  &[data-type="important"],
-  &[data-type="warning"],
-  &[data-type="caution"] {
-    padding: 0.5rem 1rem;
-    margin: 1rem 0;
-    border-left: 4px solid;
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, 0.02);
-  }
-
-  &[data-type="note"] {
-    border-color: #0969da;
-    background-color: #ddf4ff;
-  }
-
-  &[data-type="tip"] {
-    border-color: #1a7f37;
-    background-color: #dafbe1;
-  }
-
-  &[data-type="important"] {
-    border-color: #8957e5;
-    background-color: #f0e6ff;
-  }
-
-  &[data-type="warning"] {
-    border-color: #9e6a03;
-    background-color: #fff8c5;
-  }
-
-  &[data-type="caution"] {
-    border-color: #d1242f;
-    background-color: #ffebe6;
-  }
+// GitHub-style alerts - for parsed alerts with data-type
+blockquote[data-type] {
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+  border-left: 4px solid;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.02);
 }
 
-// Fallback: style blockquotes with alert syntax in bold as title
-blockquote {
-  strong {
-    &:first-child {
-      display: block;
-      margin-bottom: 0.5rem;
-    }
-  }
+blockquote[data-type="note"] {
+  border-color: #0969da;
+  background-color: #ddf4ff;
 }
+
+blockquote[data-type="tip"] {
+  border-color: #1a7f37;
+  background-color: #dafbe1;
+}
+
+blockquote[data-type="important"] {
+  border-color: #8957e5;
+  background-color: #f0e6ff;
+}
+
+blockquote[data-type="warning"] {
+  border-color: #9e6a03;
+  background-color: #fff8c5;
+}
+
+blockquote[data-type="caution"] {
+  border-color: #d1242f;
+  background-color: #ffebe6;
+}
+
+// Fallback for alerts rendered as plain blockquotes with [!TYPE] syntax
+blockquote > p:first-child {
+  &:has-text('[!NOTE]') { } // Placeholder for text matching (CSS doesn't support this natively)
+}
+
+// General blockquote styling
+blockquote {
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: 0.25em solid #dfe2e5;
+  margin: 0 0 16px 0;
+}
+
