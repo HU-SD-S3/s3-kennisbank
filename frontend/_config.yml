@@ -1,3 +1,5 @@
 theme: jekyll-theme-minimal
 plugins: 
   - jemoji
+  - jekyll-github-metadata
+markdown: GFM
