@@ -1,0 +1,14 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+.wrapper {
+  width: 95%;
+  max-width: none;
+}
+
+section {
+  width: auto;
+  max-width: none;
+}
