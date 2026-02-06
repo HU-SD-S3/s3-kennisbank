@@ -12,6 +12,7 @@ elements using vanilla JavaScript.
   value of an attribute.
 - [Hello ShadowDOM](./hello-shadowdom.md) - Use the Shadow DOM to encapsulate the styles of a custom element.
 - [Lifecycle Callbacks](./lifecycle-callbacks.md) - Understand the lifecycle callbacks of a custom element.
+- [Templates and Slots](./template-and-slots.md) - Use templates and slots to create more complex custom elements.
 
 To exercise your knowledge, you can try the challenges in the [Challenges](./challenges.md) section.
 

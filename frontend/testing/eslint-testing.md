@@ -8,7 +8,7 @@ adheres to certain standards and best practices, which can also be considered a 
 
 ## Installation
 
-Can can install ESLint in a project with the following command:
+You can install ESLint in a project with the following command:
 
 ```bash
 npm init @eslint/config@latest

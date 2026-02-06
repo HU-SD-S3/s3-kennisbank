@@ -309,7 +309,7 @@ the component reacts to changes of the property value and triggers a re-render o
 ## Rendering Reactive Properties
 
 Not every property of a web component that gets rendered will be based on an attribute value. Other properties you want
-to render might for instance be based on values retrieved by the component itself, reveived from the controller or
+to render might for instance be based on values retrieved by the component itself, received from the controller or
 included within an event (we will give examples of the last two situations in other articles). We also want those
 properties to be reactive properties, so that the component reacts to changes of the property value and triggers a
 re-render of the component.

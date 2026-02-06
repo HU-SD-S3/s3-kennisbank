@@ -164,6 +164,12 @@ browser's back and forward buttons, since those pages should be part of the brow
 take care of by using the `history` API of the browser. This API allows us to manipulate the browser's history and to
 change the URL shown in the omni bar of the browser without reloading the page.
 
+> [!CAUTION]
+>
+> Be aware that SPAs can have some Accessibility issues. In case a blind user is using a screen reader to navigate
+> through the application, the screen reader might not be aware that the content of the page has changed, since the page is not
+> reloaded. To fix this we have to make sure that the focus is set to the main content of the page after a navigation and/or use the [aria-live](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Live_Regions) attributes. 
+
 Instead of writing this code ourselve, we will use the [vaadin router](https://vaadin.com/router) library to help us
 with the routing.
 

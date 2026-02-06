@@ -1,8 +1,9 @@
 # Vaadin Router
 
 The Vaadin Router is a client-side router library built by [Vaadin](https://vaadin.com/), that can be used in
-combination with Lit. There are other router libraries available that can be used with Lit, but most of them are not
-maintained anymore. The Vaadin Router is the most popular and widely used router library for Lit applications.  
+combination with Lit. There are other router libraries available that can be used with Lit, but most of them are not maintained anymore. An unfortunatly the vaadin router now is also deprecated, but it is still the best option available at the moment.
+The Vaadin Router was the most popular and widely used router library for Lit applications.  
+
 The Lit team itself also is working on a [lit-router](https://github.com/lit/lit/tree/main/packages/labs/router)
 library, but that project doesn't seem to have any priority at the moment and is far from finished.
 

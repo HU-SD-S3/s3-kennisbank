@@ -39,7 +39,7 @@ Now lets create a simple custom element that logs messages to the console at eac
 export class HelloLifecycle extends HTMLElement {
   static get observedAttributes() {
     console.log('ObservedAttributes');
-    return ['lifecycle'];
+    return ['attribute'];
   }
 
   constructor() {
@@ -69,8 +69,8 @@ customElements.define('hello-lifecycle', HelloLifecycle);
 ```
 
 To use the component we need to import it in the `home-page.js` file. In the previous learning stories we imported a
-custom element by just specifying the path to the file. This time we need to import the class itself to demonstrate the
-lifecycle callbacks better.
+custom element by just specifying the path to the file (which is called a `side-effect import` in JavaScript). Those imports have the side-effect of registering the custom element, which is enough if we just want to use the element in
+the HTML. But now we want to have more control over the class itself to demonstrate the lifecycle callbacks, so we will import it with a so called `named import`. Named imports allow us to import specific exports from a module.
 
 ```javascript
 import { HelloLifecycle } from '../components/hello-lifecycle';
@@ -152,8 +152,8 @@ const element = new HelloLifecycle();
 // Appending the element to the DOM
 document.body.appendChild(element);
 
-// Setting the value of the lifecycle attribute
-element.setAttribute('lifecycle', 'changed');
+// Setting the value of the attribute attribute
+element.setAttribute('attribute', 'changed');
 ```
 
 Running the code above will log the following messages to the console:
@@ -162,7 +162,7 @@ Running the code above will log the following messages to the console:
 ObservedAttributes
 Constructor: Element created
 ConnectedCallback: Element added to DOM
-AttributeChangedCallback: lifecycle changed from null to changed
+AttributeChangedCallback: attribute changed from null to changed
 ```
 
 And because we set the textContent of the element to `'Hello Lifecycle'` in the `connectedCallback`, the element will
@@ -170,11 +170,11 @@ now display the text `Hello Lifecycle` within the browser.
 
 The `attributeChangedCallback` is called when an observed attribute changes. This is the third lifecycle callback that
 is called when a custom element is created. The attributeChangedCallback is a good place to update the element's
-internal state based on the new attribute value. Note that we changed the value of the `lifecycle` attribute after the
+internal state based on the new attribute value. Note that we changed the value of the `attribute` attribute after the
 element was added to the DOM. This is why the `attributeChangedCallback` is called after the `connectedCallback`.
 Normally you would set the attribute value before adding the element to the DOM, by passing it as an attribute within
 the custom element tag in the HTML. In that case the `attributeChangedCallback` would be called before the
-`connectedCallback`. Give it a try by exchaning the order of the `setAttribute` and `appendChild` calls in the
+`connectedCallback`. Give it a try by exchanging the order of the `setAttribute` and `appendChild` calls in the
 `home-page.js` file.
 
 ### disconnectedCallback
@@ -188,8 +188,8 @@ import { HelloLifecycle } from '../components/hello-lifecycle';
 // Creating an instance of the custom element
 const element = new HelloLifecycle();
 
-// Setting the value of the lifecycle attribute
-element.setAttribute('lifecycle', 'changed');
+// Setting the value of the attribute attribute
+element.setAttribute('attribute', 'changed');
 
 // Appending the element to the DOM
 document.body.appendChild(element);
@@ -203,7 +203,7 @@ Running the code above will log the following messages to the console:
 ```text
 ObservedAttributes
 Constructor: Element created
-AttributeChangedCallback: lifecycle changed from null to changed
+AttributeChangedCallback: attribute changed from null to changed
 ConnectedCallback: Element added to DOM
 DisconnectedCallback: Element removed from DOM
 ```
@@ -238,7 +238,7 @@ And adding the following code to the `index.html` file will demonstrate the full
     <title>Vanilla Web Components</title>
   </head>
   <body>
-    <hello-lifecycle lifecycle="changed"></hello-lifecycle>
+    <hello-lifecycle attribute="changed"></hello-lifecycle>
   </body>
 </html>
 ```
@@ -251,7 +251,7 @@ triggers a JavaScript function that removes the element from the DOM when clicke
 
 ### Rendering
 
-On pitfall to be aware of is that element is not attached to the DOM when the `constructor` is called. This means that
+One pitfall to be aware of is that element is not attached to the DOM when the `constructor` is called. This means that
 is bad practice to render the element in the constructor, which might lead to unexpected behavior. Instead, you should
 render the element in the `connectedCallback` method, which is called when the element is added to the DOM.
 
@@ -331,6 +331,19 @@ Another pitfall to be aware of is that you should always remove event listeners 
 background, which might lead to memory leaks, performance issues and unexpected behavior. Debugging these issues can be
 difficult, because the event listeners and timers are still running even though the element is removed from the DOM.
 
+
+### Async/await in lifecycle callbacks
+
+Using `async/await` in lifecycle callbacks can lead to unexpected behavior and is generally discouraged. Lifecycle callbacks are
+expected to execute synchronously, and introducing asynchronous behavior can cause timing issues and make it harder to
+predict when certain actions will occur.
+For example if you create an `async connectedCallback`, the browser will not wait for the asynchronous operations to complete before
+proceeding with other tasks, which can lead to race conditions and inconsistent states. In the worst case the `disconnectedCallback`
+might be called before the `connectedCallback` has finished executing, leading to potential errors and resource leaks.
+
+That async/await can be used wrongly is something that you can see in this [demo application](https://hu-sd-sv1fep1.github.io/promises-demo/),
+which illustrates the usage of javascript promises and async/await statements, including an example of an incorrect usage of async/await.
+
 ---
 
 ## Sources
@@ -340,4 +353,4 @@ difficult, because the event listeners and timers are still running even though 
 ---
 
 :house: [Home](../README.md) | :arrow_backward: [Hello ShadowDOM](./hello-shadowdom.md) | :arrow_up:
-[Vanilla Web Components](./README.md) | [Challenges](./challenges.md) :arrow_forward:
+[Vanilla Web Components](./README.md) | [Templates and Slots](./template-and-slots.md) :arrow_forward:
