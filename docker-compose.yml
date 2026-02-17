@@ -1,0 +1,11 @@
+services:
+  site:
+    build: "."
+    ports:
+      - "4000:4000" # Site
+      - "35729:35729" # Live-reload
+    volumes:
+      - ./:/site
+      - bundle_cache:/usr/local/bundle
+volumes:
+  bundle_cache:
