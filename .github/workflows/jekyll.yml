@@ -44,7 +44,7 @@ jobs:
         id: pages
         uses: actions/configure-pages@v5
       - name: Install Graphviz
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends graphviz
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends graphviz plantuml
       - name: Build with Jekyll
         # Outputs to the './_site' directory by default
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
