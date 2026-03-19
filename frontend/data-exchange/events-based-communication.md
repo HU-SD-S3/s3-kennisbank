@@ -1,3 +1,7 @@
+---
+layout: mermaid
+---
+
 # Event based communication
 
 We already discussed events in the [Lit Web Components - Inputs and Events](../lit-web-components/inputs-and-events.md)

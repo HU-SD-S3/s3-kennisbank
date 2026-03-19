@@ -1,3 +1,7 @@
+---
+layout: mermaid
+---
+
 # Oefenopdracht OOP (15-30min)
 
 In deze oefenopdracht willen we weer even een klein beetje oefenen met Java en OOP.

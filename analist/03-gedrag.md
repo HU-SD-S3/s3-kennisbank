@@ -1,3 +1,7 @@
+---
+layout: mermaid
+---
+
 # Beschrijven van gedrag
 
 ## Behavior-Driven Development (BDD)

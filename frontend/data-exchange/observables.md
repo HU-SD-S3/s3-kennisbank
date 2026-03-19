@@ -1,3 +1,7 @@
+---
+layout: mermaid
+---
+
 # Observables
 
 In earlier chapters, we explored various methods for exchanging data between web components. Most of these methods were event-driven, meaning the communication was triggered by user actions, such as clicking a button or changing an input field. For these view-layer-only interactions, using events is a suitable and effective solution.

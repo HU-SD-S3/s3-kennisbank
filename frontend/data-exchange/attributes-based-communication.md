@@ -1,3 +1,7 @@
+---
+layout: mermaid
+---
+
 # Attributes based communication
 
 Attributes based communication is one of the most common ways to communicate data between web components. You might use

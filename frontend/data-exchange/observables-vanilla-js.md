@@ -1,3 +1,7 @@
+---
+layout: mermaid
+---
+
 # Vanilla JS Observables
 
 In this subsection we will implement the Observer pattern in vanilla JavaScript using Lit.

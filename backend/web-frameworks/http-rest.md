@@ -1,3 +1,7 @@
+---
+layout: mermaid
+---
+
 # Web development
 
 Onze applicatie presenteert zichzelf naar buiten toe via het web: we
