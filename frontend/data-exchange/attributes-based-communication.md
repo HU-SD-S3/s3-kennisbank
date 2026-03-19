@@ -115,6 +115,7 @@ class MyComponent extends PolymerElement {
     };
   }
 
+  {% raw %}
   static get template() {
     return html`
       <label for="name">Name:</label>
@@ -125,6 +126,7 @@ class MyComponent extends PolymerElement {
       <!-- One-way binding for display -->
     `;
   }
+  {% endraw %}
 }
 
 customElements.define('my-component', MyComponent);
