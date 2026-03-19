@@ -8,7 +8,7 @@ bereiken?
 Hiervoor is het zinvol om stil te staan bij de algemene eigenschappen
 zijn object-oriëntatie. We sluiten hierbij aan bij het objectmodel uit
 het boek Object-Oriented Analysis and Design with Applications van
-object- en UML-pionier Grady Booch en anderen. Hierin staan een aantal
+object- en UML-pionier Grady Booch en anderen ([@Booch2007](/backend/referenties#BoochOO)). Hierin staan een aantal
 belangrijke en minder belangrijke elementen die in object-georiënteerde
 projecten voorkomen. Deze elementen kan je ook tegenkomen bij andere
 stijlen van programmeren, maar wij staan vooral stil bij hoe deze
@@ -51,13 +51,13 @@ vervullen.
 > crisply defined conceptual boundaries, relative to the perspective of
 > the viewer.
 
-[@Booch2007], p. 44.
+[@Booch2007](/backend/referenties#BoochOO), p. 44.
 
 Een manier om te kijken naar abstractie is door het object te beschouwen
 van de buitenkant. We zien manieren om met het object te interacteren,
 maar we kunnen niet naar binnen kijken of invloed uitoefenen op de
 interne structuur of hoe het object precies omgaat met die interactie.
-[@Abelson1996] noemen dit een *abstraction barrier* in hoofdstuk 2 van
+[@Abelson1996](/backend/referenties#Abelson1996) noemen dit een *abstraction barrier* in hoofdstuk 2 van
 het invloedrijke boek Structure en Interpretation of Computer Programs.
 Als gebruiker van een object kunnen we alleen maar zien tot de \"grens\"
 van een abstractie en niet daar voorbij. We kunnen alleen interacteren
@@ -78,7 +78,7 @@ abstracties een dergelijke grens:
 > implemented. The user of the object is not required to know or supply
 > this information.
 
-[@Liskov1974], p. 51.
+[@Liskov1974](/backend/referenties#Liskov1974), p. 51.
 
 Het voordeel van het werken met abstracties is dus dat we ons niet bezig
 hoeven te houden met de precieze interne werking van een object, maar
@@ -120,7 +120,7 @@ te reduceren.
 > serves to separate the contractual interface of an abstraction and its
 > implementation.
 
-[@Booch2007], p. 52.
+[@Booch2007](/backend/referenties#BoochOO), p. 52.
 
 *Information hiding* speelt hierbij een belangrijke rol: we willen niet
 hebben dat elk object bij elkaars interne datastructuren kan komen. In
@@ -140,7 +140,7 @@ connecties niet teveel informatie mochten prijsgeven.
 > still 'fit'. Here, too, we have a strong argument for for making the
 > connections contain as little information as possible.
 
-[@Parnas1971], pp. 339-340
+[@Parnas1971](/backend/referenties#Parnas1971), pp. 339-340
 
 Encapsulation, in het bijzonder information hiding, kan dus helpen om
 het aantal afhankelijkheden te reduceren en dus koppeling te verlagen.
@@ -160,14 +160,10 @@ Een algemene vuistregel om het gebruik van getters en setters te
 verminderen, is *Tell, don't ask*. Hiermee wordt bedoeld dat je liever
 tegen een object wil zeggen wat het moet doen, in plaats van dat je alle
 informatie eruit trekt er wat mee doet en het vervolgens weer terug in
-het object stopt. Dit wordt wat versimpeld weergegeven in
-Voorbeeld [\[code:tell-dont-ask\]](#code:tell-dont-ask){reference-type="ref"
-reference="code:tell-dont-ask"}. In de echte wereld zou je natuurlijk
-liever de geboortedatum van de persoon opslaan en heb je dit probleem
-niet.
+het object stopt. 
 
-::: listing
-``` {.java linenos=""}
+
+```java
 String name = "Alex";
 Integer age = 31;
 Person person = new Person(name, age);
@@ -179,7 +175,9 @@ person.setAge(afterBirthday);
 // Rather, let the object do the work!
 person.celebrateBirthday();
 ```
-:::
+
+In de echte wereld zou je natuurlijk liever de geboortedatum van de persoon opslaan en heb je dit probleem
+niet.
 
 Op deze manier reduceer je niet alleen de koppeling, je maakt een object
 meer samenhangend omdat de logica die hoort bij wat het betreffende
@@ -191,7 +189,7 @@ getters en setters te werken!
 
 De *Law of Demeter* of *the principle of least knowledge* is een extra
 richtlijn om encapsulation in te richten en koppeling te reduceren
-([@Lieberherr1989]). In de praktijk wordt dit vaak als volgt samengevat:
+([@Lieberherr1989](/backend/referenties#Lieberherr1989)). In de praktijk wordt dit vaak als volgt samengevat:
 
 -   Objecten mogen slechts kennis hebben van andere objecten als ze nauw
     eraan verwant zijn
@@ -212,12 +210,9 @@ Helaas werken veel object-georiënteerde projecten niet volgens dit
 principe en is de code met getters in elkaar geknoopt. Zo koppel je
 buitenstaande objecten niet alleen op de interne toestand van één
 object, maar op de interne toestanden van de objecten die daarin liggen
-besloten. Zie
-Voorbeeld [\[code:train-wreck\]](#code:train-wreck){reference-type="ref"
-reference="code:train-wreck"}.
+besloten. 
 
-::: listing
-``` {.java linenos=""}
+```java
 // A client class, for example: Main.java
 Result result;
 Integer player1Score = game.getCurrentRound().getPlayer1().getScore();
@@ -231,7 +226,6 @@ if (player1Score > player2Score) {
     result = Result.DRAW;
 }
 ```
-:::
 
 Dit is wat men ook wel een *train wreck* noemt, omdat de method calls
 achterelkaar een soort treintje met wagonnetjes vormen
@@ -243,8 +237,7 @@ objecten wat ze moeten doen, in plaats van alle data eruit te trekken.
 De externe coupling is dan kleiner, omdat we de interne cohesie
 benutten.
 
-::: listing
-``` {.java linenos=""}
+```java
 // A client class, for example: Main.java
 Result result = game.evaluateCurrentRound();
 
@@ -272,7 +265,6 @@ public Boolean scoredHigherThan(Player other) {
     return this.score > other.score;
 }
 ```
-:::
 
 In sommige gevallen ontkom je niet aan het gebruik maken van getters.
 Dit is vaak het geval bij *serializatie* van objecten naar een ander
@@ -283,13 +275,13 @@ objects (DTOs)* voor ingezet.
 
 ### Modularity
 
-Volgens [@Booch2007] zijn object-georiënteerde projecten onderhoudbaar
+Volgens [@Booch2007](/backend/referenties#BoochOO) zijn object-georiënteerde projecten onderhoudbaar
 ingericht dankzij *modularity*.
 
 > Modularity is the property of a system that has been decomposed into a
 > set of cohesive and loosely coupled modules.
 
-[@Booch2007], p. 56.
+[@Booch2007](/backend/referenties#BoochOO), p. 56.
 
 Klassen, packages en interfaces zijn de belangrijkste modules binnen een
 object-georiënteerd project. Zie hierover uitgebreid het hoofdstuk over
@@ -311,7 +303,7 @@ project onderhoudbaar te houden.
 
 > Hierarchy is a ranking or ordering of abstractions.
 
-[@Booch2007], p. 58.
+[@Booch2007](/backend/referenties#BoochOO), p. 58.
 
 Met de juiste naamgeving en een intelligente package structuur kunnen we
 een onderhoudbare *softwarearchitectuur* opzetten, waarin packages een
@@ -336,7 +328,7 @@ objecten (*associatie, aggregatie, compositie*). Ook kan een klasse een
 interface implementeren (*realisatie*) of van een andere klasse fields
 en methods overerven (*overerving*). Laten we deze dependency types
 nader onderzoeken aan de hand van de Unified Modeling Language (UML),
-zoals genoemd in [@Booch1999].
+zoals genoemd in [@Booch1999](/backend/referenties#BoochUML).
 
 #### Afhankelijkheid ('gebruikt')
 
@@ -348,17 +340,14 @@ module. We zeggen ook wel dat de ene module de andere module gebruikt.
 > specification of one thing (\...) may affect another thing that uses
 > it, but not necessarily the reverse.
 
-[@Booch1999], p. 63.
+[@Booch1999](/backend/referenties#BoochUML), p. 63.
 
 Zie bijvoorbeeld de withdrawChips-methode in de ChipsService van het
-chips-component het casinoproject
-(Voorbeeld [\[code:withdraw-chips\]](#code:withdraw-chips){reference-type="ref"
-reference="code:withdraw-chips"}). We halen een Chips-object op uit de
+chips-component het casinoproject. We halen een Chips-object op uit de
 ChipsRepository via `this.findChipsByUsername(username)`). Onze
-ChipsService *gebruikt* dus de Chips-klasse!
+ChipsService *gebruikt* dus de Chips-klasse!:
 
-::: listing
-``` {.java linenos=""}
+```java
 public Balance withdrawChips(String username, Long amount) {
     Chips chips = this.findChipsByUsername(username);
 
@@ -368,14 +357,18 @@ public Balance withdrawChips(String username, Long amount) {
     return this.showBalanceFor(chips);
 }
 ```
-:::
 
-In een UML-klassediagram zouden we dat (versimpeld) weergeven als in
-Figuur [1.1](#fig:uml-dependency){reference-type="ref"
-reference="fig:uml-dependency"}.
+In een UML-klassediagram zouden we dat (versimpeld) weergeven als:
 
-![ChipsService gebruikt de
-Chips-klasse](uml-dependency){#fig:uml-dependency width=".6\\linewidth"}
+{% plantuml %}
+@startuml
+
+ChipsService ..> Chips
+
+note bottom: ChipsService gebruikt de Chips-klasse
+
+@enduml
+{% endplantuml %}
 
 Je modelleert een relatie als een algemene afhankelijkheid als je niet
 verder kunt of hoeft te specificeren om wat voor een soort
@@ -409,10 +402,9 @@ kanten!
 > An association is a structural relationship that specifies that
 > objects of one thing are connected to objects of another.
 
-[@Booch1999], p. 66.
+[@Booch1999](/backend/referenties#BoochUML), p. 66.
 
-In Figuur [1.2](#fig:uml-association){reference-type="ref"
-reference="fig:uml-association"} zien we een voorbeeld van een
+Onderstaand zien we een voorbeeld van een
 associatie. Dit voorbeeld betreft de studentenadministratie van een
 school. We kunnen zien dat er een Registration-klasse is waarin een veld
 is gedeclareerd van het type `PaymentMethod` met de naam `payment`. Er
@@ -421,9 +413,14 @@ voorbeeld maar een beperkt aantal betalingswijzen mogelijk zijn, denk
 aan een maandelijkse overschrijving, of een jaarlijkse automatische
 incasso.
 
-![Een registratie bevat een
-betalingswijze.](uml-association){#fig:uml-association
-width=".6\\linewidth"}
+
+{% plantuml %}
+@startuml
+class PaymentMethod << enum >>
+Registration --> PaymentMethod : -payment
+
+@enduml
+{% endplantuml %}
 
 We gebruiken een associatie om een algemene structurele verbinding aan
 te geven tussen twee klassen.
@@ -439,16 +436,19 @@ deel/geheel-relatie gaat, dan kan je de *aggregatie* gebruiken.
 > is called aggregation, which represents a \"has-a\" relationship,
 > meaning that an object of the whole has objects of the part.
 
-[@Booch1999], p. 67.
+[@Booch1999](/backend/referenties#BoochUML), p. 67.
 
-Figuur [1.3](#fig:uml-aggregation){reference-type="ref"
-reference="fig:uml-aggregation"} laat een voorbeeld van een aggregatie
-zien. Een school heeft inschrijvingen.
+{% plantuml %}
+@startuml
 
-![Inschrijvingen zijn onderdeel van een school, maar een school kan
-bestaan zonder inschrijvingen, bijvoorbeeld wanneer deze nog in
-oprichting is.](uml-aggregation){#fig:uml-aggregation
-height=".3\\linewidth"}
+School o-- "0..*" Registration : -registrations
+
+note bottom: Inschrijvingen zijn onderdeel van een school, maar een school kan bestaan zonder inschrijvingen
+
+@enduml
+{% endplantuml %}
+
+Een school heeft inschrijvingen.
 
 #### Compositie ('is alleen onderdeel van')
 
@@ -470,21 +470,23 @@ minder snel vervangbaar zijn opgezet dan een UML aggregatie.
 > aggregation (\...) the composite must manage the creation and
 > destruction of its parts.
 
-[@Booch1999], p. 147.
+[@Booch1999](/backend/referenties#BoochUML), p. 147.
 
-In Figuur [1.4](#fig:uml-composition){reference-type="ref"
-reference="fig:uml-composition"} is een voorbeeld van compositie te zien
-in ons voorbeeld van de schooladministratie. Volgens dit model kan een
-student niet op zichzelf bestaan, maar is altijd onderdeel van een
+{% plantuml %}
+@startuml
+
+Registration *-- "1" Student : -enrolledStudent
+
+note bottom:  Een inschrijving moet altijd een student betreffen. Een student kan binnen de school niet bestaan zonder inschrijving
+
+@enduml
+{% endplantuml %}
+
+Volgens dit model kan een student niet op zichzelf bestaan, maar is altijd onderdeel van een
 inschrijving. In dit model zal het studentnummer dus gekoppeld zijn aan
 de inschrijving, terwijl in de studentklasse misschien persoonlijke
 informatie is opgenomen, zoals geboortedatum, naam, adres en woonplaats.
 In de praktijk zal dit op een andere wijze gemodelleerd kunnen worden.
-
-![Een inschrijving moet altijd een student betreffen. Een student kan
-binnen de school niet bestaan zonder
-inschrijving.](uml-composition){#fig:uml-composition
-width=".6\\linewidth"}
 
 Volgens de definitie in UML is compositie dus een zeer strikte vorm van
 aggregatie. Deze definitie wordt in de praktijk echter niet zo strikt
@@ -494,15 +496,18 @@ wiskunde en de kunsten. In algemene zin betekent compositie immers
 'samenstelling'. Dit komt meer overeen met waar UML de term 'aggregatie'
 voor gebruikt.
 
-In
-Figuur [1.5](#fig:uml-association-aggregation-composition){reference-type="ref"
-reference="fig:uml-association-aggregation-composition"} zien we
-association, aggregatie en compositie in één model. Het laat zien dat je
-met een relatief eenvoudig diagram complexe ideeën kunt delen.
+{% plantuml %}
+@startuml
 
-![Association, aggregatie en compositie in één
-model.](uml-association-aggregation-composition){#fig:uml-association-aggregation-composition
-width=".9\\linewidth"}
+class PaymentMethod << enum >>
+Registration --> PaymentMethod : -payment
+Registration *-- "1" Student : -enrolledStudent
+School o-- "0..*" Registration : -registrations
+
+note bottom: Association, aggregatie en compositie in één model
+
+@enduml
+{% endplantuml %}
 
 #### Overerving ('is een soort')
 
@@ -516,17 +521,22 @@ subklassen.
 > objects of the child may be used anywhere the parent may appear, but
 > not the reverse.
 
-[@Booch1999], p. 65.
+[@Booch1999](/backend/referenties#BoochUML), p. 65.
 
 Binnen een school kan je denken aan verschillende soorten personeel
 `Staff`: personeel in loondienst (`SalariedStaff`) en personeel niet in
-loondienst `FreelanceStaff`, zie
-Figuur [1.6](#fig:uml-inheritance){reference-type="ref"
-reference="fig:uml-inheritance"}.
+loondienst `FreelanceStaff`: 
 
-![We hebben twee soorten staff: in vaste dienst of
-freelance.](uml-inheritance){#fig:uml-inheritance
-height=".2\\linewidth"}
+{% plantuml %}
+@startuml
+
+class Staff << abstract >>
+
+class SalariedStaff extends Staff
+class FreelanceStaff extends Staff
+
+@enduml
+{% endplantuml %}
 
 Van `Staff` kunnen we een abstract class maken om bepaald gedrag te
 hergebruiken dat kenmerkend is voor personeel, zonder dat Staff op
@@ -548,25 +558,39 @@ de invulling van parent en child aan elkaar te koppelen.
 > one classifier specifies a contract that another classifier guarantees
 > to carry out.
 
-[@Booch1999], p. 149.
+[@Booch1999](/backend/referenties#BoochUML), p. 149.
 
 Een typisch voorbeeld is de implementatie van een gateway: een
 toegangspoortje naar buiten toe, waarbij de onderliggende techniek kan
 worden uitgewisseld. Denk bijvoorbeeld aan het opslaan van cursussen in
 ons onderwijssysteem. Het feit dat we willen opslaan en uitlezen nemen
 we op in de interface. Hóe dat precies gebeurt vinden we in een
-implementatie. In
-Figuur [1.7](#fig:uml-realisation){reference-type="ref"
-reference="fig:uml-realisation"} zien we dit weergegeven: we kunnen
-ervoor kiezen om cursussen op te slaan in het bestandssysteem of in een
+implementatie. 
+
+Hier zien we dat we ervoor kunnen kiezen om cursussen op te slaan in het bestandssysteem of in een
 database.
 
-![De interface schrijft voor wat een CourseStorage allemaal moet kunnen.
-De implementaties moeten daaraan
-voldoende.](uml-realisation){#fig:uml-realisation
-height=".4\\linewidth"}
+{% plantuml %}
+@startuml
+left to right direction
 
-Beide klassen zullen de methodes bevatten die worden afgedwongen door de
+interface CourseStorage {
+    save(course: Course): void
+    findByCode(code: String): Course
+    findAll(): List<Course>
+}
+
+class FileCourseStorage 
+class DbCourseStorage 
+
+CourseStorage <|- FileCourseStorage 
+CourseStorage <|- DbCourseStorage 
+
+@enduml
+{% endplantuml %}
+
+De interface schrijft voor wat een CourseStorage allemaal moet kunnen.
+De implementaties moeten daaraan voldoende. Beide klassen zullen de methodes bevatten die worden afgedwongen door de
 interface.
 
 #### Subtyping, polymorfisme en dynamic binding
@@ -613,7 +637,7 @@ uitgewisseld worden als zij hetzelfde supertype hebben.
 > decouples objects from each other, and lets them vary their
 > relationships to each other at run-time.
 
-[@Gof1994]
+[@Gof1994](/backend/referenties#Gof1994)
 
 Subtyping, polymorfisme en dynamic binding zijn dan de sleutels tot
 flexibele object-georiënteerde software: het maakt het gemakkelijk om
@@ -622,7 +646,7 @@ de invulling later kan gebeuren of later vervangen kan worden. De ene
 interface-implementatie kan uitgewisseld worden voor de andere, zonder
 dat dat de rest van het systeem hoeft te verstoren!
 
-[@Abelson1996], paragraaf 2.4.2, noemen dit ook wel *the principle of
+[@Abelson1996](/backend/referenties#Abelson1996), paragraaf 2.4.2, noemen dit ook wel *the principle of
 least commitment*: subtyping, polymorfisme en dynamic binding geven ons
 de mogelijkheid om te koppelen tegen een (abstracte) interface. Op die
 manier hoeven we ons nog niet vast te pinnen op een bepaalde
@@ -715,7 +739,6 @@ In dit hoofdstuk hebben we het object-georiënteerd modelleren en
 ontwerpen behandeld aan de hand van de belangrijkste onderdelen van het
 objectmodel van Booch.
 
-::: defbox
 Belangrijkste elementen van het objectmodel van Booch Het objectmodel
 van Booch onderscheid een aantal zaken die ons helpen goed
 gestructureerde object-georiënteerde software te ontwerpen:
@@ -749,7 +772,9 @@ gestructureerde object-georiënteerde software te ontwerpen:
     abstracties. Eén abstractie kan namelijk verschillende vormen
     aannemen tijdens runtime: een subtype kan een implementatie of
     overschrijving verzorgen van het supertype.
-:::
+
+
+
 
 [^1]: In de praktijk wordt ook wel eens verwezen naar de *4 Pillars of
     Object Orientation*: abstraction, encapsulation, polymorphism en

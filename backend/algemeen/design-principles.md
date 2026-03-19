@@ -19,7 +19,7 @@
 > that it leads to the following principle ofreusable object-oriented
 > design: *Program to an interface, not an implementation.*
 
-[@Gof1994], p. 18.
+[@Gof1994](/backend/referenties#Gof1994), p. 18.
 
 ### Favor Object Composition over Implementation Inheritance
 
@@ -36,7 +36,7 @@
 > often made more reusable (and simpler) by depending more on object
 > composition.
 
-[@Gof1994], p. 20.
+[@Gof1994](/backend/referenties#Gof1994), p. 20.
 
 #### Encapsulate what varies
 
@@ -54,7 +54,7 @@ Dit staat ook wel bekend als het *information expert-principe*:
 > Assign a responsibility to the information expert---the class that has
 > the *information* necessary to fulfill the responsibility.
 
-[@Larman2004], p. 248
+[@Larman2004](/backend/referenties#Larman2004), p. 248
 
 In plaats van allemaal lijsten bij te houden van namen en adressen, kan
 je vaak beter een lijst bijhouden met personen, waarin namen en adressen

@@ -23,7 +23,7 @@ waarborgen is te vinden in *softwarearchitectuur*.
 > -   principles governing the evolution of the system over its life
 >     cycle.
 
-[@ISO42010], p. 4
+[@ISO42010](/backend/referenties#ISO42010), p. 4
 
 Softwarearchitectuur draait om het maken van keuzes ten behoeve van
 bepaalde kwaliteitsdoeleinden. Deze keuzes worden vormgegeven door de
@@ -64,15 +64,26 @@ dat ziet op een bepaald deelgebied aan functionaliteit, bijvoorbeeld op
 een bepaald subdomein. Met een package diagram kan je aangeven welke
 logische componenten er zijn en hoe de relaties onderling verlopen.
 Logische componenten zijn een eerste groepering van algemene
-verantwoordelijkheden op basis van functionaliteit of subdomein. In
-Figuur [1.1](#fig:uml-casino-component-packages){reference-type="ref"
-reference="fig:uml-casino-component-packages"} is een package diagram
-opgenomen dat de logische componenten en de relaties ertussen toont van
-het casinoproject.
+verantwoordelijkheden op basis van functionaliteit of subdomein. 
 
-![Een UML-packagediagram van de logische componenten binnen het
-casinoproject.](uml-casino-component-packages){#fig:uml-casino-component-packages
-width=".6\\linewidth"}
+Hier zie je een package diagram dat de logische componenten en de relaties ertussen toont van
+het casinoproject:
+
+{% plantuml %}
+@startuml
+
+package blackjack
+package chips
+package security
+
+blackjack ..> chips
+blackjack ..> security
+
+chips ..> security
+security ..> chips
+
+@enduml
+{% endplantuml %}
 
 Vaak kun je fysieke componenten aanwijzen op basis van de herkende
 logische componenten. Dit zijn componenten die niet alleen logisch
@@ -108,27 +119,33 @@ functionele samenhang, terwijl de koppeling slechts plaatsvindt tegen de
 klassen van de provided interface. Dit kan bijdragen aan het bereiken
 van *high cohesion* en *loose coupling*. De provided interface kan
 aangeroepen worden door een andere component, een framework of een
-extern systeem. Zoals in
-Figuur [1.2](#fig:uml-chips-component){reference-type="ref"
-reference="fig:uml-chips-component"} is te zien, worden de in de Chips
-component van het casinoproject de use case-gerichte, taakspecifieke
-diensten geboden door (onder andere) de ChipsService.
+extern systeem. 
 
 Soms moet een component ook praten met andere modules of externe
 systemen. Dan biedt een component een *required interface* (ookwel:
 *componentgateway*) aan. Dit is vaak een beschrijving van diensten die
 het component af wil nemen, bijvoorbeeld van een ander component, een
-framework of een extern systeem. In
-Figuur [1.2](#fig:uml-chips-component){reference-type="ref"
-reference="fig:uml-chips-component"} kunnen we zien dat de Chips
+framework of een extern systeem.
+
+{% plantuml %}
+@startuml
+
+[Chips] -( ChipsRepository
+ChipsService -r- [Chips]
+
+note top of ChipsService: De component biedt zijn diensten aan via de Provided Interface
+note bottom of ChipsRepository: De component heeft diensten nodig van de Required Interface
+
+
+@enduml
+{% endplantuml %}
+
+In bovenstaand diagram zie je dat de worden de use case-gerichte, taakspecifieke diensten van de Chips
+component aangeboden worden door (onder andere) de ChipsService. Ook kunnen we zien dat de Chips
 component diensten nodig heeft die zijn gedefinieerd in de
 ChipsRepository. Dit zullen diensten zijn die te maken hebben met het
 opslaan van Chips. Dit wordt vaak ingevuld door een framework of
 library. In het casinoproject is dat een interface van Spring JPA.
-
-![Een UML-componentdiagram van de *Chips
-component*.](uml-chips-component){#fig:uml-chips-component
-width=".7\\linewidth"}
 
 In Java en andere object-georiënteerde talen zal je bij een required
 interface vaak een interface of abstracte klasse gebruiken. Deze geeft
@@ -144,9 +161,45 @@ wel voorzien in de vereiste functionaliteiten (*required interface*).
 
 Hoewel we in dit project minder strikt omgaan met typische regels voor
 fysieke componenten, zou je van de structuur van het casinoproject een
-UML-componentdiagram kunnen maken zoals te zien in
-Figuur [1.3](#fig:uml-casino-components){reference-type="ref"
-reference="fig:uml-casino-components"}. De controllers (*provided
+UML-componentdiagram kunnen maken:
+
+
+{% plantuml %}
+@startuml
+
+interface UserService
+
+[Chips]
+[Blackjack]
+[Security]
+
+interface BlackjackController
+interface ChipsController
+
+interface GameRepository
+interface ChipsRepository
+
+BlackjackController -down- Blackjack
+ChipsController -down- Chips
+
+ChipsService )-left- Blackjack
+ChipsService -right- Chips
+
+Blackjack -down-( UserService
+Chips -down-( UserService
+UserService -- Security
+
+
+GameRepository )-up- Blackjack
+ChipsRepository )-up- Chips
+
+interface UserRepository
+Security -down-( UserRepository
+
+@enduml
+{% endplantuml %}
+
+De controllers (*provided
 interfaces*) zijn bedoeld om door Spring te worden aangeroepen wanneer
 een bepaald web request moet worden afgehandeld, terwijl de repositories
 (*required interfaces*) zijn bedoeld om door Spring te worden
@@ -154,10 +207,6 @@ geïmplementeerd op basis van de benodigde opslagbehoeften. Ook worden er
 application services aangeboden (*provided interface*) die zowel
 aangeroepen worden door de controllers van de component zelf als door de
 application services van andere components.
-
-![Een UML-componentdiagram van het
-casinoproject.](uml-casino-components){#fig:uml-casino-components
-width=".7\\linewidth"}
 
 ### Lagen
 
@@ -170,9 +219,50 @@ van bepaalde klassen op basis van het soort logica dat het betreft. Bij
 een losgekoppeld ontwerp kunnen lagen of onderdelen ervan gemakkelijk
 uitgewisseld worden.
 
-![Voorbeelden van logische lagenmodellen met verschillende hoeveelheden
+Voorbeelden van logische lagenmodellen met verschillende hoeveelheden
 lagen, waarin verschillende soorten logica
-zitten.](logical-layers){#fig:logical-layers width=".8\\linewidth"}
+zitten:
+
+
+{% plantuml %}
+@startuml
+
+package Presentation2
+package Application2
+
+Presentation2 -down-> Application2
+
+
+package Presentation3
+package Application3
+package Domain3
+
+Presentation3 -down-> Application3
+Application3 -down-> Domain3
+
+package Presentation4
+package Application4
+package Domain4
+package Infrastructure4
+
+Presentation4 -down-> Application4
+Application4 -down-> Domain4
+Domain4 -down-> Infrastructure4
+
+package Presentation5
+package Application5
+package Domain5
+package InfrastructureAbstraction5
+package Infrastructure5
+
+Presentation5 -down-> Application5
+Application5 -down-> Domain5
+Domain5 -down-> InfrastructureAbstraction5
+InfrastructureAbstraction5 -down-> Infrastructure5
+
+
+@enduml
+{% endplantuml %}
 
 Gelaagde architecturen komen in verschillende soorten en maten. Sommige
 applicaties zijn eerst opgesplitst in componenten en vervolgens
@@ -181,20 +271,17 @@ vervolgens losse componenten zijn te bespeuren. Het aantal lagen kan
 variëren tussen de twee en vijf lagen. Dit hangt af van de verschillende
 soorten logica en de specifieke architecturele eisen van de onderdelen
 binnen een project. Hierbij kan je denken aan de soorten logica uit
-Tabel [1.1](#table:logica-in-lagen){reference-type="ref"
-reference="table:logica-in-lagen"}, gebaseerd op [@Pruijt2010].
+onderstaande tabel, gebaseerd op [@Pruijt2010](/backend/referenties#Pruijt2010):
 
-::: {#table:logica-in-lagen}
-  **Logicalaag**                      **Verantwoordelijkheid**
-  ----------------------------------- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-  *Presentatielogica*                 Het opbouwen en onderhouden van communicatie met de gebruiker.
-  *Taakspecifieke logica*             Het coördineren van taakuitvoering en het afhandelen van taakspecifieke functionaliteit. In een bijbehorende laag zitten meestal applicatieservices die use cases omzetten naar domeinacties met behulp van infrastructuurabstracties. Meestal geeft een applicatieservice een DTO terug.
-  *Domeingenerieke logica*            Het leveren van generieke functionaliteit die te maken heeft met het interessegebied van de business. Domeinconcepten, business rules en entiteiten vind je vaak in lagen met deze verantwoordelijkheid.
-  *Infrastructuurabstractie logica*   Het vertalen van functionele (technologie-onafhankelijke) vragen in technologieafhankelijke vragen aan de infrastructuur. Hierin zitten meestal interfaces of abstracte klassen die door infrastructuurklassen moeten worden ingevuld (*gateways*).
-  *Infrastructuurlogica*              Het leveren van breed herbruikbare, niet businessspecifieke diensten, zoals data persistentie, security, logging, deployment, etcetera.
 
-  : Typische soorten logica die men in aparte lagen kan aantreffen.
-:::
+| **Logicalaag**                     | **Verantwoordelijkheid**
+| ---------------------------------- | ----------------------------------------
+|  *Presentatielogica*               |  Het opbouwen en onderhouden van communicatie met de gebruiker.
+|  *Taakspecifieke logica*           |  Het coördineren van taakuitvoering en het afhandelen van taakspecifieke functionaliteit. In een ijbehorende laag zitten meestal applicatieservices die use cases omzetten naar domeinacties met behulp van infrastructuurabstracties. Meestal geeft een applicatieservice een DTO terug.
+|  *Domeingenerieke logica*          |  Het leveren van generieke functionaliteit die te maken heeft met het interessegebied van de business. Domeinconcepten, business rules en entiteiten vind je vaak in lagen met deze verantwoordelijkheid.
+|  *Infrastructuurabstractie logica* |  Het vertalen van functionele (technologie-onafhankelijke) vragen in technologieafhankelijke vragen aan de infrastructuur. Hierin zitten meestal interfaces of abstracte klassen die door infrastructuurklassen moeten worden ingevuld (*gateways*).
+|  *Infrastructuurlogica*            |  Het leveren van breed herbruikbare, niet businessspecifieke diensten, zoals data persistentie, security, logging, deployment, etcetera.
+
 
 #### Regels
 
@@ -229,13 +316,86 @@ architectures kom je deze regel overigens niet tegen.
 #### Hoeveel lagen heeft het casinoproject?
 
 In het casinoproject is binnen components vier soorten logica te
-onderscheiden, aangewezen met packages, zie
-Figuur [1.5](#fig:uml-casino-physical-layers){reference-type="ref"
-reference="fig:uml-casino-physical-layers"}.
+onderscheiden, aangewezen met packages:
 
-![Components en layers kunnen met packages worden aangewezen binnen het
-casinoproject.](uml-casino-physical-layers){#fig:uml-casino-physical-layers
-width=".6\\linewidth"}
+{% plantuml %}
+@startuml
+package Blackjack as bj {
+    package Presentation as bjp {
+
+    }
+
+    package Application as bja {
+        
+    }
+
+    package Domain as bjd {
+        
+    }
+
+    package Data as bjdt {
+        
+    }
+
+    bjp -down-> bja
+    bja -down-> bjd
+    bjd -down-> bjdt
+    bjdt .up.> bjd
+}
+
+package Chips as ch {
+    package Presentation as chp {
+
+    }
+
+    package Application as cha {
+        
+    }
+
+    package Domain as chd {
+        
+    }
+
+    package Data as chdt {
+        
+    }
+
+    chp -down-> cha
+    cha -down-> chd
+    chd -down-> chdt
+    chdt .up.> chd
+}
+
+package Security as sec {
+    package Presentation as secp {
+
+    }
+
+    package Application as seca {
+        
+    }
+
+    package Domain as secd {
+        
+    }
+
+    package Data as secdt {
+        
+    }
+
+    secp -down-> seca
+    seca -down-> secd
+    secd -down-> secdt
+    secdt .up.> secd
+}
+
+bja ..> seca
+bja ..> cha
+seca ..> cha
+cha ..> seca
+
+@enduml
+{% endplantuml %}
 
 Deze packages corresponderen met de volgende soorten logica:
 
@@ -263,9 +423,7 @@ Deze packages corresponderen met de volgende soorten logica:
     in het casinoproject ingevuld door het Spring framework.
 
 Het casinoproject is dus opgezet met vier soorten logica in gedachten.
-Als je het lagenmodel echter strikt zou toepassen op
-Figuur [1.5](#fig:uml-casino-physical-layers){reference-type="ref"
-reference="fig:uml-casino-physical-layers"}, zie je een overtreding in
+Als je het lagenmodel echter strikt zou toepassen, zie je een overtreding in
 de laatste twee lagen van elk component. De datalaag bestaat weliswaar
 slechts uit interfaces die door Spring geïmplementeerd worden, maar ze
 zijn afhankelijk van entities die gedefinieerd zijn in het domein.
@@ -273,13 +431,7 @@ Logisch gezien zou je het project daarom eerder beschouwen als een
 drie-lagen-architectuur. De laatste laag zou dan zowel domeinlogica als
 infrastructuurabstracties bevatten. De laatste laag is opgedeeld in twee
 Java packages om de abstracte kern te scheiden van concrete aansluiting
-met infrastructuur. Het casino-project kent verder een relaxed layered
-architecture: je mag lagen overslaan. Zo mag je in de presentatielaag
-een domeinobject teruggeven, zodat het in een HTTP-response kan worden
-opgenomen.
-
-![Het logisch en fysiek lagenmodel binnen de componenten van het
-casinoproject.](casino-layers){#fig:casino-layers width=".7\\linewidth"}
+met infrastructuur. 
 
 Als je het de realisatie meer wil afstemmen op de laging, zou je de
 entiteiten als losse objecten opnemen in de datalaag (als een soort
@@ -338,13 +490,53 @@ gewerkt.
 ## Een voorbeeldflow
 
 Hoe loopt de flow binnen deze lagen? Laten we daarvoor een blik werpen
-op de *deposit use case* van het Chips-component. Zie
-Figuur [1.7](#fig:chips-sequence-diagram){reference-type="ref"
-reference="fig:chips-sequence-diagram"}.
+op de *deposit use case* van het Chips-component. 
 
-![De flow voor de deposit use case van het
-Chips-component](chips-sequence-diagram){#fig:chips-sequence-diagram
-width="\\linewidth"}
+{% plantuml %}
+@startuml
+
+actor HttpClient
+participant ChipsController
+participant ChipsService
+participant Chips
+participant ChipsRepository
+database Postgres
+
+activate HttpClient
+HttpClient -> ChipsController : POST /chips/deposit
+activate ChipsController
+ChipsController -> ChipsService : depositChips(user, amount)
+activate ChipsService
+ChipsService -> ChipsRepository : findChipsByUser(user)
+activate ChipsRepository
+ChipsRepository -> Postgres : SQL Select
+activate Postgres
+Postgres --> ChipsRepository
+deactivate Postgres
+
+ChipsRepository --> Chips  : new()
+activate Chips
+deactivate ChipsRepository
+ChipsService -> Chips : deposit(amount)
+ChipsService -> Chips : getBalance()
+Chips --> ChipsService
+deactivate Chips
+
+ChipsService -> ChipsRepository : (@Transactional save)
+activate ChipsRepository
+ChipsRepository -> Postgres : SQL Insert
+
+ChipsService --> ChipsController : Balance
+deactivate ChipsService
+deactivate ChipsRepository
+
+ChipsController --> HttpClient : 200 OK\n ...JSON...
+
+@enduml
+{% endplantuml %}
+
+
+
 
 Allereerst moet een HTTP-client een POST-verzoek doen naar
 `/chips/deposit`. We willen namelijk een overmaking toevoegen aan de
@@ -375,7 +567,6 @@ kunnen indelen in modules ten behoeve van de onderhoudbaarheid ervan. We
 hebben kennisgemaakt met softwarearchitectuur en verschillende
 modulesoorten.
 
-::: defbox
 Modulaire architectuur Een modulaire architectuur is opgebouwd uit
 verschillende modules die elk hun eigen rol hebben binnen het gehele
 project. Fysieke *componenten* zijn algemene groeperingen van
@@ -401,6 +592,4 @@ casinoproject is gekozen voor een indeling in componenten en lagen, maar
 worden de regels minder streng gehanteerd. Het is bedoeld om te wennen
 aan een modulaire opbouw. We accepteren een lichte koppeling op het
 framework en op ons domein.
-:::
-
 

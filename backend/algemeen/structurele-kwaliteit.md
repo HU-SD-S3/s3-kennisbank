@@ -21,16 +21,48 @@ makkelijk het is om de software te begrijpen, door te ontwikkelen, te
 veranderen en te testen. Ook het onafhankelijk kunnen werken aan of
 testen van programmaonderdelen valt hieronder, evenals in hoeverre
 bepaalde onderdelen te vervangen of te hergebruiken zijn. Bijna niemand
-vindt het fijn om te werken met *spaghetticode*
-(Figuur [1.1](#fig:spaghetticode){reference-type="ref"
-reference="fig:spaghetticode"})! Deze mate van onderhoudbaarheid
+vindt het fijn om te werken met *spaghetticode*! Deze mate van onderhoudbaarheid
 (*maintainability*) is over het algemeen wat men verstaat onder de
-*structurele kwaliteit* van software ([@ISO25010] onder 4.2.7).
+*structurele kwaliteit* van software ([@ISO25010](/backend/referenties#ISO25010) onder 4.2.7).
 
-![Als code-onderdelen allemaal afhankelijk van elkaar zijn, is het erg
+{% plantuml %}
+@startuml
+title Spaghetti Code
+
+package A
+package B
+package C
+package D
+package E
+
+A --> B
+A --> C
+A --> D
+
+B --> A
+B --> B
+B --> C
+B --> D
+
+C --> A
+C --> B
+C --> C
+C --> D
+
+D --> A
+D --> B
+
+A --> E
+B --> E
+E --> C
+E --> D
+
+
+@enduml
+{% endplantuml %}
+Als code-onderdelen allemaal afhankelijk van elkaar zijn, is het erg
 lastig om een onderdeel op zichzelf te wijzigen. Dan spreekt men ook wel
-van spaghetticode.](spaghetticode){#fig:spaghetticode
-width=".5\\linewidth"}
+van spaghetticode.
 
 Natuurlijk kan de interne structuur van de software ook gevolgen hebben
 voor de gebruiker! Denk bijvoorbeeld aan het tempo waarmee nieuwe
@@ -65,7 +97,7 @@ op de gevaren van voortijdige optimalisatie:
 > premature optimization is the root of all evil (or at least most of
 > it) in programming.
 
-[@Knuth1974], p. 671
+[@Knuth1974](/backend/referenties#Knuth1974), p. 671
 
 Ook wanneer maar één iemand aan de software werkt, is het van belang om
 aandacht te besteden aan de structuur. Het blijkt vaak erg lastig om
@@ -136,7 +168,7 @@ softwareontwikkeling als zelfstandig studiegebied, zei het als volgt
 > aspect's point of view, the other is irrelevant. It is being one- and
 > multiple-track minded simultaneously.
 
-[@Dijkstra1982], EWD447
+[@Dijkstra1982](/backend/referenties#Dijkstra1982), EWD447
 
 We willen ons systeem zó inrichten dat we verschillende aspecten in
 verschillende onderdelen samenbrengen en we ons steeds maar met een
@@ -215,7 +247,7 @@ oplossingen nog steeds relevant!
 > and each relationship between a system's pieces corresponds only to a
 > relationship between pieces of the problem.
 
-[@YourdonConstantine1979], pp. 17--18
+[@YourdonConstantine1979](/backend/referenties#YourdonConstantine1979), pp. 17--18
 
 Bij het creëren van modules willen we erop letten dat we zaken groeperen
 die qua functionaliteit bij elkaar horen. Modules mogen alleen met
@@ -223,7 +255,7 @@ elkaar interacteren voor zover dat nodig is voor de uitvoering van een
 bepaalde taak. Op die manier verkleinen we de kans dat de wijziging in
 één onderdeel automatisch gevolgen heeft voor de werking van een ander
 onderdeel. Dit komt overeen met wat wordt verstaan onder *modulariteit*,
-aldus [@ISO25010]: \"\[the\] degree to which a system or computer
+aldus [@ISO25010](/backend/referenties#ISO25010): \"\[the\] degree to which a system or computer
 program is composed of discrete components such that a change to one
 component has minimal impact on other components\".
 
@@ -249,14 +281,12 @@ interne elementen van een module met een duidelijk doel zijn ontworpen!
 > *cohesion* of each module in isolation -- how tightly bound or related
 > its internal elements are to one another.
 
-[@YourdonConstantine1979], p. 95
+[@YourdonConstantine1979](/backend/referenties#YourdonConstantine1979), p. 95
 
 Wanneer een klasse heel veel methoden bevat die elk op een ander stuk
 functionaliteit zien of een package allerlei klassen bevat die vrij
 weinig met elkaar te maken hebben, spreken we van *low cohesion*. Dit is
-vaak een teken om de code te herstructureren. Zie
-Figuur [1.2](#fig:cohesion){reference-type="ref"
-reference="fig:cohesion"}. Meestal willen we dan een klasse opsplitsen
+vaak een teken om de code te herstructureren. Meestal willen we dan een klasse opsplitsen
 of klassen op een meer samenhangende manier verdelen binnen packages. We
 willen ons richten op *high cohesion*: de verantwoordelijkheden van een
 klasse of package zien op gelijksoortige onderwerpen of
@@ -265,9 +295,79 @@ waaronder registreren, inloggen, authentication en authorization, in een
 andere module stoppen dan alles dat met het opnemen of storten van chips
 te maken heeft.
 
-![Low cohesion versus high cohesion. Een samenhangende module brengt
-verschillende gerelateerde zaken samen en ziet niet op teveel aspecten
-tegelijkertijd.](cohesion){#fig:cohesion width=".7\\linewidth"}
+{% plantuml %}
+@startuml
+
+package LowCohesion {
+    class Utils {
+        logDebug(message: String)
+        logError(message: String)
+        saveStudent(student: Student, location: String)
+        restartApp()
+    }
+    note bottom: Deze class heeft lage cohesion, want de methods hebben weinig met elkaar te maken\nZe zullen waarschijnlijk bijv. niet dezelfde private fields gebruiken
+}
+
+@enduml
+{% endplantuml %}
+
+{% plantuml %}
+@startuml
+
+note "De classes hebben nu elk hogere cohesie" as N1
+
+package HigherCohesion {
+    class App {
+        restart()
+    }
+
+    class StudentDAO {
+        save(student: Student);
+        load(id: Long): Student
+    }
+
+    class Logger {
+        debug(message: String)
+        error(message: String)
+    }    
+    
+    N1 .. App
+    N1 .. StudentDAO
+    N1 .. Logger
+}
+note bottom of HigherCohesion: Hoewel de classes nu hogere cohesion hebben, heeft de module nog steeds lage cohesie
+
+@enduml
+{% endplantuml %}
+
+
+{% plantuml %}
+@startuml
+
+package Blackjack {
+    class Game {
+        restart()
+        play(p: Player, c: Card)
+    }
+
+    class Card {
+        suit()
+        value()        
+    }
+
+    class Player {        
+        getName()
+    }    
+    
+    Game --> "*" Card : deck
+    Player --> "*" Card : hand
+    Game --> "*" Player: participants
+
+}
+
+note bottom of Blackjack: De classes hebben cohesie, want de methods horen bij elkaar.\nEn de module ook, want de classes gebruiken elkaar.
+@enduml
+{% endplantuml %}
 
 Stel je een systeem voor waarin regelmatig een bestand moet worden
 uitgelezen en opgeslagen worden van het bestandssysteem. In plaats van
@@ -292,19 +392,42 @@ is een bepaalde module *afhankelijk* van een andere module?
 > or maintain) any one module without having to know very much about any
 > other modules in the system.
 
-[@YourdonConstantine1979], p. 76
+[@YourdonConstantine1979](/backend/referenties#YourdonConstantine1979), p. 76
 
 We willen werken in losgekoppelde systemen. In dat soort systemen hebben
 wijzigingen in de ene module slechts een beperkte impact op een andere
 module. Dat komt omdat er spaarzaam wordt omgegaan met de
 afhankelijkheden tussen modules. Er is dan sprake van *loose coupling*.
-In de meeste gevallen willen we *tight coupling* vermijden. Zie
-Figuur [1.3](#fig:coupling){reference-type="ref"
-reference="fig:coupling"}.
+In de meeste gevallen willen we *tight coupling* vermijden. In een losgekoppeld systeem
+wordt er doelbewust omgegaan met afhankelijkheden.
 
-![Tight coupling versus loose coupling. In een losgekoppeld systeem
-wordt er doelbewust omgegaan met
-afhankelijkheden.](coupling){#fig:coupling width=".7\\linewidth"}
+{% plantuml %}
+@startuml
+title Tight vs. Loose Coupling
+package TightCoupling {
+package A
+package B
+package C
+}
+
+package LooseCoupling {
+package D
+package E
+package F
+package G
+}
+
+A --> B
+B --> C
+C --> B
+C --> A
+D --> E
+E --> F
+D --> G
+E --> G
+
+@enduml
+{% endplantuml %}
 
 Een andere manier om over coupling na te denken is door te kijken naar
 hoeveel de ene module weet van een andere module. Hierin kan je
@@ -337,7 +460,7 @@ een verband te bespeuren tussen de twee.
 > correlated; that is, on the average, as one increases, the other
 > decreases; but the correlation is not perfect.
 
-[@YourdonConstantine1979], p. 96
+[@YourdonConstantine1979](/backend/referenties#YourdonConstantine1979), p. 96
 
 Over het algemeen kunnen we dus zeggen dat de mate van koppeling tussen
 modules kleiner is wanneer modules meer interne samenhang vertonen.
@@ -348,7 +471,6 @@ Modules hoeven dan immers minder informatie met elkaar te delen.
 In dit hoofdstuk hebben we onderzocht wat we kunnen verstaan onder
 structurele kwaliteit en hoe we dit over het algemeen kunnen bereiken.
 
-::: defbox
 Structurele kwaliteit Structurele kwaliteit ziet vooral op de
 onderhoudbaarheid van een softwareproject. Een softwareproject heeft in
 algemene zin een goede structuur als deze is opgedeeld in kleine,
@@ -361,4 +483,3 @@ dankzij:
 2.  High cohesion
 
 3.  Loose coupling
-:::
