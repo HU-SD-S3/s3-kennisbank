@@ -1,7 +1,6 @@
 ---
 layout: mermaid
 title: Deployment
-permalink: /backend/deployment
 ---
 
 # Praatplaat
