@@ -58,6 +58,11 @@ Dus stel je hebt Tomcat geinstalleerd in ```C:/java/tomcat```, dan bedoelen we m
 3. Start Tomcat door naar de ```/{Tomcat}/bin``` directory te gaan en daar het ```./catalina.sh run``` of (op Windows) ```./catalina.bat run``` commando uit te voeren.
 4. Test je Tomcat server door in ```/{Tomcat}/webapps``` een nieuwe directory aan te maken (bijv. ```test```), en daar een ```index.html``` file neer te zetten met een HTML pagina naar smaak. Door naar ```http://localhost:8080/test``` te navigeren zou je dan je eigen testfile moeten terugzien.
 
+Het is misschien een beetje verwarrend, maar het script om Tomcat op te starten 
+heet Catalina, omdat dat de interne naam is van de 'motor' van Tomcat.
+
+Developers zadelen graag hun gebruikers op met dit soort eigenaardigheden. 
+
 #### Eigen code
 
 Aangenomen dat je 'in je IDE' de backend kan draaien, is het eerste subdoel om dit naar de command-line te verplaatsen.
@@ -122,6 +127,30 @@ Een andere smaak Linux (bijv. AlmaLinux) zou bijv. het volgende commando gebruik
 ```sudo dnf install java-21-openjdk```
 
 Je ziet dat het best op elkaar lijkt. Desalniettemin kunnen Linux-fans uren discussieren welke distributie het beste is. We zullen ze laten.
+
+Nu we Java hebben is het tijd om ook Tomcat te installeren. Dat gaat hetzelfde als op je eigen PC, maar dan via de commandline.
+
+De Linux versie is waarschijnlijk een ```.tar.gz``` bestand. Dat is Linux' 
+voor:
+
+1. Een enkel bestand dat meerdere bestanden in zich heeft (een kleverige ```.tar```ball)
+2. En die kluwe bestanden is gecomprimeerd met ```.gz```ip
+
+Dus eerst downloaden we het bestand, met een commandline tooltje (een browser kunnen we immers niet gebruiken):
+
+```curl https://eenofandereurl/bla/bla/blabla-tomcat-bla.tar.gz --output tomcat.tar.gz```
+
+Vervolgens kun je dat uitpakken met een willekeurig programma dat kan unzippen, meestal is ```tar``` wel geinstalleerd:
+
+```tar -xf tomcat.tar.gz```
+
+En dan blijft het altijd even afwachten of je dan alle bestanden direct in de huidige directory uitgekotst krijgt, of dat er een nette submap wordt aangemaakt... (Leuker kunnen we het niet maken, wel makkelijker)
+
+Vanaf daar kun je naar de productie ```/{Tomcat}/bin``` directory en op soortgelijke wijze je server opstarten.
+
+Het uittesten werkt nog een klein beetje anders. Zeer waarschijnlijk  kun je niet van buitenaf bij je server op de standaard poort van Tomcat (een firewall blokkeert dat dan). Je kunt dan toch vanaf je server testen of http werkt met
+```curl```, je hebt dan alleen een tweede commandline tabje nodig om EN Tomcat te draaien, EN een request te doen.
+
 
 ### Distribueren
 
