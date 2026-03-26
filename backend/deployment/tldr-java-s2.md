@@ -19,12 +19,13 @@ Het model dat we in dit document gaan maken is:
 {% plantuml %}
 @startuml
 
-cloud "Azure (of een andere provider)" {
-
+cloud "OpenICT" {
     node "Some Virtual Machine" {    
-        frame "MyApplication.jar" {            
-            rectangle "Vite Frontend" as fe             
-            rectangle "Backend" as be
+        frame "Tomcat" {
+            frame "MyApplication.war" {            
+                rectangle "Vite Frontend" as fe             
+                rectangle "Backend" as be
+            }
         }
         database "Postgres" as pg
         
@@ -45,17 +46,29 @@ De VM werkt grotendeels zoals een 'echte' computer. Kortom, als je het op je eig
 
 ### Backend
 
+#### Tomcat
+
+Tomcat is een webserver (het serveert paginas over http) en een java-application-server (het kan java web-applicaties voor je draaien).
+
+De installatie is redelijk eenvoudig (voor ons simpele geval):
+
+1. Download een [Tomcat binary distribution](https://tomcat.apache.org/) voor je OS.
+2. Pak het gedownloade bestand uit op een locatie naar keuze, hierna ```/{Tomcat}``` genoemd. (liefst niet te diep genest, je zult de directory nog een aantal keer moeten intypen)
+Dus stel je hebt Tomcat geinstalleerd in ```C:/java/tomcat```, dan bedoelen we met ```/{Tomcat}/bin``` de directory ```C:/java/tomcat/bin```.
+3. Start Tomcat door naar de ```/{Tomcat}/bin``` directory te gaan en daar het ```./catalina.sh run``` of (op Windows) ```./catalina.bat run``` commando uit te voeren.
+4. Test je Tomcat server door in ```/{Tomcat}/webapps``` een nieuwe directory aan te maken (bijv. ```test```), en daar een ```index.html``` file neer te zetten met een HTML pagina naar smaak. Door naar ```http://localhost:8080/test``` te navigeren zou je dan je eigen testfile moeten terugzien.
+
+#### Eigen code
+
 Aangenomen dat je 'in je IDE' de backend kan draaien, is het eerste subdoel om dit naar de command-line te verplaatsen.
 
 We gebruiken standaard [Maven](https://maven.apache.org/) om onze code te compileren, en onze dependencies te beheren. 
 
 ```mvn package``` 
 
-Dit commando genereert een ```.jar``` bestand. Dit bestand is bij ons standaard een 'fat jar': een zip file (hernoem het maar eens naar .zip) met daarin al jouw code, en al jouw dependencies.
+Dit commando genereert een ```.war``` bestand (zie de regel ```<packaging>war</packaging>``` in je ```pom.xml```). Dit bestand is bij ons standaard een 'fat war': een zip file (hernoem het maar eens naar .zip) met daarin al jouw code, en al jouw dependencies.
 
-Deze jar kun je opstarten met:
-
-```java -jar jouwapp.jar```
+Deze war kun je aan Tomcat geven door het gegenereerde .war bestand naar je ```/{Tomcat}/webapps``` folder te kopieren.
 
 Dit is feitelijk wat je IDE doet (met wat slimme trucs om iets sneller te zijn).
 
@@ -77,7 +90,7 @@ We willen dus een stabiel pakketje met getranspileerde javascript-code:
 
 Dit commando genereert een zogeheten 'bundle' van je frontend-code. Deze bundle kan dan als bestand gedownload worden door de clients, net zoals een plaatje of een lettertype. Dit noemen we ***statische content***.
 
-Het eenvoudigst is om deze bundle in je backend op te nemen. Elk backend framework heeft hier een andere standaard voor. In de Jersey/.war wereld zet je het bijv. in de ```src/main/webapp``` directory, in Spring/.jar zet je het in ```/src/main/resources/static``` (of ```/src/main/resources/public```, of wat voor andere plekken de framework-bouwers verzinnen).
+Het eenvoudigst is om deze bundle in je backend op te nemen. Elk backend framework heeft hier een andere standaard voor. In de ```.war``` wereld zet je het bijv. in de ```src/main/webapp``` directory.
 
 Dit zorgt er dan voor dat de content gewoon als onderdeel van de backend geserveerd wordt, en is je deployment probleem gereduceerd tot het correct deployen van de backend.
 
@@ -89,7 +102,7 @@ Op één of andere manier krijg je beschikking tot een Virtual Machine. Hetzij d
 
 ### Verbinden
 
-Voor het verbinden met de VM gebruiken we SSH (Secure SHell), een protocol dat onze toetsaanslagen over het internet naar de VM stuurt. Op Windows gebruikte je hier vroeger een extern programma (bijv. '[Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)') voor, maar tegenwoordig zit er ook gewoon een prima [SSH-client](https://learn.microsoft.com/en-us/windows/terminal/tutorials/ssh) (genaamd ```ssh```) op de command-line (op Mac/Linux is dit zeker weten al pre-installed).
+Voor het verbinden met de VM gebruiken we SSH (Secure SHell), een protocol dat onze toetsaanslagen over het internet naar de VM stuurt. Op Windows gebruikte je hier vroeger een extern programma (bijv. '[Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)') voor, maar tegenwoordig zit er ook gewoon een prima [SSH-client](https://learn.microsoft.com/en-us/windows/terminal/tutorials/ssh) (genaamd ```ssh```) op de command-line (op Mac/Linux is dit zeker weten al pre-installed, en anders ```apt install openssh``` oid.).
 
 ### Voorbereiden
 
@@ -99,7 +112,8 @@ Aangezien we een Java applicatie gaan deployen hebben we een Java-omgeving nodig
 
 Een standaard Ubuntu server gebruikt ```apt``` om programma's te installeren. Zo kun je Java installeren met:
 
-```sudo apt install openjdk-21-jdk```
+```sudo apt install openjdk-21-jdk``` 
+(of een andere versie, met ```apt search openjdk``` kun je kijken wat er zoal is)
 
 ```sudo``` is hier een prefix voor 'doe dit als superuser/administrator' en dient als een beveiliging tegen 'per ongeluk' wijzigingen aan je machine maken.
 
@@ -107,36 +121,31 @@ Een andere smaak Linux (bijv. AlmaLinux) zou bijv. het volgende commando gebruik
 
 ```sudo dnf install java-21-openjdk```
 
-Je ziet dat het best op elkaar lijkt.
-
-Als je een .war wilt deployen, dan zul je ook Tomcat moeten installeren, dat heeft helaas wat meer stappen nodig, zie de [uitgebreidere instructies voor details](./java.md).
+Je ziet dat het best op elkaar lijkt. Desalniettemin kunnen Linux-fans uren discussieren welke distributie het beste is. We zullen ze laten.
 
 ### Distribueren
 
 Het fijne aan ```ssh``` is dat automatisch z'n broertje (zusje?) ```scp``` geïnstalleerd wordt. Met ```scp``` kun je bestanden van jouw pc naar de VM kopieëren. De syntax daarvoor is ```scp {bronbestand} {doelbestand}```, waarbij de VM locatie opgeschreven is als ```{vm-connectie}:{locatie-op-vm}```. Bijv:
 
-```scp ./app.jar student@20.91.123.123:~/```
+```scp ./app.war student@20.91.123.123:~/tomcat/webapps/```
 
 Kopieëert:
-* Het bestand ```app.jar```
+* Het bestand ```app.war```
 * Uit de huidige directory (```./```), kortom wherever je het commando uitvoert
 * Naar de VM met ipadres ```20.91.123.123```
 * Waarop je inlogt als user ```student```
-* En je wil het kopiëren naar de userfolder (```~/```) van de student gebruiker. Standaard is dat ```/home/student```.
+* En je wil het kopiëren naar de userfolder (```~/tomcat/webapps```) van de student gebruiker. Standaard is dat ```/home/student/tomcat/webapps```.
 
 ### Testen
 
-(via Tomcat/.wars werkt dit compleet anders, daar worden deze problemen bij installatie al opgelost)
-Om te kijken of het werkt kun je nu de applicatie aanspreken zoals het op je eigen PC zou werken:
-
-```java -jar app.jar```
+Om te kijken of het werkt kun je nu Tomcat opstarten via de eerder genoemde ```./catalina.sh run``` of ```./catalina.bat run``` methode.
 
 Als het goed is zie je dan dat de applicatie opstart zoals je gewend bent.
 In de output kun je zien op welke poort de applicatie draait (waarschijnlijk 8080).
 
 Door een tweede connectie naar dezelfde VM te openen (in een nieuw tabje/scherm) kun je even testen of de applicatie reageert:
 
-```curl http://localhost:8080/eengeldigeurl```
+```curl http://localhost:8080/app/eengeldigeurl``` (als je .war bestand anders heette zul je deze url even moeten tweaken)
 
 Curl is een command-line tooltje om http-requests uit te voeren. Meestal is dit al geïnstalleerd op je Linux-server, maar anders kun je dat zelf doen:
 
@@ -152,25 +161,28 @@ Er zijn nu drie zaken die nog een probleem vormen:
 
 Punt 1 is een lastige. Het configureren van een firewall is per omgeving helemaal anders. Hier kun je vaak vanuit de server niets aan doen, en dit zal dus via een externe omgeving geregeld moeten worden. In het geval van Cloud-providers of VPS-verhuur-bedrijven is er altijd ergens een admin-panel waar dit gemanaged kan worden. Je zult alleen genoeg [netwerken](./netwerken) terminologie moeten kennen om het te herkennen.
 
-Punt 2 kun je oplossen met zogeheten Environment Variables. Standaard luistert Spring naar de ```SERVER_PORT``` Environment Variable:
+Punt 2 kun je oplossen in de configuratie van Tomcat. In ```/{Tomcat}/conf/server.xml``` staat ergens een regel als  
 
-```SERVER_PORT=80 java -jar app.jar```
+```<Connector port="8080" protocol="HTTP/1.1" ...etc. etc.```
 
-Helaas mag je niet zomaar iets op poort 80 laten luisteren, daarvoor heb je root/administrator rechten nodig. Dus (voor nu) ```sudo```-ervoor-zetten it is. (waarschuwing: dit is prima 'voor school', maar in het echt is dit vragen om security-problemen, meer details vind je [hier](./todo))
+Dat kun je aanpassen naar poort 80 met een command-line text-editor zoals ```nano```, of voor de hardcore ```vim```. (```apt install``` kan dit voor je installeren mocht dit op je exacte VM nog niet geïnstalleerd staan)
 
-Punt 3 betekent dat we eigenlijk willen dat de applicatie als 'service' draait. Dus als achtergrondproces dat automatisch opstart als de VM opstart.
+Helaas mag je niet zomaar iets op poort 80 laten luisteren, daarvoor heb je root/administrator rechten nodig. Dus als je nu Tomcat opstart met ```./catalina.{bat/sh} run``` wordt er stiekem niets opgestart op poort 80.
+
+Dus (voor nu) ```sudo```-ervoor-zetten om te testen. (websites met ```sudo``` draaien is een serieus slecht idee. Doe dit nooit in het echt)
+
+Punt 3 betekent dat we eigenlijk willen dat de applicatie als 'service' draait. Dus als achtergrondproces dat automatisch opstart als de VM opstart. Gelukkig kunnen we dan tegelijkertijd het eerdere ```sudo``` issue oplossen.
 
 Op de meeste servers die we gebruiken draait ```systemd``` (dat is weer één van die linux-smaak dingen, het had ook ```init.d``` of weer iets anders kunnen zijn).
 
 ```systemd``` leest alle '.service' files die in de ```/etc/systemd/system``` directory staan. Dus je zult daar een file neer moeten zetten. De kleinste die ik kon verzinnen:
 
-File: ```/etc/systemd/system/java_app.service```
+File: ```/etc/systemd/system/tomcat.service```
 ```
 [Service]
 User=student
-Environment="SERVER_PORT=80"
 WorkingDirectory=/home/student
-ExecStart=/usr/bin/java -jar s2-in-s3.jar
+ExecStart=/home/student/tomcat/bin/catalina.sh run
 
 AmbientCapabilities=CAP_NET_BIND_SERVICE
 CapabilityBoundingSet=CAP_NET_BIND_SERVICE
@@ -181,12 +193,11 @@ WantedBy=multi-user.target
 ```
 Nu kun je de service starten met:
 
-1. ```sudo systemctl daemon-reload```
-2. ```sudo systemctl restart java_app```
+```sudo systemctl restart tomcat```
 
 En kun je er voor zorgen dat de service gelijk opstart met:
 
-```sudo systemctl enable java_app```
+```sudo systemctl enable tomcat```
 
 Voor meer details rondom ```systemd``` en services verwijs ik graag naar [Linux](./operating_systems)
 
@@ -210,13 +221,12 @@ Lees dus even bij over [Linux](./operating_systems) wat je daaraan moet doen.
 
 ### Databases
 
-Je hebt nu nog geen database. Maar aangenomen dat het netwerk werkt, is een database connectie opzetten vanuit een applicatie niet zo spannend. Feitelijk bestaat het uit twee subproblemen:
+Je hebt nu nog geen database. Maar eerder in de opleiding heb je al eens uit het niets Postgres geinstalleerd. Daar is niets veranderd. 
+
+Aangenomen dat het netwerk werkt, is een database connectie opzetten vanuit een applicatie niet zo spannend. Feitelijk bestaat het uit twee subproblemen:
 
 1. De configuratie
 2. De verbinding
-
-Probleem 1 hebben we al eerder gezien.
-Spring gebruikt standaard de Environment Variable ```DATASOURCE_URL```om aan te geven waar de database gevonden kan worden (inclusief user/password). 
 
 Bij Jersey/Tomcat is het aan te raden zelf een variabele te verzinnen en uit te lezen: ```System.getenv("JOUW_ENV_VAR_HIER")```.
 
@@ -241,8 +251,4 @@ Hoe dan ook levert je dit 2 bestanden op:
 
 Deze bestanden samen worden ook wel 'het certificaat' genoemd (kortom, soms zit de private key er wel in, en soms niet, en daar zijn we altijd semi-bewust onduidelijk over; het is helaas niet anders).
 
-Je kunt Spring instrueren gebruik te maken van dit certificaat door, jawel, meer environment variables (want het is een stuk configuratie):
-
-```sudo SERVER_SSL_ENABLED=true SERVER_PORT=443 SERVER_SSL_CERTIFICATE_PRIVATE_KEY=./key.pem SERVER_SSL_CERTIFICATE=./cert.pem java -jar app.jar```
-
-Als je nu naar je site navigeert (via https!), dan zul je een hele enge waarschuwing krijgen dat de site niet vertrouwd wordt. Dat klopt, want je certificaat komt niet bij een 'trusted authority' vandaan. Dit oplossen gaat wat ver voor een toch-al-uitgelopen vogelvlucht. Zie [webservers](./web) voor meer details.
+...TODO... even HTTPS op Tomcat uitzoeken.
