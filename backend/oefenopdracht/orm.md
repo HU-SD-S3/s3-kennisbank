@@ -17,8 +17,20 @@ Als je nu de applicatie afsluit en opnieuw opstart zou je data gewoon bewaard mo
 
 Wat vind je fijner als Developer? H2 of Postgres+Docker?
 
+## Opdracht 1: Player-SQL & DAOs
 
-## Opdracht 1: ORMs
+Als je de start-repository opstart zul je zien dat je direct "Not Implemented" errors krijgt, omdat puur de vorm van de PlayerDAO is geïmplementeerd, maar niet de daadwerkelijke SQL.
+
+Aan jou de opdracht om deze PlayerDAO class 'af te maken'.
+
+### Optioneel: Opdracht 1b: LobbyDAO
+
+De LobbyController gebruikt nu nog puur een in-memory list. Maak (en gebruik!) een LobbyDAO class om vergelijkbaar aan de PlayerDAO lobbies te kunnen beheren.
+
+Dit is een pittige opdracht, en vereist een non-triviale hoeveelheid code. Het is wel aan te raden om er in elk geval aan te beginnen, zodat je een goed idee hebt welk probleem een
+ORM eigenlijk voor je oplost!
+
+## Opdracht 2: ORMs
 
 ```mermaid
 classDiagram
@@ -56,16 +68,10 @@ classDiagram
 * Voeg @Transactional toe aan de ```PlayerController```, en injecteer je PlayerRepository naast de DAO. Herschrijf de methodes zodat alle functionaliteit weer werkt!
 Zodra alles werkt kun je de DAO-injectie verwijderen.
 
-## Opdracht 2: Relaties
-
+## Opdracht 3: Relaties
 
 ```mermaid
 classDiagram
-
-    class Player {
-
-    }
-    note for Player "Details nog hetzelfde als hierboven"
 
     class Lobby {
         - List~Player~ players
@@ -80,6 +86,8 @@ classDiagram
     }
 
     Lobby --> "*" Player
+    note for Player "Details nog hetzelfde als hierboven"
+
     Lobby ..> AvailableGame
 
     class AvailableGame {
@@ -90,6 +98,7 @@ classDiagram
         The Crew
         etc...
     }
+    
 ```
 
 Nu is het tijd om de Lobby, en de relatie toe te voegen. We volgen dezelfde stappen als hierboven.
