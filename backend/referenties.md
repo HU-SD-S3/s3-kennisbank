@@ -45,3 +45,5 @@ Technical report, February 1971
 * <span id="Larman2004"></span>Craig Larman (2004). Applying UML and Patterns: An Introduction to Object-Oriented Analysis and Design and Iterative Development (3rd ed.). Pearson. ISBN 978-0131489066.
 
 * <span id="Pruijt2010"></span>L. Pruijt. Meer inzicht in een gelaagde architectuur. Deel 1: Uitleg, terminologie en methoden. Release, 2010:22–26, 12 2010
+
+* <span id="EvansDDD"></span>E. Evans. Domain-Driven Design: Tackling Complexity in the Heart of Software. Addison-Wesley Professional, 2003

@@ -179,6 +179,10 @@ vervangen.
 ### Modules
 
 Een groepering van programmaonderdelen noemen we ook wel een *module*.
+Het woord module staat voor een 'klein onderdeel', een soort lego-blokje. 
+Als ontwikkelaar willen we grotere hoeveelheden onderverdelen in kleinere modules 
+zodat we kunnen redeneren over de modules, ipv. alleen over hele lappen geschreven code.
+
 In klasse-gebaseerde object-georiënteerde talen zoals Java en C# zijn
 klassen en objecten de meest fundamentele modules. Hierin worden
 toestand en gedrag samengebracht in *fields* en *methods*: de
@@ -224,10 +228,13 @@ Packages zijn erg geschikt om aan te geven in welk algemene deelgebied
 een soort logica het gaat of om wat voor een specifieke
 deelfunctionaliteit het gaat.
 
+Het is belangrijk om aan te geven dat deze *packages* (of *namespaces*) **ook** modules zijn. 
+Kortom, modules kun je hebben op een hoog-over niveau, of juist op een lager, meer gedetailleerd niveau.
+
 ## Structured design
 
 Het op een logische wijze inrichten van modules zorgt er over het
-algemeen voor dat een systeem makkelijker te navigeren is. Dit zegt
+algemeen voor dat een systeem makkelijker te navigeren en begrijpen is. Dit zegt
 echter weinig over hoe je tot *onderhoudbare* modules komt.
 
 Dat was het centrale onderwerp van de *structured design*-beweging in de
@@ -483,3 +490,11 @@ dankzij:
 2.  High cohesion
 
 3.  Loose coupling
+
+Separation of concerns zorgt dat we onze software indelen in *modules*, zodanig dat we op een efficientere manier over
+onze software kunnen redeneren dan elke regel code in ons korte-termijn-geheugen proppen.
+Modules kunnen bestaan op verschillende niveaus, en uiteraard zorgen teveel modules van hetzelfde niveau ook voor dezelfde problemen met redeneren.
+
+De principes Coupling & Cohesion geven ons concrete handvaten hoe we de kwaliteit van onze onderverdeling in modules kunnen beoordelen. We willen 'loose coupling', zodat we onze modules (nooit volledig, maar zo los mogelijk) van elkaar kunnen onderhouden. We willen 'high cohesion', zodat onze modules ook daadwerkelijk een nuttig geheel vormen.
+
+In onze [componenten & lagen](./componenten-lagen.md) referentie-architectuur vertalen we deze principes naar concrete regels qua code.

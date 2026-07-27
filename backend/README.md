@@ -8,8 +8,10 @@ Het is een prachtig begin als iets werkt, maar daarmee is het nog niet direct go
 
 We bekijken dit vanuit 3 hoeken:
 
-* Wat voor structuren en standaarden zijn er om een [(web)service](./web-frameworks) te bouwen?
 * Hoe organiseren en structureren we [Object-Georiënteerde](./algemeen) code? 
+* Wat voor structuren en standaarden zijn er om een [(web)service](./web-frameworks) te bouwen?
 * Hoe slaan we netjes onze [data](./persistentie) op?
+
+En tot slot kijken we los naar:
 
 * Hoe [deployen](/backend/deployment) we al dit moois?
