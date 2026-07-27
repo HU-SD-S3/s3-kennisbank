@@ -50,7 +50,7 @@ De VM werkt grotendeels zoals een 'echte' computer. Kortom, als je het op je eig
 
 Tomcat is een webserver (het serveert paginas over http) en een java-application-server (het kan java web-applicaties voor je draaien).
 
-De installatie is redelijk eenvoudig (voor ons simpele geval):
+De installatie is redelijk eenvoudig (voor ons geval...):
 
 1. Download een [Tomcat binary distribution](https://tomcat.apache.org/) voor je OS.
 2. Pak het gedownloade bestand uit op een locatie naar keuze (als het je niet direct duidelijk is hoe dit moet, vraag even hulp), hierna ```/{Tomcat}``` genoemd. Kies voor de installatie het liefst niet een te diep genest pad, niet zozeer om technische redenen, maar omdat je het later nog een paar keer moet intypen...
@@ -64,7 +64,6 @@ heet Catalina, omdat dat de interne naam is van de 'motor' van Tomcat. Developer
 #### Eigen code
 
 Aangenomen dat je 'in je IDE' de backend kan draaien, is het eerste subdoel om dit naar de command-line te verplaatsen.
-
 We gebruiken standaard [Maven](https://maven.apache.org/) om onze code te compileren, en onze dependencies te beheren. 
 
 ```mvn package```
@@ -72,36 +71,29 @@ We gebruiken standaard [Maven](https://maven.apache.org/) om onze code te compil
 Dit commando genereert een ```.war``` bestand (zie de regel ```<packaging>war</packaging>``` in je ```pom.xml```). Dit bestand is bij ons standaard een 'fat war': een zip file (hernoem het maar eens naar .zip) met daarin al jouw code, en al jouw dependencies.
 
 Deze war kun je aan Tomcat geven door het gegenereerde .war bestand naar je ```/{Tomcat}/webapps``` folder te kopieren.
-
 Dit is feitelijk wat je IDE doet (met wat slimme trucs om iets sneller te zijn).
 
 ### Frontend
 
-Officieel is Javascript geen gecompileerde taal. De gewoonte is echter om Javascript te 'transpileren': het compileren van (hele moderne) Javascript naar (ouderwetse) Javascript (die in alle browsers werkt). Dus in de praktijk werkt het ongeveer hetzelfde.
+Als het goed is staat je frontend gewoon in de ```/src/main/webapp``` map, en 'doet ie het gewoon'. Het grootste risico is dat je ergens in je frontend-code een link hebt staan naar ```http://localhost/xyz```, en dat gaat op productie niet werken.
 
-In development is er vaak iets een commando als:
+Het is in 99% van de gevallen mogelijk om er voor te zorgen dat je in plaats van een absoluut pad (startend met ```http(s)```) een relatief pad te gebruiken. Een relatief pad kan op twee manieren werken:
 
-```npm run dev```
+* Starten met gewoon een stuk tekst, dan is de url relatief aan de huidige locatie. Dus als je op ```http://mijnsite.example.org/abc/test.html``` zit, dan wijst ```def/xyz.html``` naar ```http://mijnsite.example.org/abc/def/xyz.html```. Er zijn wat vreemde verschillen en randgevallen in deze hoek die je kan voorkomen door expliciet vanaf de huidige locatie te navigeren, dan gebruik je ```./def/xyz.html``` (de ```.``` staat in dit geval voor "vanaf hier"). Een dubbele punt (```../```) betekent in deze taal een directory omhoog navigeren, dus met ```../uvw.html``` zou je in dit voorbeeld (vanaf ```/abc/test.html```) naar ```http://mijnsite.example.org/uvw.html``` wijzen.
 
-Dit commando start dan een eigen webservice op, die supersnel de javascript hercompileert, zodat jij prettig kan ontwikkelen.
+* Startend met een ```/```, dan verwijs je altijd vanaf de top-directory (de "root") van de site. Dus als je vanaf ```http://mijnsite.example.org/abc/test.html``` of ```http://mijnsite.example.org/abc/def/ghi/test.html``` naar ```/pqr/test2.html``` wijst, dan wijs je altijd naar dezelfde plek, waar je ook bent.
 
-Voor het deployen hebben we hier helemaal niets aan. We gaan immers niet op productie de hele tijd de broncode aanpassen.
+Beide methoden hebben hun eigen voor en nadelen, en welke je gebruikt is een kwestie van smaak. Het is hoe dan ook de moeite waard om te proberen om alles met relatieve urls op te lossen, want dan kun je de javascript constant houden tussen productie en development.
 
-We willen dus een stabiel pakketje met getranspileerde javascript-code:
-
-```npm run build```
-
-Dit commando genereert een zogeheten 'bundle' van je frontend-code. Deze bundle kan dan als bestand gedownload worden door de clients, net zoals een plaatje of een lettertype. Dit noemen we ***statische content***.
-
-Het eenvoudigst is om deze bundle in je backend op te nemen. Elk backend framework heeft hier een andere standaard voor. In de ```.war``` wereld zet je het bijv. in de ```src/main/webapp``` directory.
-
-Dit zorgt er dan voor dat de content gewoon als onderdeel van de backend geserveerd wordt, en is je deployment probleem gereduceerd tot het correct deployen van de backend. Het startpunt van je app is dan bijv. ```src/main/webapp/index.html```.
-
-(let op: het is ***niet*** wenselijk om deze bundle in Git in te checken, dus voeg dit pad toe aan je .gitignore lijst, anders moet je er elke keer 'even aan denken' om 'm niet in te checken. Dat gaat vroeg of laat mis.)
+Als dat om een of andere reden echt niet mogelijk is, dan is het in elk geval aan te raden om alle 'te veranderen urls' samen te pakken in 1 JS bestand, zodat er in elk geval maar 1 plek is waar je al deze zaken moet regelen.
 
 ## De virtual machine
 
 Op één of andere manier krijg je beschikking tot een Virtual Machine. Hetzij door dit in elkaar te klikken bij een Cloud-provider, of omdat je een VM (ook wel VPS genoemd) huurt of toegewezen krijgt.
+
+De Virtual Machine heeft een IP-adres bestaande uit 4 blokjes van max. 3 getallen tussen de 0 en 255 (256, 2^8 mogelijkheden, dat is geen toeval). Normaal connect je dmv. een naam met een externe machine op het internet (```https://hu.nl``` bijv.), maar daarvoor is een extern systeem genaamd DNS (Domain Name Server) nodig. Dat zal voor jouw VM niet geregeld zijn. Dus we connecten via een rauw IP adres (het ip-adres van ```hu.nl``` was op moment van schrijven bijv. ```20.50.2.17```).
+
+Hoe dan ook, dat IP-adres heb je nodig, en moet je van iets of iemand krijgen.
 
 ### Verbinden
 
@@ -109,7 +101,7 @@ Voor het verbinden met de VM gebruiken we SSH (Secure SHell), een protocol dat o
 
 ### Voorbereiden
 
-We gaan er vanuit dat je een Linux server hebt geconfigureerd. Dan krijg je bij ons standaard een Ubuntu-VM. Ubuntu is een bepaald smaakje Linux (een 'distributie'), als je iets anders hebt gekozen of gekregen, dan zullen sommige commando's net een beetje anders zijn.
+We gaan er vanuit dat je een Linux server hebt gekregen. Dan krijg je bij ons standaard een Ubuntu-VM. Ubuntu is een bepaald smaakje Linux (een 'distributie'), als je iets anders hebt gekozen of gekregen, dan zullen sommige commando's net een beetje anders zijn.
 
 Aangezien we een Java applicatie gaan deployen hebben we een Java-omgeving nodig. Je moet dus een Java Development Kit (JDK) of Java Runtime Environment (JRE) installeren (maakt niet zoveel uit welke, de JDK is iets groter, maar heeft meer debug tooltjes). 
 
@@ -128,7 +120,7 @@ Je ziet dat het best op elkaar lijkt. Desalniettemin kunnen Linux-fans uren disc
 
 Nu we Java hebben is het tijd om ook Tomcat te installeren. Dat kun je hetzelfde doen als op je eigen PC, maar in Linux-land is er een alternatief.
 
-Een package manager als ```apt``` kan verschillende bronnen (*repositories* genoemd) gebruiken om aan te geven welke software er eenvoudig ge-```apt install```'d kan worden.
+Een package manager als ```apt``` kan verschillende bronnen (*repositories* genoemd, wat uiteraard andere *repositories* zijn dan git-**respositories**) gebruiken om aan te geven welke software er eenvoudig ge-```apt install```'d kan worden.
 
 In de standaard repositories is er geen ***Tomcat*** beschikbaar, maar we kunnen er eentje toevoegen:
 
@@ -137,10 +129,9 @@ sudo add-apt-repository universe
 sudo apt update
 ```
 
-Het eerste commando voegt de 'universe' repository toe. Normaal gesproken moet je een url invullen, maar in dit geval is ***universe*** een voor-ingewijden-bekende term. Het staat voor een repository die je 'meestal wel wil, maar volgens sommigen niet in de default thuishoort voor een server'.
+Het eerste commando voegt de 'universe' repository toe. Normaal gesproken moet je een url invullen, maar in dit geval is ***universe*** een voor-ingewijden-bekende term. Het staat voor een repository die je 'meestal wel wil in Ubuntu, maar volgens sommigen niet in de default thuishoort voor een server, omdat er niet-helemaal-volgens-de-regels-open-source-software in staat'.
 
 Het tweede commando ververst alle beschikbare informatie. Dat wordt helaas niet automatisch gedaan.
-
 Zodra deze repository geïnstalleerd is, kun je Tomcat installeren:
 
 ```
@@ -173,6 +164,8 @@ Curl is een command-line tooltje om http-requests uit te voeren (een 'browser vo
 ```sudo apt install curl```
 
 (je begint hopelijk het ```apt install```-en-bidden-maar patroon te zien. Dat is meestal je eerste optie bij random Linux-problemen)
+
+We testen hier dus met een command-line tool of onze webserver werkt vanuit de machine zelf! Het is ook prima om te testen of de webserver werkt door op je eigen computer naar ```http://{whatever-het-ip-van-je-vm-is}
 
 ### Distribueren
 
@@ -222,12 +215,9 @@ Er zijn een aantal zaken die we nu expliciet ***niet*** hebben behandeld.
 
 ### Users
 
-De applicatie draait nu als de student-user. Dat is niet zo netjes. 
+De applicatie draait nu als de tomcat-user. Dat is niet zo netjes. 
 Het is netter een aparte user voor de applicatie-zelf te maken, maar dat brengt 
 ons net wat te diep bij algemene server-admin taken.
-
-Het grote probleem is dat de student-user sudo-rechten heeft, en dus kan escaleren naar root. Dat is een in-het-echt onacceptabel risico voor een
-server die door gebruikers benaderd kan worden.
 
 Prima voor een schoolprojectje, maar in het echt moet je hier dus nog net even
 wat meer tijd aan besteden. 
@@ -237,14 +227,9 @@ Lees dus even bij over [Linux](./operating_systems) wat je daaraan moet doen.
 
 Je hebt nu nog geen database. Maar eerder in de opleiding heb je al eens uit het niets Postgres geinstalleerd. Daar is niets veranderd. 
 
-Aangenomen dat het netwerk werkt, is een database connectie opzetten vanuit een applicatie niet zo spannend. Feitelijk bestaat het uit twee subproblemen:
+Sterker nog, als je de database gewoon installeert op dezelfde server als tomcat, dan is *eigenlijk* de situatie op je productie-omgeving hetzelfde als die op je eigen laptop. 
 
-1. De configuratie
-2. De verbinding
-
-Bij Jersey/Tomcat is het aan te raden zelf een variabele te verzinnen en uit te lezen: ```System.getenv("JOUW_ENV_VAR_HIER")```.
-
-Probleem 2 is een kwestie van goed je [netwerk](./netwerken) kunnen debuggen. Makkelijk als de database op dezelfde machine staat, maar dit kan soms tricky worden.
+Het is echter wel aan te raden om op productie niet dezelfde inloggegevens te gebruiken als op development. Een standaard manier om dit op te lossen is door een environment-variabele te verzinnen en uit te lezen: ```System.getenv("JOUW_ENV_VAR_HIER")``` in je Java-code. Zie [Linux](./operating_systems) voor meer details over Environment Variables.
 
 ### HTTPS
 
