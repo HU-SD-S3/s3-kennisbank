@@ -6,14 +6,22 @@ inzetten om separation of concerns, loose coupling en high cohesion te
 bereiken?
 
 Hiervoor is het zinvol om stil te staan bij de algemene eigenschappen
-zijn object-oriëntatie. We sluiten hierbij aan bij het objectmodel uit
-het boek Object-Oriented Analysis and Design with Applications van
+van object-oriëntatie. 
+
+We bespreken hier twee theoriën over hoe je je OOP code kan beoordelen op kwaliteit.
+
+* De eerste theorie komt uit het boek Object-Oriented Analysis and Design with Applications van
 object- en UML-pionier Grady Booch en anderen ([@Booch2007](/backend/referenties#BoochOO)). Hierin staan een aantal
 belangrijke en minder belangrijke elementen die in object-georiënteerde
 projecten voorkomen. Deze elementen kan je ook tegenkomen bij andere
 stijlen van programmeren, maar wij staan vooral stil bij hoe deze
 elementen gebruikt kunnen worden in een object-georiënteerde taal. Hoe
 kunnen we deze elementen benutten om tot een sterk ontwerp te komen?
+
+* De tweede theorie is minder specifiek voor OOP, maar is desalniettemin erg populair in deze hoek, en dat is 
+Domain-Driven Design van Evans ([@EvansDDD](/backend/referenties#EvansDDD)). In deze theorie staat het domein-model centraal, en willen we proberen zoveel mogelijk van de eigenaardigheden die voortkomen uit het ontwikkelen van Software ontwikkelen daar oplossen. Waar Booch een vrij filosofisch en technisch perspectief biedt, is Evans juist meer Business-gedreven, en zoeken we explicieter de connectie met andere stakeholders.
+
+De twee theorieën vullen elkaar in de meeste gevallen heel mooi aan, en op de punten waar ze elkaar een beetje lijken tegen te spreken zijn ze een mooie reminder dat er altijd meerdere manieren zijn om tegen een probleem aan te kijken.
 
 ## Het objectmodel van Booch
 
@@ -652,17 +660,19 @@ de mogelijkheid om te koppelen tegen een (abstracte) interface. Op die
 manier hoeven we ons nog niet vast te pinnen op een bepaalde
 implementatiekeuze!
 
-## Een *rijk* Domein-model
+## Domain-Driven Design
 
-Naast het Object-Model van Booch is Domain-Driven design van Evans ([@EvansDDD](/backend/referenties.md#EvansDDD)), 
-een andere belangrijke inspiratiebron voor modern OO design.
+Naast het Object-Model van Booch is Domain-Driven design van Evans ([@EvansDDD](/backend/referenties#EvansDDD)), 
+een andere belangrijke inspiratiebron voor modern OO-design.
 
 Domain-Driven Design claimt dat de primaire drijfveer achter je software-design het domein zelf moet zijn. Primair is dus niet
 of je code op een bepaalde manier gestructureerd is, of hoe performant het is, of dat de data allemaal netjes genormaliseerd is, maar puur of de code 'het domein' uitdrukt.
 
-En nu komen we meteen op het grootste issue dat men heeft met DDD heeft: wat betekent het in vredesnaam allemaal? Klassiek gezien bestaat DDD uit twee delen, het tactische deel, en het strategische. Het strategische gedeelte wordt gezien als het meest belangrijke en vernieuwende, en gaat over hoe software ontwikkeling vaak verschillende conflicterende visies op "het domein" moet verenigen: dit zullen we behandelen in <<ddd-strategic>>. We starten met het tactische deel, het deel dat direct toepasbaar is binnen het ontwikkelen van een enkele applicatie.
+We maken hier onderscheid tussen essentiële complexiteit, en incidentele complexiteit ("accidental complexity", best-effort vertaling). Essentiële complexiteit is complexiteit die altijd onderdeel zal zijn van je project, omdat het voortkomt uit onvermijdbare businessprocessen. Incidentele complexiteit komt daarentegen voort uit nevenzaken, zoals technologie-keuzes. De kernstelling is dat we alle essentiële complexiteit in het domein-model van onze applicatie dienen op te lossen.
 
-Laten we eerst even kijken wat voor soort code we willen voorkomen:
+Een volledige introductie van DDD gaat voor nu te ver, maar we zullen de basis van wat heet 'tactisch DDD' hier toelichten. Het is belangrijk te realiseren dat dit een ander perspectief op dezelfde soort problemen zijn als het objectmodel van Booch biedt. Het is dus verleidelijk om aan te nemen dat deze zaken naadloos op elkaar aansluiten, maar zo simpel is het niet. Het zijn eenvoudigweg verschillende volledige gedachtegangen over hoe je OOP code kan vormgeven.
+
+Laten we beginnen met het soort probleem bekijken dat Evans wil oplossen met DDD:
 
 ``` java
 //In een service/applicatie-laag, vlak onder de presentatie/ui-laag
@@ -681,7 +691,7 @@ public Boeking updateBoeking(long boekingId, int aantalPersonen, double prijs, l
 }
 ```
 
-Als we kijken naar <<updateBoeking>> dan zien we iets geks gebeuren: prijs, klasse en aantalpersonen kunnen los van elkaar ingevoerd worden. Dat is aan de ene kant heel flexibel, maar het is zeer waarschijnlijk dat in het domein van het boeken van kaartjes (in dit geval voor een vliegreis) dat de prijs iets te maken heeft met het aantal tickets en in welke klasse er gevlogen wordt...
+Als we kijken naar de ```updateBoeking```-methode dan zien we iets geks gebeuren: prijs, klasse en aantalpersonen kunnen los van elkaar ingevoerd worden. Dat is aan de ene kant heel flexibel, maar het is zeer waarschijnlijk dat in het domein van het boeken van kaartjes (in dit geval voor een vliegreis) dat de prijs iets te maken heeft met het aantal tickets en in welke klasse er gevlogen wordt...
 
 Kortom, puur in de ```signatuur``` (naam van de method, welke parameters er gevraagd worden, en wat er gereturned wordt) zie je al gekkigheid. We kunnen in deze methode eigenlijk geen nuttig werk verrichten, behalve domweg data doorschuiven. Aangezien deze methode in de service-laag woont betekent dat dat de echte bedrijfslogica omhoog gedrukt wordt de presentatielaag in, iets dat in elk geval de testbaarheid en herbruikbaarheid niet ten goede zal komen.
 
@@ -703,7 +713,7 @@ public Klant updateKlant(long id,
 }
 ```
 
-Als tweede voorbeeld zien we <<updateKlant>>. Het eerste dat opvalt is het grote aantal parameters van deze methode (en dat gaan er alleen maar meer worden), en het tweede is dat het bijna allemaal strings zijn. Het fijne aan Strings is dat ze heel flexibel zijn, en het lastige aan Strings is dat ze heel flexibel zijn. Het is makkelijk te vergeten omdat de variabelenamen onze gedachte sturen, maar een String in Java kan zowel leeg ("") zijn, als maximaal 2,147,483,647	karakters lang (ter vergelijking, alle Lord of the Rings boeken, inclusief de Hobbit zijn ong. 5 miljoen karakters), en er kan iets heel redelijks inzitten zoals "Ligusterlaan", of random nonsens zoals "$#I&YFKJDSDH#*$(#)". Kortom, die Strings, die zeggen ons niet zo gek veel. Ze zorgen er in elk geval niet voor dat onze code domein-gedreven voelt.
+Als tweede voorbeeld kiezen we deze ```update-klant```-methode. Het eerste dat opvalt is het grote aantal parameters van deze methode (en dat gaan er alleen maar meer worden), en het tweede is dat het bijna allemaal strings zijn. Het fijne aan Strings is dat ze heel flexibel zijn, en het lastige aan Strings is dat ze heel flexibel zijn. Het is makkelijk te vergeten omdat de variabelenamen onze gedachte sturen, maar een String in Java kan zowel leeg ("") zijn, als maximaal 2,147,483,647	karakters lang (ter vergelijking, alle Lord of the Rings boeken, inclusief de Hobbit zijn ong. 5 miljoen karakters), en er kan iets heel redelijks inzitten zoals "Ligusterlaan", of random nonsens zoals "$#I&YFKJDSDH#*$(#)". Kortom, die Strings, die zeggen ons niet zo gek veel. Ze zorgen er in elk geval niet voor dat onze code domein-gedreven voelt.
 
 Belangrijker nog bij een method als updateKlant is dat we graag zouden willen kunnen inschatten of er bugs in zitten. Dat is bij deze method erg lastig! We hebben namelijk geen idee wat de context is waarin deze operatie gebeurd. Zou er misschien een verband zijn tussen de nationaliteit en het land? Geen idee! Kortom, de naam van de methode vertelt ons bizar weinig wat er in deze methode moet gebeurenfootnote:[Op ```applicatie_-niveau. Als deze method in een data-access laag zou voorkomen is het niet zo'n hele gekke methode. Maar we gebruiken zelfs een repository, dus we zijn zeker geen data-access code, want dat zit waarschijnlijk achter die repository-variabele...]...
 
@@ -741,24 +751,23 @@ Feitelijk is dit niets anders dan het standaard Object-Oriented Programming-prin
 
 Dus de eerste stap is om wat je toch al aan dingen hebt een goede naam te geven. Laten we voor het gemak aannemen dat al die velden bij ```updateKlant``` op een enkel formulier op een standaard Profile-pagina. Dan is een redelijke naam voor die method ```processProfileForm```.
 
-De tweede stap is om meer dingen te maken die een naam kunnen hebben. In cite:[fowler_refactoring_2018] staan genoeg suggesties, zoals het introduceren van extra variabelen met https://refactoring.com/catalog/extractVariable.html[Extract Variable], het introduceren van korte beschrijvende methods met https://refactoring.com/catalog/extractFunction.html[Extract Method] of hele nieuwe objecten met https://refactoring.com/catalog/extractClass.html[Extract Class]. En dat brengt ons 'toevallig' bij Value Objects...
+De tweede stap is om meer dingen te maken die een naam kunnen hebben. In cite:[fowler_refactoring_2018] staan genoeg suggesties, zoals het introduceren van extra variabelen met https://refactoring.com/catalog/extractVariable.html[Extract Variable], het introduceren van korte beschrijvende methods met https://refactoring.com/catalog/extractFunction.html[Extract Method] of hele nieuwe objecten met https://refactoring.com/catalog/extractClass.html[Extract Class]. En dat brengt ons 'toevallig' straks bij Value Objects...
 
+Het basisidee van de Ubiquitous Language is dus ...vergelijkbaar, maar niet exact hetzelfde als het idee van Booch' Abstractions. 
 
 ### Entities & Value Objects
 
 #### Entities
 
-Deze kennen we! @Entity erboven, een Long'tje met @Id en @GeneratedValue en gaan met die banaan! Was het leven maar zo mooi...
-
 Entities zijn objecten met een levensduur. Ze beginnen ergens, maken vanalles mee in hun bestaan, en eindigen tenslotte in een database, om het volgende request weer een nieuw rondje te maken. Wat een leven!
 
 Entities zijn ```dingen``` die over de tijd heen veranderen. Maar we hebben nog wel het gevoel dat het steeds hetzelfde ```ding``` is. Bij Value-Objects hebben we dat niet. Als we een beetje rood bij geel mengen krijgen we een nieuwe kleur (iets oranje'igs). Maar als we een beetje rode verf in een blik met gele verf gieten dan verandert dat blik verf (tenzij het direct overstroomt natuurlijk), het wordt niet een nieuw blik. In dit geval kunnen we niet praten over 'het blik met die-en-die-kleur', want alles aan dat blik kan veranderen (je kan er op staan, en het indeuken bijv.). In het echt is dit geen probleem, we wijzen met onze hand naar een bepaald blik en roepen uit "Dat blik, daar heb ik het over!".
 
-In een database heb je daarvoor een Identifier nodig. Iets dat een bepaald ```ding``` uniek identificeert, zodat je er in feite naar kan ```wijzen_. In onze applicatie hebben we zo'n Identifier ook nodig, want stel we vragen een bepaalde ```Boeking``` op voor <<updateBoeking>>, dan willen we daar misschien een paar requests later nog een update overheen doen. Het is niet redelijk om al die boekingen in het geheugen te houden en hun exacte geheugenadres als Id te gebruiken footnote:[Nouja, misschien kan dit wel, zie bijv. <<redis>>, maar dan nog heeft persistent opslaan in een database zo z'n voordelen].
+In een database heb je daarvoor een Identifier nodig. Iets dat een bepaald *ding* uniek identificeert, zodat je er in feite naar kan *wijzen*. In onze applicatie hebben we zo'n Identifier ook nodig, want stel we vragen een bepaalde ```Boeking``` in het eerdere ```updateBoeking```-voorbeeld, dan willen we daar misschien een paar requests later nog een update overheen doen. Het is niet redelijk om al die boekingen in het geheugen te houden en hun exacte geheugenadres als Id te gebruiken.
 
 Een entity is dus een object, aangewezen door een id, met een lifecycle, wiens state kan veranderen. Met state bedoelen we alle stukjes data die bij die entity horen; alle attributen in een taal als Java, C# of Python. Die veranderingen gebeuren in een OOP taal via public methods. Het is belangrijk dat die veranderingen altijd netjes gebeuren. Daarmee bedoelen we dat de regels van het object altijd gevolgd moeten worden: met een chique woord zijn objecten ```invariant onder hun methodes_. Die invarianten wijzen dingen aan die altijd waar moeten zijn, zoals "het totaalbedrag van een bestelling moet gelijk zijn aan de optelsom van de delen". Hoewel zowel de bestelde onderdelen, als het totaalbedrag kunnen variëren, staat het feit dat die twee met elkaar kloppen vast, de regel is invariant.
 
-Niet alle combinaties van state zijn geldig voor een object. Laten we als voorbeeld de Java ArrayList nemen. Het handige van een List ten opzichte van een gewone Array is dat je er zomaar objecten aan kan toevoegen. Een Array moet je elke keer met een bepaalde grootte aanmaken. De naam suggereert dat een ArrayList de List interface biedt met een Array op de achtergrond, en als we even onder de motorkap kijkenfootnote:[rechts-click op de ArrayList class en Go-To-Definition, in IntelliJ. Echt een aanrader!]
+Niet alle combinaties van state zijn geldig voor een object. Laten we als voorbeeld de Java ArrayList nemen. Het handige van een List ten opzichte van een gewone Array is dat je er zomaar objecten aan kan toevoegen. Een Array moet je elke keer met een bepaalde grootte aanmaken. De naam suggereert dat een ArrayList de List interface biedt met een Array op de achtergrond, en als we even onder de motorkap kijken (rechts-click op de ArrayList class en Go-To-Definition, in IntelliJ.)
 
 ``` java
 //Fields uit de source van ArrayList.java
@@ -768,9 +777,9 @@ private int size;
 
 Je ziet dat het size veld onafhankelijk wordt bijgehouden van de elementData array. Dat voelt in eerste instantie misschien een beetje stom (waarom niet gewoon elementData.length returnen in getSize()?), maar daar zit een goede reden achter.
 
-De ArrayList class doet veel moeite om zo min mogelijk keren een nieuwe elementData array te maken. Dus als je elementen toevoegt, en er is geen ruimte meer in de array, dan maakt de ArrayList de nieuwe array 'ietsje groter dan nodig'. Op dezelfde manier laat de ArrayList met plezier wat plekjes in de array leeg als je iets removed. Het size veld moet dus los worden bijgehouden, en het zou echt ```superverwarrend``` worden als het size veld niet exact klopt met hoeveel elementen er in de array zitten.
+De ArrayList class doet veel moeite om zo min mogelijk keren een nieuwe elementData array te maken (dat kost immers performance). Dus als je elementen toevoegt, en er is geen ruimte meer in de array, dan maakt de ArrayList de nieuwe array 'ietsje groter dan nodig', zodat niet per ```add``` call een hele nieuwe array in het geheugen gealloceerd moet worden. Op dezelfde manier laat de ArrayList met plezier wat plekjes in de array leeg als je iets removed, zodat die lege plekjes later hergebruikt kunnen worden. Het size veld moet dus los worden bijgehouden, en het zou echt ```superverwarrend``` worden als het size veld niet exact klopt met hoeveel elementen er in de array zitten.
 
-Een ander voorbeeld zie je in <<entityconsistent>>:
+Een ander voorbeeld zie je in deze ```Order``` class:
 ``` java
 
 public class Order {
@@ -816,7 +825,7 @@ LineItem eersteItem = new LineItem(o, 12, product42);
 verseOrder.add(eersteItem);
 ```
 
-In het voorbeeld van <<constructors>> zien we dat alles met het handje aangemaakt wordt. Stel het is een nieuwe klant, dan is dat voor de klant nog enigszins logisch. In een standaard winkel-website komen klanten vaak van buiten het systeem. Die komen vanuit systeem-perspectief dan een beetje uit de lucht vallen. Maar daarna is het twijfelachtiger. De order zouden we kunnen starten met een simpele ```zomaarEenKlant.startOrder();``` method, en het eerste item zouden we kunnen maken als ```verseOrder.add(12, product42);_. 
+In dit voorbeeld zien we dat alles met het handje aangemaakt wordt. Stel het is een nieuwe klant, dan is dat voor de klant nog enigszins logisch. In een standaard winkel-website komen klanten vaak van buiten het systeem. Die komen vanuit systeem-perspectief dan een beetje uit de lucht vallen. Maar daarna is het twijfelachtiger. De order zouden we kunnen starten met een simpele ```zomaarEenKlant.startOrder();``` method, en het eerste item zouden we kunnen maken als ```verseOrder.add(12, product42);_. 
 
 Het zijn hele kleine tweaks, maar het scheelt toch een paar parameters, en het kan je signaturen stabieler houden. Stel klanten hebben een bepaalde status (bijv. VIP klanten met extra korting), dan moet misschien 
 in een volgende versie de VIP-status op het LineItem gezet worden. Als je zelf overal de LineItem constructor aanroept zul je op alle plekken in je code die extra parameter moeten toevoegen. Maar als je de link al gelegd hebt tussen een Klant en diens Order (en daarmee de lineitems), dan kun je dit netjes op één plek aanpakken.
@@ -826,7 +835,7 @@ Kortom door goed na te denken over waar je objecten vandaan komen krijg je nieuw
 
 ##### Lifecycle: Repositories
 
-Dit is een pattern dat zeer wijdverspreid is. De repository is bedoeld als een hele simpele kijk op persistentie, eentje gebaseerd op een collectie zoals <<javacollection>>. 
+Dit is een pattern dat zeer wijdverspreid is. De repository is bedoeld als een hele simpele kijk op persistentie, eentje gebaseerd op een collectie zoals de ingebouwde Collections van Java: 
 
 ``` java
 public interface Collection<E> extends Iterable<E>{
@@ -850,18 +859,18 @@ public interface Repository<E, Id> {
 }
 ```
 
-De gedachte achter de collectie-abstractie lijkt een beetje op die van een garderobe. Je geeft je Entity (je jas) aan de Collection (de garderobe) en je krijgt een Id (een kaartje) terug om 'm later ooit weer op te halen. De vergelijking loopt een beetje mank omdat een persistentiestore vaak een kopie van je jas houdt, en je zelden aan een garderobe de opdracht kan geven om je jas te vernietigen (remove), maar in de basis is het vergelijkbaar. 
+De gedachte achter de collectie-abstractie lijkt een beetje op die van een garderobe. Je geeft je Entity (je jas) aan de Collection (de garderobe) en je krijgt een Id (een kaartje) terug om 'm later ooit weer op te halen. (De vergelijking loopt een beetje mank omdat een persistentiestore vaak een kopie van je jas houdt, en je zelden aan een garderobe de opdracht kan geven om je jas te vernietigen (remove), maar in de basis is het vergelijkbaar)
 
-Ter vergelijking, de Spring JpaRepository heeft bijna 40(!) methods EN een framework om custom-queries op basis van methode-namen te genereren, dus dat is een veeeeel uitgebreidere interface die ... niet echt meer dezelfde ```simpele``` gedachte uitdrukt. 
+Maar pas op, de Spring JpaRepository heeft bijna 40(!) methods EN een framework om custom-queries op basis van methode-namen te genereren, dus dat is een veeeeel uitgebreidere interface die ... niet echt meer dezelfde ```simpele``` gedachte uitdrukt.
 
-Een ander belangrijk detail is dat de repository nu nergens uitdrukt ```wanneer``` entities worden opgeslagen. Vanuit het begrip van de Repository kun je een Entity uit de repository halen, wijzigingen uitvoeren op die Entity, en in principe mag je er vanuit gaan dat dit allemaal netjes opgeslagen wordt (want je entity zit in de repository, dus er is een persistentie-verplichting). In de praktijk zit er vaak een soort ```flush``` methode bij die er voor zorgt dat die synchronisatie ```nu``` gebeurd (In Spring doen we dit vaak met ```@Transactional_, in plaats van expliciete flushes). 
+Een ander belangrijk detail is dat de repository nu nergens uitdrukt ```wanneer``` entities worden opgeslagen. Vanuit het begrip van de Repository kun je een Entity uit de repository halen, wijzigingen uitvoeren op die Entity, en in principe mag je er vanuit gaan dat dit allemaal netjes opgeslagen wordt (want je entity zit in de repository, dus er is een persistentie-verplichting). In de praktijk zit er vaak een soort ```flush``` methode bij die er voor zorgt dat die synchronisatie ```nu``` gebeurd (In Spring doen we dit vaak met ```@Transactional```, in plaats van expliciete flushes). 
 
 Al met al is het de bedoeling dat je ooit een Entity aan een Repository toevoegt, dat je je daarna geen zorgen over persistence meer hoeft te maken. Dit idee noemen we ```Persistence Ignorance``` cite:[evans_ddd].
 
 
 #### Value Objects
 
-Een value-object is een object die een 'hele waarde' representeert. Kijk bijv. nog eens naar <<updateKlant>>. We sturen daar bijv. alle losse velden van een ```Adres``` door. Netter is dan om één object van de class ```Adres``` door te geven, dan los je ook gelijk het probleem op dat je bijv. per ongeluk alleen het land wijzigt zonder de stad te wijzigen, of dat een opmerking als "Boven de winkels" na een verhuizing in een opmerkingenveld blijft staan. Andere voorbeelden zijn RGB-kleuren, of coördinaten.
+Een value-object is een object die een 'hele waarde' representeert. Kijk bijv. nog eens naar het ```updateKlant```-voorbeeld. We sturen daar bijv. alle losse velden van een ```Adres``` door. Netter is dan om één object van de class ```Adres``` door te geven, dan los je ook gelijk het probleem op dat je bijv. per ongeluk alleen het land wijzigt zonder de stad te wijzigen, of dat een opmerking als "Boven de winkels" na een verhuizing in een opmerkingenveld blijft staan. Andere voorbeelden zijn RGB-kleuren, of coördinaten.
 
 Een verbeterde versie van deze signatuur zou er bijv. zo uit zien:
 
@@ -876,7 +885,7 @@ public Klant processProfileForm(
 }
 ```
 
-Een bijkomend voordeel van al deze kleine objectjes is dat ze allerhande code kunnen huisvesten (zoals het opmaken van een adres, of naam in een String) die anders erg awkward op de Klant class terecht waren gekomen. footnote:[Je zou zeker ook door kunnen gaan en een apart object kunnen aanmaken voor het hele Profile-formulier. Dan wordt de signatuur eenvoudigweg ```public Klant processProfileForm(ProfileForm form)_, alleen zou dat de volgende voorbeelden wat onleesbaarder maken. Maar in de praktijk zeker geen gek idee!]
+Een bijkomend voordeel van al deze kleine objectjes is dat ze allerhande code kunnen huisvesten (zoals het opmaken van een adres, of naam in een String) die anders erg awkward op de Klant class terecht waren gekomen. (Je zou zeker ook door kunnen gaan en een apart object kunnen aanmaken voor het hele Profile-formulier. Dan wordt de signatuur eenvoudigweg ```public Klant processProfileForm(ProfileForm form)```, alleen zou dat de volgende voorbeelden wat onleesbaarder maken)
 
 Een goed voorbeeld van zo'n standaard Value-Object dat je waarschijnlijk al tientallen keren gebruikt hebt is de DateTime class van je programmeertaal naar keuze (LocalDateTime in Java). Dat is een object dat als waarde een bepaald moment in de tijd voorstelt, en is op die manier een samenraapsel van dag/maand/jaar/tijd, en kan op allerlei verschillende manieren benaderd worden.
 
@@ -909,11 +918,11 @@ public class KlantId {
 }
 ```
 
-Je zou nu in je KlantRepository-interface om exact deze Id-class kunnen vragen, en als je dan ooit per ongeluk het verkeerde Id zou gebruiken krijg je een nette compile error footnote:[De auto-gegenereerde Spring JPA-Repository interfaces werken helaas niet zo heel fraai met deze truc.]. 
+Je zou nu in je KlantRepository-interface om exact deze Id-class kunnen vragen, en als je dan ooit per ongeluk het verkeerde Id zou gebruiken krijg je een nette compile error. De auto-gegenereerde Spring JPA-Repository interfaces werken helaas niet zo heel fraai met deze truc.
 
 Types (zoals Classes en Interfaces) gebruiken om compiler-errors te genereren voor 'stomme fouten' is de basis van zogeheten Type-Driven Development.
 
-Ten derde kun je Value Objects goed gebruiken om er voor te zorgen dat iets eens en voor altijd een geldige waarde heeft. Stel je moet (zoals in <<updateKlant>>) een emailadres verwerken: er zijn meer mogelijke Strings dan dat er email-adres strings zijn. Als je emailadressen overal Strings zijn, zul je op verschillende plekken moeten gaan checken of die String eigenlijk wel een emailadres is. Bijv. bij binnenkomst van een POST (in de presentatielaag, als onderdeel van input-validatie), maar ook in de setter van een Klant (want je weet niet ```zeker``` hoe je door de presentatielaag bent gekomen), en ook weer op elke plek waar je het als emailadres in de applicatie gebruikt. Bijv. in een view met een mailto: linkje, of als je geautomatiseerd een zeer-informatieve-absoluut-geen-spam-mail naar iemand wil versturen. Op die manier valideer je je een ongeluk.
+Ten derde kun je Value Objects goed gebruiken om er voor te zorgen dat iets eens en voor altijd een geldige waarde heeft. Stel je moet (zoals in het ```updateKlant```-voorbeeld) een emailadres verwerken: er zijn meer mogelijke Strings dan dat er email-adres strings zijn. Als je emailadressen overal Strings zijn, zul je op verschillende plekken moeten gaan checken of die String eigenlijk wel een emailadres is. Bijv. bij binnenkomst van een POST (in de presentatielaag, als onderdeel van input-validatie), maar ook in de setter van een Klant (want je weet niet ```zeker``` hoe je door de presentatielaag bent gekomen), en ook weer op elke plek waar je het als emailadres in de applicatie gebruikt. Bijv. in een view met een mailto: linkje, of als je geautomatiseerd een zeer-informatieve-absoluut-geen-spam-mail naar iemand wil versturen. Op die manier valideer je je een ongeluk.
 
 Makkelijk is dan om zo gauw je weet dat het een String een emailadres zou moeten zijn om het in een Value-Object te vatten die aangeeft ```dat``` het een emailadres is, en ```dat``` je het ```echt``` gechecked hebt:
 
@@ -933,11 +942,11 @@ public class EmailAddress {
 
 ```
 
-Door een <<emailvalueobject>> te gebruiken weet je op alle plekken waar je een EmailAddress instantie binnenkrijgt dat je gewoon veilig dit object kan gebruiken om een link te genereren, of een mail te versturen. Het was immers niet mogelijk om een instance te maken zonder langs je check in de constructor te komen!footnote:[Uiteraard zijn er altijd workarounds, bijv. in de reflectie-hoek, maar dan moet er ergens een developer-collega wel echt z'n best doen om je het leven zuur te maken. Laten we daar niet vanuit gaan.]
+Door zo'n Email-value-object te gebruiken weet je op alle plekken waar je een EmailAddress instantie binnenkrijgt dat je gewoon veilig dit object kan gebruiken om een link te genereren, of een mail te versturen. Het was immers niet mogelijk om een instance te maken zonder langs je check in de constructor te komen!footnote:[Uiteraard zijn er altijd workarounds, bijv. in de reflectie-hoek, maar dan moet er ergens een developer-collega wel echt z'n best doen om je het leven zuur te maken. Laten we daar niet vanuit gaan.]
 
-Deze strategie staat ook wel bekend onder de slogan "Parse, don't Validate!" cite:[parse_dont_validate].
+Deze strategie staat ook wel bekend onder de slogan ["Parse, don't Validate!"](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/).
 
-==== Immutability & Equals
+##### Immutability & Equals
 
 Een goed value-object is immutable, dat betekent dat het niet gewijzigd kan worden nadat het aangemaakt is. Praktisch betekent dit dus geen setters of andere methods die interne velden wijzigen nadat het object aangemaakt is.
 
@@ -945,10 +954,7 @@ Een tweede essentiele eigenschap van een Value Object is dat het gaat om de waar
 
 Dit soort objecten (immutable, en puur op waarde vergelijkbaar) zijn veel simpeler te testen dan 'gewone' mutable objecten. Omdat ze niet kunnen wijzigen zijn er minder randgevallen, en is er minder testcode nodig om een goede coverage te behalen. Kortom, als je kan, is het raadzaam zoveel mogelijk van je domeinlogica op deze objecten te implementeren, dat scheelt je testcode.
 
-Het klassieke voorbeeld cite:[evans_ddd] gaat over blikken verf (mutable) die gemengd moeten worden. Daarbij is de menglogica op kleine Color Value-Objects geïmplementeerd in plaats van op de verfblik-entities, wat een stuk rustiger code-design oplevert. Bij ons vliegtuig-voorbeeld zou je bijv. bij het wijzigen van een boeking de BoekingsGegevens (value-object) van de huidige boeking kunnen vergelijken met de BoekingsGegevens van de gewenste boeking, om zo een verschilfactuur te genereren, en in één keer de juiste wijziging op de opgeslagen boeking te voltooien.
-
-Uiteindelijk heeft Immutability natuurlijk en grens en moet er namelijk wel ergens iets veranderen in een database, en dat brengt ons bij...
-
+Het klassieke voorbeeld gaat over blikken verf (mutable) die gemengd moeten worden. Daarbij is de menglogica op kleine Color Value-Objects geïmplementeerd in plaats van op de verfblik-entities, wat een stuk rustiger code-design oplevert. Bij ons vliegtuig-voorbeeld zou je bijv. bij het wijzigen van een boeking de BoekingsGegevens (value-object) van de huidige boeking kunnen vergelijken met de BoekingsGegevens van de gewenste boeking, om zo een verschilfactuur te genereren, en in één keer de juiste wijziging op de opgeslagen boeking te voltooien.
 
 #### Invarianten
 
@@ -1099,20 +1105,16 @@ In <<inschrijvingen2>> zien we een voorbeeld waar Course wel in staat is om z'n 
 
 Onze mogelijkheden om consistentie in het domein te beschermen zijn groter geworden. Maar als we nu een cursusinschrijving willen doen moeten we eerst de hele cursus ophalen, met alle inschrijvingen. De transactiegrens is groter, dus er kunnen niet op exact hetzelfde moment twee studenten zich voor dezelfde cursus inschrijven. En onze mappings zijn ook nog eens (een klein beetje) complexer. Dus hoewel <<inschrijvingen2>> waarschijnlijk in 90% van de gevallen de juiste keuze is, is er ook altijd iets te zeggen voor het alternatief (en dan dus de consistentie-eisen 'elders' oplossen).
 
-****
-En als dat je niet overtuigt dat het altijd een ontwerpafweging is, dan zou ik je aanraden om een extra eis in dit kleine modelletje te verwerken: een student heeft ook een maxEnrolments. In principe mogen studenten max. voor 4 cursussen ingeschreven staan (zodat je niet enorme herkansingsballen krijgt), maar een SLBer mag deze limiet op een per-student-basis aanpassen (voor bijv. die ene student die eigenlijk alles al weet, maar nog een boel eerstejaarsvakken heeft open staan). Dan wordt het ineens tricky om te bepalen hoe je dit netjes in een Domein-Driven stijl modelleert.
 
-Precies deze eis heeft sommige er toe geleid om heel de notie van aggregates het raam uit te gooien. In cite:[pellegrini_killaggregate] heeft Pellegrini een mooi betoog over hoe dit tot problemen, oplossingen en verwarringen kan leiden. Persoonlijk ben ik nog niet overtuigd, maar het is leuk om over na te denken.
+> En als dat je niet overtuigt dat het altijd een ontwerpafweging is, dan zou ik je aanraden om een extra eis in dit kleine
+> modelletje te verwerken: een student heeft ook een maxEnrolments. In principe mogen studenten max. voor 4 cursussen 
+> ingeschreven staan (zodat je niet enorme herkansingsballen krijgt), maar een SLBer mag deze limiet op een per-student-basis 
+> aanpassen (voor bijv. die ene student die eigenlijk alles al weet, maar nog een boel eerstejaarsvakken heeft open staan). 
+> Dan wordt het ineens tricky om te bepalen hoe je dit netjes in een Domein-Driven stijl modelleert.
+> 
+> -Tom
 
--Tom
-****
-
-//TODO: Dit is echt te kort door de bocht
-Tot slot nog even over die Student. Stel we zijn bezig met een Course-usecase. Dan is het zeer onwaarschijnlijk dat we methods als ```setName(...)``` op Student zouden willen kunnen aanroepen. In de Course Aggregate is het dus heel redelijk mogelijk om Student niet als een Entity, maar als een Value-Object te behandelen. We zijn niet geïnteresseerd in Student als wijzigbaar ding, nee we zijn vooral geïnteresseerd in ```Student``` als referentie naar een student. Een beetje vergelijkbaar met <<stronglytypedid>>, maar dan met net ietsje bredere value-objects. Hieruit volgt het dringende advies dat Aggregates nooit direct wijzen naar andere Aggregates. In plaats van een referentie te nemen naar de andere Entity zelf kun je dan een referentie nemen naar diens Id.
-
-Als dit echt niet praktisch is, dan kun je in een OO-taal als Java er vaak ook nog voor kiezen om een Read-only-interface te maken, en die in je getters te exposen. Het probleem dat we willen voorkomen is dat je kan Aggregate-hoppen, door middel van ```agg1.getX().getY().setZ(..)``` paden, want dan wordt het beschermen van die consistentie zo onoverzichtelijk.
-
-==== Aggregate Roots
+#### Aggregate Roots
 
 Aggregates gaan dus over het beschermen van invarianten in groepjes van objecten in de context van transacties. Als je die zin zonder blikken of blozen kan lezen dan zijn we al een heel eind.
 
@@ -1136,7 +1138,7 @@ newBBQ.setPrice(50);
 ```
 
 Het voorbeeld in <<trickysetters>> is een beetje gemaakt. Meestal zijn bestellingen dusdanig klein dat je best alles kan herberekenen in een getTotal()-achtige methode. Maar laten we even aannemen dat dit niet zo is (en in een latere versie een beter voorbeeld zoeken).
-In dit voorbeeld is ```Order``` onze aggregate. En we moeten consistent zijn over de ```Order_, de hoeveelheid ```LineItems_, en de (prijzen van) ```Products_.
+In dit voorbeeld is ```Order``` onze aggregate. En we moeten consistent zijn over de ```Order```, de hoeveelheid ```LineItems```, en de (prijzen van) ```Products_.
 
 Om dit idee makkelijker te maken is het bij aggregates vaak wijs om één enkele entity aan te merken als de aggregate-root. Deze aggregate-root is de enige plek waar dingen in de aggregate gemuteerd kunnen worden, en zo zou die ```setPrice``` onmogelijk zijn. Kortom een aggregate-root is de eindverantwoordelijke voor het feit dat je aggregate consistent blijft. Een standaard manier om dit te doen is er voor te zorgen dat je geen referenties uitgeeft aan entities binnen je aggregate. Als andere classes iets van je willen weten, dan geef je ze dus nooit je eigen entities terug, maar value-objects gemaakt uit die entities. 
 
@@ -1181,6 +1183,14 @@ gestructureerde object-georiënteerde software te ontwerpen:
     aannemen tijdens runtime: een subtype kan een implementatie of
     overschrijving verzorgen van het supertype.
 
+Aan de keerzijde hebben we DDD van Evans. Daar lossen we *essentiële* complexiteit op in het domein, 
+door een model te maken van:
+
+1. Entities, objecten waar je met een identifier naar kan wijzen, waarvan de waardes gedurende hun lifecycle veranderen. Deze waardes kunnen of primitieve types (ints, Strings, etc.) zijn, maar zijn meestal Value-Objects.
+2. Value-Objects, immutable objecten met geen eigen identiteit, die een bepaalde waarde in het domein representeren.
+3. Aggregates, groepen van verschillende objecten (1 of meer) die hun eigen transactionele consistentie waarborgen door hun invarianten te beschermen. Meestal bereik je dat door alle mutaties vanuit 1 kern-object binnen de aggregate (de "aggregate root") te starten.
+
+We drukken dit domeinmodel uit in de *ubiquitous language* een taal wiens termen begrepen ook begrepen worden door de business stakeholders in ons project.
 
 
 
