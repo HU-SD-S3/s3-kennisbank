@@ -47,3 +47,5 @@ Technical report, February 1971
 * <span id="Pruijt2010"></span>L. Pruijt. Meer inzicht in een gelaagde architectuur. Deel 1: Uitleg, terminologie en methoden. Release, 2010:22–26, 12 2010
 
 * <span id="EvansDDD"></span>E. Evans. Domain-Driven Design: Tackling Complexity in the Heart of Software. Addison-Wesley Professional, 2003
+
+* <span id="FowlerRefactoring"></span>Martin Fowler and Kent Beck. Refactoring: Improving the Design of Existing Code. Addison-Wesley Professional, 2018
