@@ -45,8 +45,18 @@ Zo'n keypair maak je met:
 ```
 Dat genereert een `id_{algoritme}` bestand met de **private key**. En een `id_{algoritme}.pub` bestand met de **public key**. Standaard staan deze bestanden in de `~/.ssh` folder (dus een **verborgen** subfolder van je home-directory).
 
-Om op een linux-server (bijv. IP adres 123.123.123.123) als user XYZ in te loggen zet je de public key in de file `/home/XYZ/.ssh/authorized_keys` op de server. Vervolgens connect je dan naar die server met `ssh XYZ@123.123.123.123`. 
+Om op een linux-server (bijv. IP adres 123.123.123.123) als user XYZ in te loggen zet je de public key in de file `/home/XYZ/.ssh/authorized_keys` op de server. Vervolgens connect je dan naar die server met:
 
-Om bijv. met Github een repository te clonen voeg je de public key toe aan je account (ergens onder Settings), en gebruik je de SSH url om te clonen: `git clone git@github.com:ORG_NAME/REPO_NAME.git`. Per geregistereerde SSH-key kun je aangeven welke HU-Enterprise organisations (lees 'semesters') deze key rechten heeft. Dit is zo'n geval waar security en gebruikersvriendelijkheid verre van hand-in-hand gaan.
+```shell
+> ssh XYZ@123.123.123.123
+``` 
+
+Om (bijv. met Github) een repository te clonen voeg je de public key toe aan je account (ergens onder Settings), en gebruik je de SSH url om te clonen: 
+
+```shell
+> git clone git@github.com:ORG_NAME/REPO_NAME.git
+``` 
+
+Per geregistereerde SSH-key kun je aangeven welke HU-Enterprise organisations (lees 'semesters') deze key rechten heeft. Dit is zo'n geval waar security en gebruikersvriendelijkheid verre van hand-in-hand gaan.
 
 Mochten om één of andere reden de SSH-commando's niet beschikbaar zijn, dan zijn deze op windows te installeren als 'Optional Feature: OpenSSH Client', en op Mac, Linux met iets als `{pkg_manager} install openssh` (bijv. `apt install openssh`, of `brew install openssh`).
