@@ -7,5 +7,7 @@ services:
     volumes:
       - ./:/site
       - bundle_cache:/usr/local/bundle
+    environment:
+      - PAGES_REPO_NWO=HU-SD-S3/s3-kennisbank
 volumes:
   bundle_cache:

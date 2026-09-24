@@ -21,7 +21,9 @@ of andere truukjes qua styling gaat werken, dan is het handig even te testen of 
 
 ### Docker-gebaseerd
 
-`docker compose up --build --remove-orphans site`
+`docker compose up --build site`
+
+Vervolgens kun je naar `http://localhost:4000` om de kennisbank te testen. Er is een plugin-test-pagina beschikbaar op `http://localhost:4000/test`.
 
 ### De ingewikkelde route
 
