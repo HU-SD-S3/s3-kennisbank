@@ -6,14 +6,22 @@ inzetten om separation of concerns, loose coupling en high cohesion te
 bereiken?
 
 Hiervoor is het zinvol om stil te staan bij de algemene eigenschappen
-zijn object-oriëntatie. We sluiten hierbij aan bij het objectmodel uit
-het boek Object-Oriented Analysis and Design with Applications van
+van object-oriëntatie. 
+
+We bespreken hier twee theoriën over hoe je je OOP code kan beoordelen op kwaliteit.
+
+* De eerste theorie komt uit het boek Object-Oriented Analysis and Design with Applications van
 object- en UML-pionier Grady Booch en anderen ([@Booch2007](/backend/referenties#BoochOO)). Hierin staan een aantal
 belangrijke en minder belangrijke elementen die in object-georiënteerde
 projecten voorkomen. Deze elementen kan je ook tegenkomen bij andere
 stijlen van programmeren, maar wij staan vooral stil bij hoe deze
 elementen gebruikt kunnen worden in een object-georiënteerde taal. Hoe
 kunnen we deze elementen benutten om tot een sterk ontwerp te komen?
+
+* De tweede theorie is minder specifiek voor OOP, maar is desalniettemin erg populair in deze hoek, en dat is 
+Domain-Driven Design van Evans ([@EvansDDD](/backend/referenties#EvansDDD)). In deze theorie staat het domein-model centraal, en willen we proberen zoveel mogelijk van de eigenaardigheden die voortkomen uit het ontwikkelen van Software ontwikkelen daar oplossen. Waar Booch een vrij filosofisch en technisch perspectief biedt, is Evans juist meer Business-gedreven, en zoeken we explicieter de connectie met andere stakeholders.
+
+De twee theorieën vullen elkaar in de meeste gevallen heel mooi aan, en op de punten waar ze elkaar een beetje lijken tegen te spreken zijn ze een mooie reminder dat er altijd meerdere manieren zijn om tegen een probleem aan te kijken.
 
 ## Het objectmodel van Booch
 
@@ -651,131 +659,3 @@ least commitment*: subtyping, polymorfisme en dynamic binding geven ons
 de mogelijkheid om te koppelen tegen een (abstracte) interface. Op die
 manier hoeven we ons nog niet vast te pinnen op een bepaalde
 implementatiekeuze!
-
-## Invarianten
-
-Met state bedoelen we alle stukjes data die
-bij die entity horen; alle attributen in een taal als Java, C# of
-Python. Die veranderingen gebeuren in een OOP taal via public methods.
-Het is belangrijk dat die veranderingen altijd netjes gebeuren. Daarmee
-bedoelen we dat de regels van het object altijd gevolgd moeten worden:
-met een chique woord zijn objecten *invariant onder hun methodes*. Die
-invarianten wijzen dingen aan die altijd waar moeten zijn, zoals "het
-totaalbedrag van een bestelling moet gelijk zijn aan de optelsom van de
-delen". Hoewel zowel de bestelde onderdelen, als het totaalbedrag kunnen
-variëren, staat het feit dat die twee met elkaar kloppen vast, de regel
-is invariant.
-
-Niet alle combinaties van state zijn geldig voor een object. Laten we
-als voorbeeld de Java ArrayList nemen. Het handige van een List ten
-opzichte van een gewone Array is dat je er zomaar objecten aan kan
-toevoegen. Een Array moet je elke keer met een bepaalde grootte
-aanmaken. De naam suggereert dat een ArrayList de List interface biedt
-met een Array op de achtergrond, en als we even onder de motorkap
-kijken[^12]
-
-``` java
-//Fields uit de source van ArrayList.java
-transient Object[] elementData;
-private int size;
-```
-
-Je ziet dat het size veld onafhankelijk wordt bijgehouden van de
-elementData array. Dat voelt in eerste instantie misschien een beetje
-stom (waarom niet gewoon elementData.length returnen in getSize()?),
-maar daar zit een goede reden achter.
-
-De ArrayList class doet veel moeite om zo min mogelijk keren een nieuwe
-elementData array te maken. Dus als je elementen toevoegt, en er is geen
-ruimte meer in de array, dan maakt de ArrayList de nieuwe array 'ietsje
-groter dan nodig'. Op dezelfde manier laat de ArrayList met plezier wat
-plekjes in de array leeg als je iets removed. Het size veld moet dus los
-worden bijgehouden, en het zou echt *superverwarrend* worden als het
-size veld niet exact klopt met hoeveel elementen er in de array zitten.
-
-Een ander voorbeeld zie je in [programlisting_title](#entityconsistent):
-
-``` java
-public class Order {
-    private Money total = Money.zero(); //Money is in dit geval een value-object die afrondingscomplexiteit met doubles afvangt
-    private List<LineItems> items = new ArrayList<>();
-
-    public List<LineItems> getItems(){ return this.items; }
-    public Money getTotal(){ return total; }
-
-    public void addItem(Product item){
-        items.add(new LineItem(this, item));
-        total = total.add(item.getPrice());
-    }
-}
-```
-
-Het probleem hier is dat je items aan de order kan toevoegen (waardoor
-de prijs omhoog gaat), maar vervolgens buitenom
-*order.getItems().clear()* (bijv.) kan aanroepen. Met als gevolg een
-order zonder items, maar **met** een prijs.
-
--   OF *getItems* moet een Collections.unmodifiableList(this.items)
-    returnen, zodat de collectie niet stiekem aangepast kan worden[^13].
-
--   OF *getTotal* moet elke keer vers z’n totaal berekenen. Als het kan
-    is dit makkelijker, maar er zijn zat variaties waarin dit niet
-    wenselijk is (omdat er bijv. extra kortingen zijn, of het heel duur
-    is om de hele collectie uit de database te vissen).
-
-Dit is wederom het principe van OOP encapsulatie. En dat is echt
-essentieel voor OOP als geheel, en DDD in het bijzonder.
-
-Kortom, in een nette codebase gaan entities (en dit is feitelijk gewoon
-een basisprincipe van OOP) per public method van een nette (consistente)
-toestand, naar een volgende nette toestand, waarbij aan alle invarianten
-voldaan is. Dit is heel belangrijk, omdat we bij DDD persistentie graag
-zo ver mogelijk naar de achtergrond drukken. En dat doen we met
-Repositories.
-
-## Samenvatting
-
-In dit hoofdstuk hebben we het object-georiënteerd modelleren en
-ontwerpen behandeld aan de hand van de belangrijkste onderdelen van het
-objectmodel van Booch.
-
-Belangrijkste elementen van het objectmodel van Booch Het objectmodel
-van Booch onderscheid een aantal zaken die ons helpen goed
-gestructureerde object-georiënteerde software te ontwerpen:
-
-1.  **Abstraction**: klassen en objecten zijn onze kernabstracties
-    waarin we toestand (fields) en gedrag (methods) samenbrengen die bij
-    elkaar horen. Dit verhoogt *cohesion*. We kunnen met deze
-    abstracties communiceren via de publieke methoden. De interne
-    werking hoeven we niet te weten (*implementation hiding*).
-
-2.  **Encapsulation**: hoe een abstractie zijn toestand bijhoudt en zijn
-    gedrag uitvoert wordt afgeschermd van de buitenwereld. Om
-    *information hiding* te bereiken wordt gebruik gemaakt van access
-    modifiers. Dit beperkt *coupling*. Handige vuistregels om hierbij te
-    helpen zijn *Tell, don't ask* en *the Law of Demeter*.
-
-3.  **Modularity**: klassen zijn modules waarin we toestand en gedrag
-    samenbrengen. Daarnaast kennen we interfaces om bepaald gedrag af te
-    dwingen en enums om mogelijke waarden op te sommen. Packages kunnen
-    we gebruiken om klassen en andere modules te ordenen.
-
-4.  **Hierarchy**: we kunnen packages onderbrengen in een logische,
-    overzichtelijke ordening. Dat is onderdeel van een
-    softwarearchitectuur. Ook klassen en objecten kunnen in een
-    hiërarchie tot elkaar staan. Er zijn namelijk verschillende
-    afhankelijkheden die tussen klassen kan gelden: *dependency*,
-    *association*, *aggregation*, *composition*, *inheritance* en
-    *realisation*. Wat betreft inheritance en realisation zorgen
-    *subtyping*, *polymorphism* en *dynamic binding* ervoor dat we een
-    flexibele, uitwisselbare invulling kunnen hebben van bepaalde
-    abstracties. Eén abstractie kan namelijk verschillende vormen
-    aannemen tijdens runtime: een subtype kan een implementatie of
-    overschrijving verzorgen van het supertype.
-
-
-
-
-[^1]: In de praktijk wordt ook wel eens verwezen naar de *4 Pillars of
-    Object Orientation*: abstraction, encapsulation, polymorphism en
-    inheritance. Deze zijn in het objectmodel van Booch inbegrepen.
