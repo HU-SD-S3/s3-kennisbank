@@ -191,7 +191,7 @@ customElements.define('event-consumer', EventConsumer);
 ```
 
 If you run this code, you will see that the `event-consumer` and the `event-producer` component are not able to show
-events from the each other. They only sees events that are generated within their own DOM tree. This is locgical,
+events from the each other. They only sees events that are generated within their own DOM tree. This is logical,
 especially when you look at the addEventListener statements within the `event-consumer` component. They are listening
 for event on the `this.scope` element, which we have set to `this` in the constructor. This means that the event
 listener is only listening for events on the `event-consumer` component itself, and not on the `event-producer`
